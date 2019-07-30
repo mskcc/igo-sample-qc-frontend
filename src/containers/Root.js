@@ -85,6 +85,11 @@ class Root extends Component {
             <div className="app">
               <Header loggedIn={this.props.loggedIn} />
               {Config.ENV !== "production" ? <DevTools /> : <div />}
+              <div class="content">
+                <div class="sidebar" >Project Tree</div>
+                <div class="comments" >Comments</div>
+                <div class="table" >QC Table</div>
+              </div>
             </div>
           </div>
         </Router>

@@ -21,7 +21,7 @@ const Header = ({ classes, loggedIn }) => (
       <Typography color="inherit" variant="h6" className={classes.title}>
         IGO Quality Control
       </Typography>
-      {loggedIn ? (
+      {!loggedIn ? (
         <React.Fragment>
           <Button>
             <NavLink
@@ -30,7 +30,7 @@ const Header = ({ classes, loggedIn }) => (
               className={classes.navlink}
             >
               <Typography color="inherit" variant="h6">
-                Table
+                QC
               </Typography>
             </NavLink>
           </Button>
