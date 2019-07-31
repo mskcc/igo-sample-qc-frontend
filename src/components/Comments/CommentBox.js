@@ -8,10 +8,9 @@ import Comment from "./Comment";
 const styles = theme => ({
   container: {
     textAlign: "center",
-    gridArea: "comments",
-    width: "70%",
+    gridArea: "commentBox",
+    width: "100%",
     height: "100%",
-    
     overflowX: "auto"
   }
 });
