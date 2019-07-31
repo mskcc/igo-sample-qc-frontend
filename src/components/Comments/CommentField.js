@@ -8,23 +8,25 @@ import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    display: "flex",
-    alignItems: "right",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-    height: "60%",
+    // display: "flex",
+    // alignItems: "flex-end",
+    // flexWrap: "wrap",
+    // justifyContent: "flex-end",
+    display: "grid",
+    gridTemplateRows: "80% 20%",
+    alignItems: "end",
+    justifyItems: "end",
+    height: "100%",
     marginRight: theme.spacing(3),
-
+    paddingLeft: theme.spacing(2)
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '90%',
+    width: "100%"
   },
   button: {
     float: "right",
-    height: "50px",
-    margin: theme.spacing(1)
+    height: "40px",
+    width: '30%'
   }
 }));
 
@@ -42,15 +44,13 @@ export default function CommentField(props) {
     props.addComment(values.comment);
   };
 
-
-
   return (
     <form className={classes.container} noValidate autoComplete="off">
       <TextField
         id="outlined-multiline-static"
         label="New Comment"
         multiline
-        rows="3"
+        rows="4"
         placeholder="Your Comment"
         onChange={handleChange("comment")}
         className={classes.textField}

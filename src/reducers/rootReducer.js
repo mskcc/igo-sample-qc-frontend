@@ -13,7 +13,7 @@ import sessionStorage from 'redux-persist/lib/storage/session' // defaults to lo
 const persistConfig = {
   key: 'root',
   storage: sessionStorage,
-  whitelist: ['upload', 'user'],
+  whitelist: ['communication', 'user'],
 }
 
 const appReducer = combineReducers({
