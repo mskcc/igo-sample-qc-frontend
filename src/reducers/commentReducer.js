@@ -5,7 +5,7 @@ const initialState = {
     {
       author: "username",
       content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ",
+        "Hi username2,   Please find the cDNA QC result for Project 12345_A on igo.mskcc.org/sample-qc. XYZ highlighted in yellow fall below IGO’s quantitative standards for library preparation; however we can give them a try. Our suggestion would be to something.   Please confirm if you would like to proceed as suggested. Please let us know if you have any questions.",
       date: 1564558358
     },
     { author: "username2", content: "dsadad", date: 1564558358 },
@@ -22,10 +22,10 @@ const initialState = {
 
 function commentReducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.ADD_COMMENT_SUCCESS:      
+    case ActionTypes.ADD_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: [ ...action.payload ]
+        comments: [...action.payload]
       };
     case ActionTypes.REFRESH_TOKEN_VALID:
       return {
