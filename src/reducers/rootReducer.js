@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { LocalizeProvider, localizeReducer } from 'react-localize-redux'
 
 // import uploadReducer from './upload/uploadReducer'
-// import commonReducer from './common/commonReducer'
+import commentReducer from './commentReducer'
 // import userReducer from './user/userReducer'
 import { persistReducer } from 'redux-persist'
 // import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
@@ -18,7 +18,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
   // upload: uploadReducer,
-  // common: commonReducer,
+  communication: commentReducer,
   // user: userReducer,
 
 
@@ -31,7 +31,7 @@ const rootReducer = (state, action) => {
     state = {
       upload: undefined,
       user: undefined,
-      common: undefined,
+      comments: undefined,
       localize: state.localize,
     }
   }

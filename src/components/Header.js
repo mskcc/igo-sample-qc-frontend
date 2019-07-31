@@ -84,6 +84,11 @@ const styles = theme => ({
     color: "white",
     textAlign: "center"
   },
+  avatar: {
+    width: "26px",
+    height: "30px",
+    padding: "10px"
+  },
   title: {
     marginRight: theme.spacing(3)
   },

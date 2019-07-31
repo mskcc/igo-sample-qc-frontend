@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import CommentBox from "./CommentBox";
 import CommentField from "./CommentField";
 
@@ -12,16 +10,16 @@ const styles = theme => ({
     gridArea: "comments",
     width: "85vw",
     height: "100%",
-    display: 'grid',
+    display: "grid",
     gridTemplateAreas: "'commentBox commentField'",
-    gridTemplateColumns: '80% 20%'
+    gridTemplateColumns: "70% 30%"
   }
 });
 
-const CommentArea = ({ comments, classes }) => (
+const CommentArea = ({ comments, addComment, classes }) => (
   <div className={classes.container}>
     <CommentBox comments={comments} />
-    <CommentField/>
+    <CommentField addComment={addComment} />
   </div>
 );
 

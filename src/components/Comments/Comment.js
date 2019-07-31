@@ -12,8 +12,10 @@ const styles = theme => ({
     clear: "both",
     marginBottom: "1em",
     ...theme.mixins.gutters(),
-    backgroundColor: 'rgba(0, 148, 144, .2)',
-    maxWidth: 500,
+    // backgroundColor: "rgba(246, 198, 91, .2)",
+    backgroundColor: "rgba(0, 148, 144, .2)",
+    maxWidth: "70%",
+    minWidth: "30%",
 
     margin: "0 auto"
   },
@@ -23,8 +25,8 @@ const styles = theme => ({
     clear: "both",
     marginBottom: "1em",
     ...theme.mixins.gutters(),
-
-    maxWidth: 500,
+    maxWidth: "70%",
+    minWidth: "30%",
     margin: "0 auto"
   },
   author: {
@@ -37,29 +39,26 @@ const styles = theme => ({
   }
 });
 
-const Comment = ({ author, content, date, alignement, classes }) => (
-  console.log(alignement),
-  (
-    <div>
-      {alignement === "right" ? (
-        <Paper className={classes.right}>
-          <Typography component="p">
-            <div className={classes.author}> {author}</div>
-            <div>{content}</div>
-            <div className={classes.date}> {date}</div>
-          </Typography>
-        </Paper>
-      ) : (
-        <Paper className={classes.left}>
-          <Typography component="p">
-            <div className={classes.author}> {author}</div>
-            <div>{content}</div>
-            <div className={classes.date}> {date}</div>
-          </Typography>
-        </Paper>
-      )}
-    </div>
-  )
+const Comment = ({ id, author, content, date, alignement, classes }) => (
+  <div id={id}>
+    {alignement === "right" ? (
+      <Paper className={classes.right}>
+        <Typography component="p">
+          <div className={classes.author}> {author}</div>
+          <div>{content}</div>
+          <div className={classes.date}> {date}</div>
+        </Typography>
+      </Paper>
+    ) : (
+      <Paper className={classes.left}>
+        <Typography component="p">
+          <div className={classes.author}> {author}</div>
+          <div>{content}</div>
+          <div className={classes.date}> {date}</div>
+        </Typography>
+      </Paper>
+    )}
+  </div>
 );
 
 Comment.propTypes = {

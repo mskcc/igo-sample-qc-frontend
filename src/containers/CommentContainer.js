@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-// import { uploadGridActions, userActions } from '../../actions'
+import { commentActions } from "../actions";
 import { Redirect } from "react-router-dom";
 
 import { CommentArea } from "../components/Comments";
@@ -19,22 +19,21 @@ export class CommentContainer extends Component {
   //   this.props.addGridToBankedSample(this.props);
   // };
 
-  componentDidMount() {
-    // this.props.refreshToken();
-  }
+  addComment = comment => {
+    this.props.addComment({
+      author: "username",
+      date: new Date().getTime()/1000,
+      content: comment
+    });
+  };
 
+  
   render() {
     return (
       <React.Fragment>
         <CommentArea
-          comments={[
-            { author: "username", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ", date: "1564558358" },
-            { author: "username2", content: "dsadad", date: "1564558358" },
-            { author: "username", content: "dsadad", date: "1564558358" },
-            { author: "username2", content: "dsadad", date: "1564558358" },
-            { author: "username2", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit", date: "1564558358" },
-            { author: "username", content: "dsadad", date: "1564558358" }
-          ]}
+          comments={this.props.comments}
+          addComment={this.addComment}
         />
       </React.Fragment>
     );
@@ -42,11 +41,11 @@ export class CommentContainer extends Component {
 }
 
 CommentContainer.defaultProps = {
-  grid: {}
+  comments: {}
 };
 
 const mapStateToProps = state => ({
-  // grid: state.upload.grid
+  comments: state.communication.comments
 });
 
 export default withLocalize(
@@ -54,7 +53,7 @@ export default withLocalize(
     mapStateToProps,
     {
       // ...uploadGridActions,
-      // ...userActions,
+      ...commentActions
     }
   )(CommentContainer)
 );
