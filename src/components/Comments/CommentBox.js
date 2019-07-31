@@ -10,7 +10,6 @@ const styles = theme => ({
     paddingTop: theme.spacing(1),
     gridArea: "commentBox",
     width: "100%",
-    height: "100%",
     overflowX: "auto"
   }
 });
