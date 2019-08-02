@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CommentField(props) {
+export default function CommentTextField(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     multiline: "Controlled"

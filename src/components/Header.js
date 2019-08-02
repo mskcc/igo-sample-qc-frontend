@@ -82,7 +82,8 @@ const styles = theme => ({
   header: {
     backgroundColor: theme.palette.primary.logo,
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
+    gridArea: 'header'
   },
   avatar: {
     width: "26px",

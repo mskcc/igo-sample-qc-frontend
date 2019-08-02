@@ -15,7 +15,8 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Header from "../components/Header";
-import CommentContainer from "./CommentContainer"
+import CommentContainer from "./CommentContainer";
+import TableContainer from "./TableContainer";
 
 // import UploadPage from './Upload/UploadPage'
 // import SubmissionsPage from './Submissions/SubmissionsPage'
@@ -85,12 +86,12 @@ class Root extends Component {
         <Router basename={Config.BASENAME}>
           <div>
             <div className="app">
-              <Header loggedIn={this.props.loggedIn} />
               {Config.ENV !== "production" ? <DevTools /> : <div />}
               <div class="content">
-                <div class="sidebar" >Project Tree</div>
-                <div class="comments" ><CommentContainer/></div>
-                <div class="table" >QC Table</div>
+                <Header class="header" loggedIn={this.props.loggedIn} />
+                <div class="sidebar">Project Tree</div>
+                <CommentContainer />
+                <TableContainer />
               </div>
             </div>
           </div>

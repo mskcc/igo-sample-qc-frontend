@@ -43,19 +43,15 @@ const Comment = ({ id, author, content, date, alignement, classes }) => (
   <div id={id}>
     {alignement === "right" ? (
       <Paper className={classes.right}>
-        <Typography component="p">
           <div className={classes.author}> {author}</div>
           <div>{content}</div>
           <div className={classes.date}> {date}</div>
-        </Typography>
       </Paper>
     ) : (
       <Paper className={classes.left}>
-        <Typography component="p">
           <div className={classes.author}> {author}</div>
           <div>{content}</div>
           <div className={classes.date}> {date}</div>
-        </Typography>
       </Paper>
     )}
   </div>

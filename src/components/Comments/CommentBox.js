@@ -10,7 +10,11 @@ const styles = theme => ({
     paddingTop: theme.spacing(1),
     gridArea: "commentBox",
     width: "100%",
-    overflowX: "auto"
+    overflowX: "auto",
+    borderBottom: "2px solid rgba(0, 0, 0, 0.23)",
+    borderRight: "2px solid rgba(0, 0, 0, 0.23)",
+    borderRadius: "4px"
+
   }
 });
 
