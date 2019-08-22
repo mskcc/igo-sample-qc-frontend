@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "./Table";
+import Buttons from "./Buttons";
 import "handsontable/dist/handsontable.full.css";
 
 import Typography from "@material-ui/core/Typography";
@@ -25,6 +26,7 @@ const styles = theme => ({
 const TableArea = ({ comments, addComment, classes }) => (
   <div className={classes.container}>
     <Typography variant="h5">QC Results for X</Typography>
+    
     <Table />
   </div>
 );

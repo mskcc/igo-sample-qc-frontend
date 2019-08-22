@@ -27,6 +27,12 @@ function commentReducer(state = initialState, action) {
         ...state,
         comments: [...action.payload]
       };
+
+    case ActionTypes.GET_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        comments: [action.payload]
+      };
     case ActionTypes.REFRESH_TOKEN_VALID:
       return {
         ...state,

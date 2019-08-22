@@ -14,7 +14,6 @@ const styles = theme => ({
     borderBottom: "2px solid rgba(0, 0, 0, 0.23)",
     borderRight: "2px solid rgba(0, 0, 0, 0.23)",
     borderRadius: "4px"
-
   }
 });
 
@@ -31,22 +30,17 @@ const CommentBox = ({ comments, classes }) => {
     var box = document.getElementById("comment-box");
     box.scrollTop = box.scrollHeight;
   });
+  console.log(comments[0].comments);
   return (
     <div id="comment-box" className={classes.container}>
-      {comments.map((comment, i) => (
+      {comments[0].comments.map((comment, i) => (
+        // console.log(comment)
+        // console.log(i)
         <Comment
-          author={comment.author}
-          content={comment.content}
-          date={
-            convert(comment.date * 1000) +
-            ", " +
-            new Date(comment.date * 1000).toLocaleDateString(undefined, {
-              day: "numeric",
-              month: "numeric",
-              year: "numeric"
-            })
-          }
-          alignement={"username" === comment.author ? "right" : "left"}
+          author={comment.username}
+          content={comment.comment}
+          date={comment.date_created}
+          alignement={"patrunoa" === comment.username ? "right" : "left"}
           id={`item_${i + 1}`}
           key={i}
         />

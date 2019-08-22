@@ -19,15 +19,17 @@ export class CommentContainer extends Component {
   //   this.props.addGridToBankedSample(this.props);
   // };
 
+  componentDidMount() {
+    this.props.getComments();
+  }
+
   addComment = comment => {
     this.props.addComment({
       author: "username",
-      date: new Date().getTime()/1000,
+      date: new Date().getTime() / 1000,
       content: comment
     });
   };
-
-  
 
   render() {
     return (

@@ -18,38 +18,39 @@ const columnFeatures = [
     {
         data: "move_forward",
         type: "checkbox"
-    }
+    },
+    { data: "comment" }
 ];
 
-const columnHeaders = ["id", "title", "count", "Move Forward?"];
+const columnHeaders = ["id", "title", "count", "Continue?", "Comment"];
 
 const data = [
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 0, title: "row1", count: 20, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 1, title: "row1", count: 40, move_forward: false },
-    { id: 2, title: "row1", count: 60, move_forward: false }
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
+    { id: 2, title: "row1", count: 60, move_forward: false, comment: "" }
 ];
 
 class Table extends React.Component {
