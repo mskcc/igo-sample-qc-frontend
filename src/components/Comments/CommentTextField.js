@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     float: "right",
     height: "40px",
-    width: '30%'
+    width: "30%"
   }
 }));
 
@@ -61,6 +61,7 @@ export default function CommentTextField(props) {
         variant="contained"
         onClick={addComment}
         color="primary"
+        disabled={values.comment ? false : true}
         className={classes.button}
       >
         Submit

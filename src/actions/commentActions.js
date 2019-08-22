@@ -50,10 +50,7 @@ export function getComments() {
       .then(response => {
         return dispatch({
           type: GET_COMMENTS_SUCCESS,
-          payload: {
-            comments: response.data,
-            
-          }
+          payload: response.data
         });
       })
       .catch(error => {

@@ -25,9 +25,7 @@ export class CommentContainer extends Component {
 
   addComment = comment => {
     this.props.addComment({
-      author: "username",
-      date: new Date().getTime() / 1000,
-      content: comment
+      comment
     });
   };
 

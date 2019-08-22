@@ -1,23 +1,7 @@
 import { commentActions as ActionTypes } from "../actions";
 
 const initialState = {
-  comments: [
-    {
-      author: "username",
-      content:
-        "Hi username2,   Please find the cDNA QC result for Project 12345_A on igo.mskcc.org/sample-qc. XYZ highlighted in yellow fall below IGO’s quantitative standards for library preparation; however we can give them a try. Our suggestion would be to something.   Please confirm if you would like to proceed as suggested. Please let us know if you have any questions.",
-      date: 1564558358
-    },
-    { author: "username2", content: "dsadad", date: 1564558358 },
-    { author: "username", content: "dsadad", date: 1564558358 },
-    { author: "username2", content: "dsadad", date: 1564558358 },
-    {
-      author: "username2",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      date: 1564558358
-    },
-    { author: "username", content: "dsadad", date: 1564558358 }
-  ]
+  comments: []
 };
 
 function commentReducer(state = initialState, action) {
@@ -31,7 +15,12 @@ function commentReducer(state = initialState, action) {
     case ActionTypes.GET_COMMENTS_SUCCESS:
       return {
         ...state,
-        comments: [action.payload]
+        comments: [...action.payload.comments]
+      };
+
+    case ActionTypes.GET_COMMENTS_FAIL:
+      return {
+        ...state
       };
     case ActionTypes.REFRESH_TOKEN_VALID:
       return {

@@ -30,17 +30,14 @@ const CommentBox = ({ comments, classes }) => {
     var box = document.getElementById("comment-box");
     box.scrollTop = box.scrollHeight;
   });
-  console.log(comments[0].comments);
   return (
     <div id="comment-box" className={classes.container}>
-      {comments[0].comments.map((comment, i) => (
-        // console.log(comment)
-        // console.log(i)
+      {comments.map((comment, i) => (
         <Comment
           author={comment.username}
-          content={comment.comment}
+          comment={comment.comment}
           date={comment.date_created}
-          alignement={"patrunoa" === comment.username ? "right" : "left"}
+          alignment={"patrunoa" === comment.username ? "right" : "left"}
           id={`item_${i + 1}`}
           key={i}
         />

@@ -8,7 +8,8 @@ const styles = theme => ({
   container: {
     textAlign: "center",
     gridArea: "comments",
-    overflow: 'scroll',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
     display: "grid",
     gridTemplateAreas: "'commentBox CommentTextField'",
     gridTemplateColumns: "70% 30%"

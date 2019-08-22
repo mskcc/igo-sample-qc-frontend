@@ -39,21 +39,13 @@ const styles = theme => ({
   }
 });
 
-const Comment = ({ id, author, content, date, alignement, classes }) => (
+const Comment = ({ id, author, comment, date, alignment, classes }) => (
   <div id={id}>
-    {alignement === "right" ? (
-      <Paper className={classes.right}>
-          <div className={classes.author}> {author}</div>
-          <div>{content}</div>
-          <div className={classes.date}> {date}</div>
-      </Paper>
-    ) : (
-      <Paper className={classes.left}>
-          <div className={classes.author}> {author}</div>
-          <div>{content}</div>
-          <div className={classes.date}> {date}</div>
-      </Paper>
-    )}
+    <Paper className={classes[alignment]}>
+      <div className={classes.author}> {author}</div>
+      <div>{comment}</div>
+      <div className={classes.date}> {date}</div>
+    </Paper>
   </div>
 );
 
