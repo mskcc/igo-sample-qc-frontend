@@ -32,11 +32,37 @@ export const ADD_COMMENT_FAL = "ADD_COMMENT_FAL";
 
 export function addComment(comment) {
   return (dispatch, getState) => {
-    //ceep copy of comments array
-    let comments = [...getState().communication.comments];
-    comments.push(comment);
-    dispatch({ type: ADD_COMMENT_SUCCESS, payload: comments });
+    console.log(comment);
+    let commentToSave = {
+      comment: comment.comment,
+      username: "duniganm",
+      user_title: "project manager",
+      request_id: "06304_B",
+      qc_table: "dna"
+    };
+
+    dispatch({ type: ADD_COMMENT });
+    return axios
+      .post(Config.API_ROOT + "/addComment", { data: commentToSave })
+      .then(response => {
+        // return dispatch({
+        //   type: ADD_COMMENT_SUCCESS,
+        //   payload: response.data
+        // });
+        console.log(response);
+      })
+      .catch(error => {
+        return dispatch({
+          type: GET_COMMENTS_FAIL,
+          error: error
+        });
+        return error;
+      });
   };
+
+  //ceep copy of comments array
+  // let comments = [...getState().communication.comments];
+  // comments.push(comment);
 }
 
 export const GET_COMMENTS = "GET_COMMENTS";
@@ -46,7 +72,9 @@ export function getComments() {
   return dispatch => {
     dispatch({ type: GET_COMMENTS });
     return axios
-      .get(Config.API_ROOT + "/getComments", {})
+      .get(Config.API_ROOT + "/getComments", {
+        params: { request_id: "06304_B" }
+      })
       .then(response => {
         return dispatch({
           type: GET_COMMENTS_SUCCESS,

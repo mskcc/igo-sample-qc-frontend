@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { connect } from "react-redux";
-// import { commonActions, userActions } from "../actions";
+import { commonActions } from "../actions";
 import DevTools from "./DevTools";
 
 import { LocalizeProvider, withLocalize } from "react-localize-redux";
@@ -23,7 +23,7 @@ import TableContainer from "./TableContainer";
 // import Promote from './Promote/Promote'
 // import Login from './Login'
 // import Logout from './Logout'
-// import ErrorPage from './ErrorPage'
+import ErrorPage from "./ErrorPage";
 
 import { Config } from "../secret_config.js";
 
@@ -58,27 +58,24 @@ class Root extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   // making sure BE and FE versions match - shows info message if not
-  //   this.props.checkVersion()
-  //   this.props.refreshToken()
-  //   document.addEventListener('keydown', this.escFunction, false)
-  // }
-  // componentWillUnmount() {
-  //   document.removeEventListener('keydown', this.escFunction, false)
-  // }
+  componentDidMount() {
+    //   // making sure BE and FE versions match - shows info message if not
+    // this.props.checkVersion();
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
 
-  // handleMsgClose = () => {
-  //   this.props.resetMessage()
-  //   // this.props.resetErrorMessage()
-  // }
+  handleMsgClose = () => {
+    this.props.resetMessage();
+  };
 
-  // escFunction = event => {
-  //   if (event.keyCode === 27) {
-  //     //Do whatever when esc is pressed
-  //     this.props.resetMessage()
-  //   }
-  // }
+  escFunction = event => {
+    if (event.keyCode === 27) {
+      this.props.resetMessage();
+    }
+  };
 
   render() {
     return (
@@ -87,12 +84,16 @@ class Root extends Component {
           <div>
             <div className="app">
               {Config.ENV !== "production" ? <DevTools /> : <div />}
-              <div class="content">
-                <Header class="header" loggedIn={this.props.loggedIn} />
-                <div class="sidebar">Project Tree</div>
-                <CommentContainer />
-                <TableContainer />
-              </div>
+              {this.props.common.serverError ? (
+                <ErrorPage />
+              ) : (
+                <div class="content">
+                  <Header class="header" loggedIn={this.props.loggedIn} />
+                  <div class="sidebar">Project Tree</div>
+                  <CommentContainer />
+                  <TableContainer />
+                </div>
+              )}
             </div>
           </div>
         </Router>
@@ -106,7 +107,7 @@ const mapStateToProps = state => ({
   ...state.user
 });
 const mapDispatchToProps = {
-  // ...commonActions,
+  ...commonActions
   // ...userActions
 };
 

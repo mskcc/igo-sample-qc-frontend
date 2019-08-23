@@ -28,7 +28,6 @@ function commentReducer(state = initialState, action) {
         loggedIn: true,
         loading: false,
         isSaving: false,
-
         username: action.payload.username
         // message: 'Welcome back, ' + action.payload.username + '.',
       };
