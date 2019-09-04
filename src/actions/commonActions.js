@@ -2,32 +2,32 @@ import axios from 'axios'
 
 import { Config } from '../secret_config.js'
 
-// // Add a request interceptor
-// axios.interceptors.request.use(
-//   config => {
-//     let token = sessionStorage.getItem('access_token')
-//     if (token && !config.headers['Authorization']) {
-//       config.headers['Authorization'] = `Bearer ${token}`
-//     }
+// Add a request interceptor
+axios.interceptors.request.use(
+  config => {
+    let token = sessionStorage.getItem('access_token')
+    if (token && !config.headers['Authorization']) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
 
-//     return config
-//   },
+    return config
+  },
 
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
-// // Add a response interceptor
-// axios.interceptors.response.use(
-//   function(response) {
-//     // Do something with response data
-//     return response
-//   },
-//   function(error) {
-//     // Do something with response error
-//     return Promise.reject(error)
-//   }
-// )
+  error => {
+    return Promise.reject(error)
+  }
+)
+// Add a response interceptor
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error)
+  }
+)
 
 export const SERVER_ERROR = 'SERVER_ERROR'
 

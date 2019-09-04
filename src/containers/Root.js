@@ -21,8 +21,8 @@ import TableContainer from "./TableContainer";
 // import UploadPage from './Upload/UploadPage'
 // import SubmissionsPage from './Submissions/SubmissionsPage'
 // import Promote from './Promote/Promote'
-// import Login from './Login'
-// import Logout from './Logout'
+import Login from "./Login";
+import Logout from "./Logout";
 import ErrorPage from "./ErrorPage";
 
 import { Config } from "../secret_config.js";
@@ -83,16 +83,31 @@ class Root extends Component {
         <Router basename={Config.BASENAME}>
           <div>
             <div className="app">
+              <Header className="header" loggedIn={this.props.user.loggedIn} />
               {Config.ENV !== "production" ? <DevTools /> : <div />}
               {this.props.common.serverError ? (
                 <ErrorPage />
+              ) : this.props.user.loggedIn ? (
+                <React.Fragment>
+                  {this.props.common.loading && (
+                    <CircularProgress color="secondary" size={24} />
+                  )}
+
+                  <PrivateRoute
+                    loggedIn={this.props.user.loggedIn}
+                    path="/logout"
+                    component={Logout}
+                  />
+                  <Route path="/login" component={Login} />
+
+                  <div className="content">
+                    <div className="sidebar">Project Tree</div>
+                    <CommentContainer />
+                    <TableContainer />
+                  </div>
+                </React.Fragment>
               ) : (
-                <div class="content">
-                  <Header class="header" loggedIn={this.props.loggedIn} />
-                  <div class="sidebar">Project Tree</div>
-                  <CommentContainer />
-                  <TableContainer />
-                </div>
+                <Login />
               )}
             </div>
           </div>
@@ -104,11 +119,11 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   common: state.common,
-  ...state.user
+  user: state.user
 });
 const mapDispatchToProps = {
   ...commonActions
-  // ...userActions
+  ...userActions
 };
 
 export default withLocalize(
@@ -138,48 +153,3 @@ const theme = createMuiTheme({
     textSecondary: "#e0e0e0"
   }
 });
-
-// {this.props.common.serverError ? (
-//                <ErrorPage />
-//              ) : (
-//                <React.Fragment>
-//                  {this.props.common.loading && (
-//                    <CircularProgress color="secondary" size={24} />
-//                  )}
-//                  <div>
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/(upload|)"
-//                      component={UploadPage}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/promote"
-//                      component={Promote}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/submissions"
-//                      component={SubmissionsPage}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/logout"
-//                      component={Logout}
-//                    />
-//                    <Route path="/login" component={Login} />
-//                    <Route path="/error" component={ErrorPage} />
-//                  </div>{' '}
-//                  {this.props.common.message &&
-//                  this.props.common.message.length > 0 ? (
-//                    <span>
-//                      <SnackMessage
-//                        open
-//                        type={this.props.error ? 'error' : 'info'}
-//                        message={this.props.common.message}
-//                        handleClose={this.handleMsgClose}
-//                      />
-//                    </span>
-//                  ) : null}
-//                </React.Fragment>
-//              )}

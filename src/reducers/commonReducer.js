@@ -6,14 +6,20 @@ const initialState = {
   version: "2.0",
   error: false,
   message: "",
-  serverError: false
-  // loading: true,
+  serverError: false,
+  loading: false
 };
 
 // global errors and messages
 function commonReducer(state = initialState, action) {
-  const { type, error, message, serverError } = action;
-  // const { status } = error.response
+  const { type, error, message, serverError, loading } = action;
+  if (loading) {
+    console.log(loading);
+    return {
+      ...state,
+      loading: loading
+    };
+  }
   if (serverError) {
     return {
       ...state,
@@ -22,14 +28,16 @@ function commonReducer(state = initialState, action) {
       message:
         "Our backend is experiencing some downtime. Please refresh, check back later or message an admin."
     };
-  } else if (error) {
+  }
+  if (error) {
     if (error.response && error.status == 401) {
       return {
         ...state,
         error: true,
         message: "Your session expired. Please log back in."
       };
-    } else if (error.response && error.response.status == 403) {
+    }
+    if (error.response && error.response.status == 403) {
       Swal.fire({
         title: "Not authorized",
         html:
@@ -52,7 +60,8 @@ function commonReducer(state = initialState, action) {
           : action.error.message
       };
     }
-  } else if (message) {
+  }
+  if (message) {
     if (message == "reset") {
       return {
         ...state,
@@ -66,7 +75,8 @@ function commonReducer(state = initialState, action) {
     }
   } else {
     return {
-      ...state
+      ...state,
+      loading: false
     };
   }
 }

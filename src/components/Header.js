@@ -19,9 +19,9 @@ const Header = ({ classes, loggedIn }) => (
       <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
 
       <Typography color="inherit" variant="h6" className={classes.title}>
-        IGO Quality Control
+        Nucleic Acid QC
       </Typography>
-      {!loggedIn ? (
+      {loggedIn ? (
         <React.Fragment>
           <Button>
             <NavLink

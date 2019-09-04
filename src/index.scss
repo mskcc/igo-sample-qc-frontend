@@ -33,8 +33,8 @@ body {
 }
 .content {
     display: grid;
-    grid-template-areas: "header header" "sidebar comments" "sidebar table ";
-    grid-template-rows: 8vh 30vh 62vh;
+    grid-template-areas: "sidebar comments" "sidebar table ";
+    grid-template-rows: 30vh 65vh;
     grid-template-columns: 20% 80%;
 
     .sidebar {
