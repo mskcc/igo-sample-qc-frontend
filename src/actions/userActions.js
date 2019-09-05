@@ -110,7 +110,7 @@ export function logout() {
                 .catch(error => {
                     return dispatch({
                         type: LOGOUT_FAIL,
-                        message: error.response.data.message
+                        error: error
                     });
                 });
         } else

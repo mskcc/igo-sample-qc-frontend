@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { commonActions } from "../actions";
 import { Redirect } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Message } from "../components/Shared";
+import { Message } from "../components";
 
 class ErrorPage extends React.Component {
   render() {

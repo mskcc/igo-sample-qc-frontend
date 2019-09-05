@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { connect } from "react-redux";
-import { commonActions } from "../actions";
+import { commonActions, userActions } from "../actions";
 import DevTools from "./DevTools";
 
 import { LocalizeProvider, withLocalize } from "react-localize-redux";
@@ -14,7 +14,7 @@ import enTranslations from "../translations/en.json";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Header from "../components/Header";
+import { Header, SnackMessage } from "../components";
 import CommentContainer from "./CommentContainer";
 import TableContainer from "./TableContainer";
 
@@ -109,6 +109,17 @@ class Root extends Component {
               ) : (
                 <Login />
               )}
+              {this.props.common.message &&
+              this.props.common.message.length > 0 ? (
+                <span>
+                  <SnackMessage
+                    open
+                    type={this.props.error ? "error" : "info"}
+                    message={this.props.common.message}
+                    handleClose={this.handleMsgClose}
+                  />
+                </span>
+              ) : null}
             </div>
           </div>
         </Router>
@@ -122,7 +133,7 @@ const mapStateToProps = state => ({
   user: state.user
 });
 const mapDispatchToProps = {
-  ...commonActions
+  ...commonActions,
   ...userActions
 };
 
