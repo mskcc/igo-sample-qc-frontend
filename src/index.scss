@@ -37,13 +37,6 @@ body {
     grid-template-rows: 30vh 65vh;
     grid-template-columns: 20% 80%;
 
-    .sidebar {
-        text-align: center;
-        grid-area: sidebar;
-        height: 92vh;
-
-        background-color: $mskcc-light-gray;
-    }
 }
 
 code {
