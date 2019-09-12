@@ -5,6 +5,7 @@ import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { reportActions } from "../actions";
 import { Redirect } from "react-router-dom";
+import { Config } from "../secret_config.js";
 
 import { Sidebar } from "../components";
 
@@ -21,7 +22,7 @@ export class SidebarContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        <Sidebar handleSubmit={this.handleSubmit}/>
+        <Sidebar pattern={Config.REQUEST_PATTERN} handleSubmit={this.handleSubmit}/>
       </React.Fragment>
     );
   }

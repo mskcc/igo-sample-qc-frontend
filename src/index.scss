@@ -36,10 +36,14 @@ body {
     grid-template-areas: "sidebar comments" "sidebar table ";
     grid-template-rows: 30vh 65vh;
     grid-template-columns: 20% 80%;
-
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+._loading_overlay_overlay{
+        background: rgba(0, 48, 77, 0.5) !important;
+
 }
