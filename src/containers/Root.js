@@ -14,9 +14,12 @@ import enTranslations from "../translations/en.json";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import LoadingOverlay from "react-loading-overlay";
+
 import { Header, SnackMessage } from "../components";
 import CommentContainer from "./CommentContainer";
 import TableContainer from "./TableContainer";
+import SidebarContainer from "./SidebarContainer";
 
 // import UploadPage from './Upload/UploadPage'
 // import SubmissionsPage from './Submissions/SubmissionsPage'
@@ -82,45 +85,54 @@ class Root extends Component {
       <MuiThemeProvider theme={theme}>
         <Router basename={Config.BASENAME}>
           <div>
-            <div className="app">
-              <Header className="header" loggedIn={this.props.user.loggedIn} />
-              {Config.ENV !== "production" ? <DevTools /> : <div />}
-              {this.props.common.serverError ? (
-                <ErrorPage />
-              ) : this.props.user.loggedIn ? (
-                <React.Fragment>
-                  {this.props.common.loading && (
-                    <CircularProgress color="secondary" size={24} />
-                  )}
+            <LoadingOverlay
+              active={this.props.common.loading}
+              spinner
+              text={this.props.common.loadingMessage || "Loading your content..."}
+            >
+              <div className="app">
+                <Header
+                  className="header"
+                  loggedIn={this.props.user.loggedIn}
+                />
+                {Config.ENV !== "production" ? <DevTools /> : <div />}
+                {this.props.common.serverError ? (
+                  <ErrorPage />
+                ) : this.props.user.loggedIn ? (
+                  <React.Fragment>
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      path="/logout"
+                      component={Logout}
+                    />
+                    <Route path="/login" component={Login} />
 
-                  <PrivateRoute
-                    loggedIn={this.props.user.loggedIn}
-                    path="/logout"
-                    component={Logout}
-                  />
-                  <Route path="/login" component={Login} />
-
-                  <div className="content">
-                    <div className="sidebar">Project Tree</div>
-                    <CommentContainer />
-                    <TableContainer />
-                  </div>
-                </React.Fragment>
-              ) : (
-                <Login />
-              )}
-              {this.props.common.message &&
-              this.props.common.message.length > 0 ? (
-                <span>
-                  <SnackMessage
-                    open
-                    type={this.props.error ? "error" : "info"}
-                    message={this.props.common.message}
-                    handleClose={this.handleMsgClose}
-                  />
-                </span>
-              ) : null}
-            </div>
+                    <div className="content">
+                      <SidebarContainer />
+                      {this.props.report.loaded && (
+                        <React.Fragment>
+                          <CommentContainer />
+                          <TableContainer />
+                        </React.Fragment>
+                      )}
+                    </div>
+                  </React.Fragment>
+                ) : (
+                  <Login />
+                )}
+                {this.props.common.message &&
+                this.props.common.message.length > 0 ? (
+                  <span>
+                    <SnackMessage
+                      open
+                      type={this.props.error ? "error" : "info"}
+                      message={this.props.common.message}
+                      handleClose={this.handleMsgClose}
+                    />
+                  </span>
+                ) : null}
+              </div>
+            </LoadingOverlay>
           </div>
         </Router>
       </MuiThemeProvider>
@@ -130,7 +142,8 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   common: state.common,
-  user: state.user
+  user: state.user,
+  report: state.report
 });
 const mapDispatchToProps = {
   ...commonActions,

@@ -7,12 +7,20 @@ const initialState = {
   error: false,
   message: "",
   serverError: false,
-  loading: false
+  loading: false,
+  loadingMessage: null
 };
 
 // global errors and messages
 function commonReducer(state = initialState, action) {
-  const { type, error, message, serverError, loading } = action;
+  const { type, error, message, serverError, loading, loadingMessage } = action;
+  if (loadingMessage && loading) {
+    return {
+      ...state,
+      loadingMessage: loadingMessage,
+      loading: loading
+    };
+  }
   if (loading) {
     console.log(loading);
     return {
@@ -20,6 +28,7 @@ function commonReducer(state = initialState, action) {
       loading: loading
     };
   }
+
   if (serverError) {
     return {
       ...state,
