@@ -20,7 +20,7 @@ export class CommentContainer extends Component {
   // };
 
   componentDidMount() {
-    // this.props.getComments();
+    this.props.getComments(this.props.request);
   }
 
   addComment = comment => {

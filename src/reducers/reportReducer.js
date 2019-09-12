@@ -1,14 +1,16 @@
 import { reportActions as ActionTypes } from "../actions";
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  request: ""
 };
 
 function reportReducer(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
-        ...state
+        ...state,
+        request: action.payload.requestId
       };
 
     case ActionTypes.GET_REQUEST_FAIL:
@@ -20,6 +22,7 @@ function reportReducer(state = initialState, action) {
       return {
         ...state,
         loaded: true
+
       };
 
     case ActionTypes.GET_REPORT_FAIL:

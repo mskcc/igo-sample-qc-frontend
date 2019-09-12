@@ -67,6 +67,10 @@ class Table extends React.Component {
         Swal.fire(error);
     };
 
+    componentDidMount= () => {
+        console.log('where are you')
+    }
+
     render() {
         const {
             classes
@@ -80,7 +84,7 @@ class Table extends React.Component {
                     licenseKey="non-commercial-and-evaluation"
                     id="hot"
                     ref={this.hotTableComponent}
-                    data={data}
+                    data={this.props.data}
                     columns={columnFeatures}
                     colHeaders={columnHeaders}
                     rowHeaders={true}
@@ -89,6 +93,7 @@ class Table extends React.Component {
                     stretchH="all"
                     filters="true"
                     columnSorting="true"
+                    height="500"
                 />
             </div>
         );

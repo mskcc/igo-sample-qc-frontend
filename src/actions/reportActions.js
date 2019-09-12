@@ -52,8 +52,8 @@ export function getRequest(requestId) {
                 dispatch({
                     type: GET_REQUEST_SUCCESS,
                     // loading: false, //keep loading as another action will be triggered
-                    message: response.data.message
-                    // payload: response.data
+                    message: response.data.message,
+                    payload: response.data
                 });
                 dispatch({
                     type: GET_REPORT_REQUEST,

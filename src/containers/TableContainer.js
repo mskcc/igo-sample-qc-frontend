@@ -27,7 +27,7 @@ export class TableContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        <TableArea />
+        <TableArea request={this.props.request}/>
       </React.Fragment>
     );
   }

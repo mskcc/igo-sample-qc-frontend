@@ -111,8 +111,8 @@ class Root extends Component {
                       <SidebarContainer />
                       {this.props.report.loaded && (
                         <React.Fragment>
-                          <CommentContainer />
-                          <TableContainer />
+                          <CommentContainer request={this.props.report.request}/>
+                          <TableContainer request={this.props.report.request}/>
                         </React.Fragment>
                       )}
                     </div>
