@@ -25,11 +25,20 @@ export class TableContainer extends Component {
     this.props.getQcReports(this.props.report.request);
   }
 
+  componentDidUpdate() {
+    console.log(this.props)
+    
+    // this.props.getQcReports(this.props.report.request);
+  }
+
   render() {
+
     const { report } = this.props;
     return (
       <React.Fragment>
-        {this.props.report.tables && <TableArea request={report.request} tables={report.tables} />}
+        {this.props.report.tables && (
+          <TableArea request={report.request} tables={report.tables} />
+        )}
       </React.Fragment>
     );
   }
@@ -43,7 +52,7 @@ export default withLocalize(
   connect(
     mapStateToProps,
     {
-      ...reportActions,
+      ...reportActions
     }
   )(TableContainer)
 );

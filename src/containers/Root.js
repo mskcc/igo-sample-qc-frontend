@@ -115,7 +115,7 @@ class Root extends Component {
                           <CommentContainer
                             request={this.props.report.request}
                           />
-                          <TableContainer request={this.props.report.request} />
+                          <TableContainer />
                         </React.Fragment>
                       )}
                     </div>

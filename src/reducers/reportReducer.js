@@ -7,6 +7,12 @@ const initialState = {
 
 function reportReducer(state = initialState, action) {
   switch (action.type) {
+    case ActionTypes.GET_REQUEST_REQUEST:
+      return {
+        ...state,
+        request: null,
+        loaded: false
+      };
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
         ...state,

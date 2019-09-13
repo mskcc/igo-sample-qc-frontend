@@ -44,9 +44,9 @@ class Table extends React.Component {
                     licenseKey="non-commercial-and-evaluation"
                     id="hot"
                     ref={this.hotTableComponent}
-                    data={this.props.data}
+                    data={this.props.data.data}
                     // columns={columnFeatures}
-                    // colHeaders={columnHeaders}
+                    colHeaders={this.props.data.columnHeaders}
                     rowHeaders={true}
                     className="htCenter"
                     // columns={this.props.user.submissionsTable.columnFeatures}

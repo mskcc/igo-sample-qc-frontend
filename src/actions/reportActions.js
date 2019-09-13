@@ -57,7 +57,7 @@ export function getRequest(requestId) {
             .catch(error => {
                 return dispatch({
                     type: GET_REQUEST_FAIL,
-                    error: error,
+                    error: error
                 });
             });
     };
@@ -67,7 +67,7 @@ export const GET_REPORT_REQUEST = "GET_REPORT_REQUEST";
 export const GET_REPORT_FAIL = "GET_REPORT_FAIL";
 export const GET_REPORT_SUCCESS = "GET_REPORT_SUCCESS";
 export function getQcReports(requestId, otherSampleIds) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
             type: GET_REPORT_REQUEST,
             loading: true,
@@ -78,7 +78,7 @@ export function getQcReports(requestId, otherSampleIds) {
         return axios
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
-                    request: "04592_F",
+                    request: getState().report.request,
                     samples: [
                         "AdCCDK_1N",
                         "AdCCDK_1T",
@@ -92,15 +92,14 @@ export function getQcReports(requestId, otherSampleIds) {
             .then(response => {
                 dispatch({
                     type: GET_REPORT_SUCCESS,
-                    // loading: false, //keep loading as another action will be triggered
-
+                    loading: false,
                     payload: fillReportTables(response.data)
                 });
             })
 
             .catch(error => {
                 return dispatch({
-                    type: GET_REQUEST_FAIL,
+                    type: GET_REPORT_FAIL,
                     error: error,
 
                     loading: false
