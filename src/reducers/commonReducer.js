@@ -1,5 +1,3 @@
-
-
 import Swal from "sweetalert2";
 
 const initialState = {
@@ -34,6 +32,7 @@ function commonReducer(state = initialState, action) {
       ...state,
       error: true,
       serverError: true,
+      loading: false,
       message:
         "Our backend is experiencing some downtime. Please refresh, check back later or message an admin."
     };
@@ -43,7 +42,8 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: true,
-        message: "Your session expired. Please log back in."
+        message: "Your session expired. Please log back in.",
+        loading: false
       };
     }
     if (error.response && error.response.status === 403) {
@@ -52,7 +52,7 @@ function commonReducer(state = initialState, action) {
         html:
           'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:someone@yoursite.com?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
         type: "info",
-
+loading: false,
         animation: false,
         confirmButtonColor: "#007cba",
         confirmButtonText: "Dismiss"
@@ -64,6 +64,8 @@ function commonReducer(state = initialState, action) {
       return {
         ...state,
         error: true,
+        loading: false,
+        loadingMessage: null,
         message: action.error.response
           ? action.error.response.data.message
           : action.error.message

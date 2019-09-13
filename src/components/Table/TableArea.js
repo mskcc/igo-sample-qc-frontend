@@ -36,7 +36,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      <Box p={3}>{children}</Box>
+      <Box p={children.length}>{children}</Box>
     </Typography>
   );
 }
@@ -64,21 +64,16 @@ export default function TableArea(props) {
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          <Tab label="DNA Report" {...a11yProps(0)} />
-          <Tab label="RNA Report" {...a11yProps(1)} />
-          <Tab label="Library" {...a11yProps(2)} />
+          {Object.keys(props.tables).map((report, index) => (
+            <Tab key={report} label={report} {...a11yProps(index)} />
+          ))}
         </Tabs>
 
-        <TabPanel value={value} index={0}>
-          {value === 0 && <Table />}
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          {value === 1 && <Table />}
-          <Table />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          {value === 2 && <Table />}
-        </TabPanel>
+        {Object.keys(props.tables).map((report, index) => (
+          <TabPanel key={report} value={value} index={index}>
+            {value === index && <Table data={props.tables[report]} />}
+          </TabPanel>
+        ))}
       </div>
     </div>
   );

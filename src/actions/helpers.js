@@ -1,9 +1,17 @@
-import { Config } from "../config.js";
+// import { Config } from "../secret_config.js";
 
 export const fillReportTables = reportList => {
-    let gridDna = { columnFeatures: [], columnHeaders: [], rows: [] };
-    let gridRna = { columnFeatures: [], columnHeaders: [], rows: [] };
-    let gridLibrary = { columnFeatures: [], columnHeaders: [], rows: [] };
+    let tables = {}
+    let dnaReport = reportList.dnaReportSamples;
+    let rnaReport = reportList.rnaReportSamples;
+    let libraryReport = reportList.libraryReportSamples;
+    
+    if (dnaReport.length > 0 ) {tables["DNA Report"]= dnaReport}
+    if (rnaReport.length > 0 ) {tables["RNA Report"] = rnaReport}
+    if (libraryReport.length > 0 ) {tables["Library Report"] = libraryReport}
+    // let gridDna = { columnFeatures: [], columnHeaders: [], rows: [] };
+    // let gridRna = { columnFeatures: [], columnHeaders: [], rows: [] };
+    // let gridLibrary = { columnFeatures: [], columnHeaders: [], rows: [] };
 
     // grid.columnFeatures = generateColumnFeatures(responseColumns, formValues)
     // grid.columnHeaders = grid.columnFeatures.map(
@@ -24,6 +32,6 @@ export const fillReportTables = reportList => {
     // )
 
     // grid.hiddenColumns = hideColumns(grid.columnFeatures, userRole)
-    let tables = { gridDna, gridRna, gridLibrary };
+    console.log(tables)
     return tables;
 };

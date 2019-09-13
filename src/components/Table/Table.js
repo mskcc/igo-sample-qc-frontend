@@ -11,18 +11,6 @@ const styles = theme => ({
     }
 });
 
-const columnFeatures = [
-    { data: "id", name: "id" },
-    { data: "title", name: "title" },
-    { data: "count", type: "numeric" },
-    {
-        data: "move_forward",
-        type: "checkbox"
-    },
-    { data: "comment" }
-];
-
-const columnHeaders = ["id", "title", "count", "Continue?", "Comment"];
 
 class Table extends React.Component {
     constructor(props) {
@@ -38,9 +26,9 @@ class Table extends React.Component {
         Swal.fire(error);
     };
 
-    componentDidMount= () => {
-        console.log('where are you')
-    }
+    componentDidMount = () => {
+        console.log("where are you");
+    };
 
     render() {
         const {
@@ -49,6 +37,7 @@ class Table extends React.Component {
             // handleReceipt,
             // handleDelete
         } = this.props;
+        console.log(this.props);
         return (
             <div className={classes.container}>
                 <HotTable
@@ -56,8 +45,8 @@ class Table extends React.Component {
                     id="hot"
                     ref={this.hotTableComponent}
                     data={this.props.data}
-                    columns={columnFeatures}
-                    colHeaders={columnHeaders}
+                    // columns={columnFeatures}
+                    // colHeaders={columnHeaders}
                     rowHeaders={true}
                     className="htCenter"
                     // columns={this.props.user.submissionsTable.columnFeatures}

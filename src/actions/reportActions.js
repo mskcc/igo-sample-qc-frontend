@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { Config } from "../secret_config.js";
-// import { fillReportTables } from "./helpers";
+import { fillReportTables } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
@@ -58,8 +58,6 @@ export function getRequest(requestId) {
                 return dispatch({
                     type: GET_REQUEST_FAIL,
                     error: error,
-
-                    loading: false
                 });
             });
     };
@@ -80,7 +78,7 @@ export function getQcReports(requestId, otherSampleIds) {
         return axios
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
-                    request_id: "04592_F",
+                    request: "04592_F",
                     samples: [
                         "AdCCDK_1N",
                         "AdCCDK_1T",
@@ -92,12 +90,11 @@ export function getQcReports(requestId, otherSampleIds) {
                 }
             })
             .then(response => {
-                console.log(response);
                 dispatch({
-                    type: GET_REPORT_SUCCESS
+                    type: GET_REPORT_SUCCESS,
                     // loading: false, //keep loading as another action will be triggered
 
-                    // payload: response.data
+                    payload: fillReportTables(response.data)
                 });
             })
 

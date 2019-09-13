@@ -29,7 +29,7 @@ export class TableContainer extends Component {
     const { report } = this.props;
     return (
       <React.Fragment>
-        <TableArea request={report.request} />
+        {this.props.report.tables && <TableArea request={report.request} tables={report.tables} />}
       </React.Fragment>
     );
   }

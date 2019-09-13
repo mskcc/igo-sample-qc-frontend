@@ -21,7 +21,8 @@ function reportReducer(state = initialState, action) {
 
     case ActionTypes.GET_REPORT_SUCCESS:
       return {
-        ...state
+        ...state,
+        tables: action.payload
       };
 
     case ActionTypes.GET_REPORT_FAIL:
