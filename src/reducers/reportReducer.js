@@ -10,7 +10,8 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
         ...state,
-        request: action.payload.requestId
+        request: action.payload.requestId,
+        loaded: true
       };
 
     case ActionTypes.GET_REQUEST_FAIL:
@@ -20,9 +21,7 @@ function reportReducer(state = initialState, action) {
 
     case ActionTypes.GET_REPORT_SUCCESS:
       return {
-        ...state,
-        loaded: true
-
+        ...state
       };
 
     case ActionTypes.GET_REPORT_FAIL:

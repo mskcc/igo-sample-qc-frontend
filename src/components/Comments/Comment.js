@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   // current user's comments
@@ -12,7 +11,6 @@ const styles = theme => ({
     clear: "both",
     marginBottom: "1em",
     ...theme.mixins.gutters(),
-    // backgroundColor: "rgba(246, 198, 91, .2)",
     backgroundColor: "rgba(0, 148, 144, .2)",
     maxWidth: "70%",
     minWidth: "30%",

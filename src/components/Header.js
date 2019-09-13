@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   Avatar,
@@ -9,7 +9,6 @@ import {
   withStyles
 } from "@material-ui/core";
 
-import classNames from "classnames";
 import image from "./msk.png";
 
 const Header = ({ classes, loggedIn }) => (
@@ -83,7 +82,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.logo,
     color: "white",
     textAlign: "center",
-    gridArea: 'header'
+    gridArea: "header"
   },
   avatar: {
     width: "26px",

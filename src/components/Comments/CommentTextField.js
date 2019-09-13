@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
@@ -8,10 +7,6 @@ import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    // display: "flex",
-    // alignItems: "flex-end",
-    // flexWrap: "wrap",
-    // justifyContent: "flex-end",
     display: "grid",
     gridTemplateRows: "80% 20%",
     alignItems: "end",

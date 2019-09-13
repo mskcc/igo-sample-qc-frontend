@@ -17,8 +17,6 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    const isDev = process.env.NODE_ENV !== "production";
     const { submitting, pristine, classes } = this.props;
     if (!this.props.loading && this.props.loggedIn) {
       return <Redirect to="/" />;

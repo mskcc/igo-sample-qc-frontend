@@ -1,4 +1,4 @@
-import { commonActions, commentActions } from "../actions";
+
 
 import Swal from "sweetalert2";
 
@@ -13,7 +13,7 @@ const initialState = {
 
 // global errors and messages
 function commonReducer(state = initialState, action) {
-  const { type, error, message, serverError, loading, loadingMessage } = action;
+  const { error, message, serverError, loading, loadingMessage } = action;
   if (loadingMessage && loading) {
     return {
       ...state,
@@ -39,14 +39,14 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (error) {
-    if (error.response && error.status == 401) {
+    if (error.response && error.status === 401) {
       return {
         ...state,
         error: true,
         message: "Your session expired. Please log back in."
       };
     }
-    if (error.response && error.response.status == 403) {
+    if (error.response && error.response.status === 403) {
       Swal.fire({
         title: "Not authorized",
         html:
@@ -71,7 +71,7 @@ function commonReducer(state = initialState, action) {
     }
   }
   if (message) {
-    if (message == "reset") {
+    if (message === "reset") {
       return {
         ...state,
         message: ""

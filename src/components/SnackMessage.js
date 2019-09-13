@@ -19,10 +19,6 @@ const styles = theme => ({
     right: 0,
     position: "absolute"
   },
-  // error: {
-  //   color: theme.palette.textSecondary,
-  // },
-
   success: {
     backgroundColor: theme.palette.primary.light,
     fontSize: "1em",
@@ -55,7 +51,6 @@ class SnackMessage extends React.Component {
     if (reason === "clickaway") {
       return;
     }
-
     this.setState({ open: false });
     this.props.handleClose();
   };
@@ -64,7 +59,7 @@ class SnackMessage extends React.Component {
   }
 
   render() {
-    const { type, message, classes, handleClose, variant } = this.props;
+    const { message, classes, variant } = this.props;
     return (
       <Snackbar
         open={this.state.open}

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -8,11 +7,11 @@ import { connect } from "react-redux";
 import { commonActions, userActions } from "../actions";
 import DevTools from "./DevTools";
 
-import { LocalizeProvider, withLocalize } from "react-localize-redux";
+// import { LocalizeProvider, withLocalize } from "react-localize-redux";
+import { withLocalize } from "react-localize-redux";
 import enTranslations from "../translations/en.json";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import LoadingOverlay from "react-loading-overlay";
 
@@ -88,7 +87,9 @@ class Root extends Component {
             <LoadingOverlay
               active={this.props.common.loading}
               spinner
-              text={this.props.common.loadingMessage || "Loading your content..."}
+              text={
+                this.props.common.loadingMessage || "Loading your content..."
+              }
             >
               <div className="app">
                 <Header
@@ -111,8 +112,10 @@ class Root extends Component {
                       <SidebarContainer />
                       {this.props.report.loaded && (
                         <React.Fragment>
-                          <CommentContainer request={this.props.report.request}/>
-                          <TableContainer request={this.props.report.request}/>
+                          <CommentContainer
+                            request={this.props.report.request}
+                          />
+                          <TableContainer request={this.props.report.request} />
                         </React.Fragment>
                       )}
                     </div>

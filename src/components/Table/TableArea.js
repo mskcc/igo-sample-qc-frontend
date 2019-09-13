@@ -1,12 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Table from "./Table";
-import Buttons from "./Buttons";
 import "handsontable/dist/handsontable.full.css";
 
 import Typography from "@material-ui/core/Typography";
@@ -73,14 +70,14 @@ export default function TableArea(props) {
         </Tabs>
 
         <TabPanel value={value} index={0}>
-          {value == 0 && <Table />}
+          {value === 0 && <Table />}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {value == 1 && <Table />}
+          {value === 1 && <Table />}
           <Table />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          {value == 2 && <Table />}
+          {value === 2 && <Table />}
         </TabPanel>
       </div>
     </div>

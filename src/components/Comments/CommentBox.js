@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,13 +17,13 @@ const styles = theme => ({
   }
 });
 
-function convert(t) {
-  const dt = new Date(t);
-  const hr = dt.getUTCHours();
-  const m = "0" + dt.getUTCMinutes();
+// function convert(t) {
+//   const dt = new Date(t);
+//   const hr = dt.getUTCHours();
+//   const m = "0" + dt.getUTCMinutes();
 
-  return hr - 4 + ":" + m.substr(-2);
-}
+//   return hr - 4 + ":" + m.substr(-2);
+// }
 
 const CommentBox = ({ comments, classes }) => {
   useEffect(() => {
