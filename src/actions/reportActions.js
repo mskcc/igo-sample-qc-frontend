@@ -78,15 +78,8 @@ export function getQcReports(requestId, otherSampleIds) {
         return axios
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
-                    request: getState().report.request,
-                    samples: [
-                        "AdCCDK_1N",
-                        "AdCCDK_1T",
-                        "AdCCDK_5N",
-                        "AdCCDK_5T",
-                        "AdCCDK_7N",
-                        "AdCCDK_7T"
-                    ]
+                    request: requestId,
+                    samples: getState().report.request.samples
                 }
             })
             .then(response => {

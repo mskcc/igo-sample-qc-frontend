@@ -22,22 +22,26 @@ export class TableContainer extends Component {
   //   });
   // };
   componentDidMount() {
-    this.props.getQcReports(this.props.report.request);
+    if (this.props.report.request.samples) {
+      this.props.getQcReports(this.props.report.request.requestId);
+    }
   }
 
-  componentDidUpdate() {
-    console.log(this.props)
-    
-    // this.props.getQcReports(this.props.report.request);
-  }
+  // componentDidUpdate() {
+  //   console.log(this.props)
+
+  //   // this.props.getQcReports(this.props.report.request);
+  // }
 
   render() {
-
     const { report } = this.props;
     return (
       <React.Fragment>
         {this.props.report.tables && (
-          <TableArea request={report.request} tables={report.tables} />
+          <TableArea
+            request={report.request.requestId}
+            tables={report.tables}
+          />
         )}
       </React.Fragment>
     );

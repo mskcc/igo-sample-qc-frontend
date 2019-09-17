@@ -113,7 +113,7 @@ class Root extends Component {
                       {this.props.report.loaded && (
                         <React.Fragment>
                           <CommentContainer
-                            request={this.props.report.request}
+                            request={this.props.report.request.requestId}
                           />
                           <TableContainer />
                         </React.Fragment>
