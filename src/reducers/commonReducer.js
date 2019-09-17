@@ -52,7 +52,7 @@ function commonReducer(state = initialState, action) {
         html:
           'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:someone@yoursite.com?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
         type: "info",
-loading: false,
+        loading: false,
         animation: false,
         confirmButtonColor: "#007cba",
         confirmButtonText: "Dismiss"
@@ -76,12 +76,15 @@ loading: false,
     if (message === "reset") {
       return {
         ...state,
-        message: ""
+        message: "",
+        loading: false,
+
       };
     } else {
       return {
         ...state,
-        message: action.message
+        message: action.message,
+        loading: false,
       };
     }
   } else {

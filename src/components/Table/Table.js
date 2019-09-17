@@ -26,10 +26,6 @@ class Table extends React.Component {
         Swal.fire(error);
     };
 
-    componentDidMount = () => {
-        console.log("where are you");
-    };
-
     render() {
         const {
             classes
@@ -37,7 +33,6 @@ class Table extends React.Component {
             // handleReceipt,
             // handleDelete
         } = this.props;
-        console.log(this.props);
         return (
             <div className={classes.container}>
                 <HotTable
