@@ -15,7 +15,7 @@ import sessionStorage from "redux-persist/lib/storage/session"; // defaults to l
 const persistConfig = {
   key: "root",
   storage: sessionStorage,
-  whitelist: ["communication", "user"]
+  whitelist: ["communication", "user", "report"]
 };
 
 const appReducer = combineReducers({

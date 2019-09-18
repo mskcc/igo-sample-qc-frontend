@@ -36,6 +36,8 @@ body {
     grid-template-areas: "sidebar comments" "sidebar table ";
     grid-template-rows: 30vh 65vh;
     grid-template-columns: 20% 80%;
+    grid-row-gap: 1em;
+    grid-column-gap: 1em;
 }
 
 code {

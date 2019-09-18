@@ -3,17 +3,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
-import Table from "./Table";
-import "handsontable/dist/handsontable.full.css";
-
 import Typography from "@material-ui/core/Typography";
+import Table from "./Table";
+import RequestInfo from "./RequestInfo";
+import "handsontable/dist/handsontable.full.css";
 
 const useStyles = makeStyles(theme => ({
   container: {
+    marginTop: "2em",
+    marginTop: "2em",
     textAlign: "left",
     marginRight: theme.spacing(3),
     gridArea: "table",
-
+    display: "grid",
+    gridTemplateAreas: "'request' 'reports'",
     // gridArea: "comments",
     // width: "85vw",
     overflow: "scroll",
@@ -21,6 +24,10 @@ const useStyles = makeStyles(theme => ({
     // display: "grid"
     // gridTemplateAreas: "'table CommentTextField'",
     // gridTemplateColumns: "70% 30%"
+  },
+
+  table: {
+    gridArea: "table"
   }
 }));
 
@@ -57,8 +64,9 @@ export default function TableArea(props) {
   }
   return (
     <div className={classes.container}>
-      <Typography variant="h5">QC Results for {props.request}</Typography>
-      <div className={classes.root}>
+      <RequestInfo request={props.request} />
+
+      <div className={classes.report}>
         <Tabs
           value={value}
           onChange={handleChange}

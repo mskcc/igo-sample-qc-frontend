@@ -12,6 +12,7 @@ const styles = theme => ({
     width: "100%",
     overflowX: "auto",
     borderBottom: "2px solid rgba(0, 0, 0, 0.23)",
+    borderLeft: "2px solid rgba(0, 0, 0, 0.23)",
     borderRight: "2px solid rgba(0, 0, 0, 0.23)",
     borderRadius: "4px"
   }

@@ -18,7 +18,7 @@ const Header = ({ classes, loggedIn }) => (
       <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
 
       <Typography color="inherit" variant="h6" className={classes.title}>
-        Nucleic Acid QC
+        Sample QC
       </Typography>
       {loggedIn ? (
         <React.Fragment>

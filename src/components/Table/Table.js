@@ -11,7 +11,6 @@ const styles = theme => ({
     }
 });
 
-
 class Table extends React.Component {
     constructor(props) {
         super(props);
@@ -33,6 +32,7 @@ class Table extends React.Component {
             // handleReceipt,
             // handleDelete
         } = this.props;
+        console.log(this.props.data)
         return (
             <div className={classes.container}>
                 <HotTable
@@ -40,11 +40,10 @@ class Table extends React.Component {
                     id="hot"
                     ref={this.hotTableComponent}
                     data={this.props.data.data}
-                    // columns={columnFeatures}
+                    columns={this.props.data.columnFeatures}
                     colHeaders={this.props.data.columnHeaders}
                     rowHeaders={true}
                     className="htCenter"
-                    // columns={this.props.user.submissionsTable.columnFeatures}
                     stretchH="all"
                     filters="true"
                     columnSorting="true"

@@ -39,7 +39,7 @@ export class TableContainer extends Component {
       <React.Fragment>
         {this.props.report.tables && (
           <TableArea
-            request={report.request.requestId}
+            request={report.request}
             tables={report.tables}
           />
         )}
