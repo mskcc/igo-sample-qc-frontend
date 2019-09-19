@@ -56,7 +56,7 @@ export function login(username, password) {
                     type: LOGIN_SUCCESS,
                     loading: false,
                     message: response.data.message,
-                    payload: response.data
+                    payload: response.data.username
                 });
             })
 

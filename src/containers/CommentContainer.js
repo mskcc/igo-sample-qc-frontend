@@ -4,12 +4,11 @@ import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { commentActions } from "../actions";
 
-import { CommentArea } from "../components/Comments";
+import { CommentArea, CommentEditor } from "../components/Comments";
 
 export class CommentContainer extends Component {
-
   componentDidMount() {
-    this.props.getComments(this.props.request);
+    this.props.getComments(this.props.request.requestId);
   }
 
   addComment = comment => {
@@ -21,10 +20,17 @@ export class CommentContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        <CommentArea
-          comments={this.props.comments}
-          addComment={this.addComment}
-        />
+        {this.props.comments.length > 0 ? (
+          <CommentArea
+            comments={this.props.comments}
+            addComment={this.addComment}
+          />
+        ) : (
+          <CommentEditor
+            addComment={this.addComment}
+            request={this.props.request}
+          />
+        )}
       </React.Fragment>
     );
   }
@@ -35,7 +41,8 @@ CommentContainer.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  comments: state.communication.comments
+  comments: state.communication.comments,
+  request: state.report.request
 });
 
 export default withLocalize(

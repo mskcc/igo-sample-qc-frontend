@@ -34,9 +34,9 @@ export function addComment(comment) {
   return (dispatch, getState) => {
     let commentToSave = {
       comment: comment.comment,
-      username: "duniganm",
+      username: getState().user.username,
       user_title: "project manager",
-      request_id: "06304_B",
+      request_id: getState().report.request.requestId,
       qc_table: "dna"
     };
 
@@ -44,10 +44,10 @@ export function addComment(comment) {
     return axios
       .post(Config.API_ROOT + "/addComment", { data: commentToSave })
       .then(response => {
-        // return dispatch({
-        //   type: ADD_COMMENT_SUCCESS,
-        //   payload: response.data
-        // });
+        return dispatch({
+          type: ADD_COMMENT_SUCCESS,
+          payload: response.data
+        });
       })
       .catch(error => {
         return dispatch({
@@ -66,11 +66,11 @@ export const GET_COMMENTS = "GET_COMMENTS";
 export const GET_COMMENTS_FAIL = "GET_COMMENTS_FAIL";
 export const GET_COMMENTS_SUCCESS = "GET_COMMENTS_SUCCESS";
 export function getComments() {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({ type: GET_COMMENTS });
     return axios
       .get(Config.API_ROOT + "/getComments", {
-        params: { request_id: "06304_B" }
+        data: { request_id: getState().report.request.requestId }
       })
       .then(response => {
         return dispatch({

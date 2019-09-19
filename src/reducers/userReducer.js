@@ -13,7 +13,8 @@ function userReducer(state = initialState, action) {
         case ActionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
-                loggedIn: true
+                loggedIn: true,
+                username: action.payload
             };
 
         case ActionTypes.LOGIN_FAIL:

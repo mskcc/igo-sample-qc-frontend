@@ -57,7 +57,7 @@ export function getRequest(requestId) {
             .catch(error => {
                 return dispatch({
                     type: GET_REQUEST_FAIL,
-                    error: error
+                    message: "Request not found."
                 });
             });
     };

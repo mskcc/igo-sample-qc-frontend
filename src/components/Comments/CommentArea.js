@@ -12,7 +12,7 @@ const styles = theme => ({
     overflowY: 'scroll',
     display: "grid",
     gridTemplateAreas: "'commentBox CommentTextField'",
-    gridTemplateColumns: "70% 30%"
+    gridTemplateColumns: "50% 30%"
   }
 });
 

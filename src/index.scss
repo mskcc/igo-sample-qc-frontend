@@ -34,8 +34,8 @@ body {
 .content {
     display: grid;
     grid-template-areas: "sidebar comments" "sidebar table ";
-    grid-template-rows: 30vh 65vh;
-    grid-template-columns: 20% 80%;
+    // grid-template-rows: 30vh 65vh;
+    grid-template-columns: 15% 80%;
     grid-row-gap: 1em;
     grid-column-gap: 1em;
 }
@@ -49,7 +49,7 @@ code {
     background: rgba(0, 48, 77, 0.5) !important;
 }
 
-.passed {
+.passed  {
     color: black;
     background-color: $mskcc-light-green;
 }
