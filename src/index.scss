@@ -45,7 +45,40 @@ code {
         monospace;
 }
 
-._loading_overlay_overlay{
-        background: rgba(0, 48, 77, 0.5) !important;
+._loading_overlay_overlay {
+    background: rgba(0, 48, 77, 0.5) !important;
+}
 
+.passed {
+    color: black;
+    background-color: $mskcc-light-green;
+}
+.try {
+    color: black;
+    background-color: $mskcc-dark-yellow;
+}
+
+.fail {
+    color: black;
+    background-color: $mskcc-red;
+}
+
+.htDimmed {
+    color: black !important;
+
+    background-color: $material-gray !important;
+}
+
+.handsontable th,
+.handsontable td {
+    vertical-align: middle !important;
+}
+
+.handsontable th {
+    background-color: rgba(143, 199, 232, 0.4) !important;
+    // background-color: $mskcc-light-blue !important;
+}
+
+.handsontable .htCheckboxRendererInput {
+    height: 2em !important;
 }

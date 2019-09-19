@@ -48,6 +48,8 @@ class Table extends React.Component {
                     filters="true"
                     columnSorting="true"
                     height="500"
+                    rowHeights="35"
+                    // allowHTML={true}
                 />
             </div>
         );

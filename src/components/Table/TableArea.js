@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
     gridArea: "table",
     display: "grid",
     gridTemplateAreas: "'request' 'reports'",
+    gridRowGap: "1em",
     // gridArea: "comments",
     // width: "85vw",
     overflow: "scroll",
