@@ -14,13 +14,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: "start",
     justifyItems: "start",
     height: "100%",
-    minHeight: " 50vh",
+    height: " 50vh",
     margin: theme.spacing(3)
   },
   editor: {
-    padding: theme.spacing(3, 4)
+    padding: theme.spacing(3, 4),
+    width: "80%"
   },
   preview: { padding: theme.spacing(3, 4) },
+  highlight: { backgroundColor: "#8fc7e8" },
   button: {
     // float: "left",
     height: "40px",
@@ -34,7 +36,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#b1132d",
     color: "white"
     // fontWeight: "bold"
-  }
+  },
+  input: { float: "right" },
+  select: { float: "right" }
 }));
 
 export default function CommentEditor(props) {
@@ -42,10 +46,15 @@ export default function CommentEditor(props) {
   const commentEl = useRef(null);
 
   const [values, setValues] = React.useState({
-    salutation: "...",
-    addressee: "...",
-    downstreamProcess: "...",
-    service: "...",
+    reports: {
+      "DNA Report": false,
+      "RNA Report": false,
+      "Library Report": false
+    },
+    salutation: <span className={classes.highlight}>...</span>,
+    addressee: <span className={classes.highlight}>...</span>,
+    downstreamProcess: <span className={classes.highlight}>...</span>,
+    service: <span className={classes.highlight}>...</span>,
     bodyType: null,
     rnaChecked: null
   });
@@ -55,29 +64,58 @@ export default function CommentEditor(props) {
       setValues({ ...values, [name]: event.target.value });
     }
   };
-
-  const addComment = () => {
-    props.addComment(commentEl.current.textContent);
+  const handleReportsCheckbox = name => event => {
+    setValues({
+      ...values,
+      reports: { ...values.reports, [name]: !values.reports[name] }
+    });
   };
 
+  const addInitialComment = () => {
+    props.addInitialComment(commentEl.current.textContent, values.reports);
+  };
   return (
     <div className={classes.container}>
       <Paper className={classes.editorContainer}>
         <div className={classes.editor}>
           <Typography variant="h5" component="h3">
-            Generate Comment
+            Editor
           </Typography>
           <Typography component="p">
             <br />
+            {/* Individual initial comment per table or same one accross? Only show if more than 1 table available */}
+            {Object.keys(props.tables).length > 1 && (
+              <span>
+                Which report should this comment be added to?
+                <br />
+                {Object.keys(props.tables).map((report, index) => (
+                  <span key={report}>
+                    <input
+                      onChange={handleReportsCheckbox(report)}
+                      type="checkbox"
+                      value={report}
+                    />
+                    {report}
+                    <br />
+                  </span>
+                ))}
+                <br />
+                <br />
+              </span>
+            )}
             Salutation:{" "}
-            <select onChange={handleChange("salutation")}>
-              <option value="default">Salutation</option>
+            <select
+              className={classes.select}
+              onChange={handleChange("salutation")}
+            >
+              <option value="default" />
               <option value="Morning">Morning</option>
               <option value="Evening">Evening</option>
             </select>{" "}
             <br />
             Addressee:{" "}
             <input
+              className={classes.input}
               onChange={handleChange("addressee")}
               type="text"
               placeholder="(Dr.) User"
@@ -85,24 +123,34 @@ export default function CommentEditor(props) {
             <br />
             <br />
             Service Performed:{" "}
-            <select onChange={handleChange("service")}>
+            <select
+              className={classes.select}
+              onChange={handleChange("service")}
+            >
+              <option value="default" />
+              <option value="Extraction">Extraction</option>
+              <option value="DNA QC">DNA QC</option>
+              <option value="RNA QC">RNA QC</option>
+              <option value="Library Prep">Library Prep</option>
+            </select>
+            <br />
+            Downstream Process:{" "}
+            <select
+              className={classes.select}
+              onChange={handleChange("downstreamProcess")}
+            >
               <option value="default" />
               <option value="Extraction">Extraction</option>
               <option value="DNA QC">DNA QC</option>
               <option value="RNA QC">RNA QC</option>
             </select>
             <br />
-            <br />
-            Downstream Process:{" "}
-            <input
-              type="text"
-              placeholder="Downstream Process"
-              onChange={handleChange("downstreamProcess")}
-            />
-            <br />
-            Generate comment body by Result:
-            <select onChange={handleChange("bodyType")}>
-              <option value="default">result</option>
+            QC Result:
+            <select
+              className={classes.select}
+              onChange={handleChange("bodyType")}
+            >
+              <option value="default" />
               <option value="pass">all samples PASS</option>
               <option value="try">some samples TRY</option>
               <option value="fail">some samples FAIL</option>
@@ -111,45 +159,53 @@ export default function CommentEditor(props) {
             {values.bodyType === "try" && (
               <span>
                 RNA application?{" "}
-                <select onChange={handleChange("rnaChecked")}>
+                <select
+                  className={classes.select}
+                  onChange={handleChange("rnaChecked")}
+                >
                   <option value="default" />
                   <option value="true">yes</option>
                   <option value="false">no</option>
                 </select>
               </span>
             )}
-            <br />
-            <br />
-            <br />
-            {values.service !== "..." && values.service !== "Extraction" && (
-              <span>
-                {" "}
-                Instructions if any samples do not pass QC or are user made
-                libraries (does not apply to extractions):
-                <br />
-                <input type="checkbox" onChange={handleChange("onHold")} />
-                IGO will put this project on hold until you let us know how you
-                would like to proceed.
-                <br />
-                <input
-                  type="checkbox"
-                  onChange={handleChange("confirmationRequested")}
-                />
-                Please confirm that the [amplicons/libraries/pools] look as
-                expected in order to continue to sequencing.
-                <br />
-              </span>
-            )}
-            {values.service == "Extraction" && (
+            {typeof values.service == "string" &&
+              values.service !== "Extraction" && (
+                <span>
+                  {" "}
+                  Additional Instructions:
+                  <br />
+                  <input
+                    // className={classes.input}
+                    type="checkbox"
+                    onChange={handleChange("onHold")}
+                  />
+                  IGO will put this project on hold until you let us know how
+                  you would like to proceed.
+                  <br />
+                  <input
+                    // className={classes.input}
+                    type="checkbox"
+                    onChange={handleChange("confirmationRequested")}
+                  />
+                  Please confirm that the {values.sampleType} look as expected
+                  in order to continue to sequencing.
+                  <br />
+                </span>
+              )}
+            {/* {values.service == "Extraction" && (
               <span>
                 Is this a full sample set?{" "}
-                <select onChange={handleChange("fullSampleSet")}>
+                <select
+                  className={classes.select}
+                  onChange={handleChange("fullSampleSet")}
+                >
                   <option value="default" />
                   <option value={true}>yes</option>
                   <option value={false}>no</option>
                 </select>
               </span>
-            )}
+            )}*/}
           </Typography>
         </div>
         <div className={classes.preview}>
@@ -163,7 +219,7 @@ export default function CommentEditor(props) {
             IGO has completed {values.service} on Project{" "}
             {props.request.requestId}.
             <br />
-            Please see the tables and documents below for the results.
+            Please see the reports and documents below for the results.
             <br />
             <br />
             {values.bodyType === "pass" && (
@@ -231,6 +287,14 @@ export default function CommentEditor(props) {
                 submitting your new iLab request.
               </span>
             )}
+            {  values.servicePerformed == "Extraction" && (
+              <span>
+                {" "}
+                Will these samples be submitted for sequencing? If so, please
+                contact IGO to discuss your downstream sequencing options before
+                submitting your new iLab request.
+              </span>
+            )}
             <br />
             <br />
             Please reply here if you have any questions or comments.
@@ -240,12 +304,12 @@ export default function CommentEditor(props) {
       </Paper>
       <Button
         variant="contained"
-        onClick={addComment}
+        onClick={addInitialComment}
         color="primary"
         // disabled={values.comment ? false : true}
         className={classes.button}
       >
-        Submit
+        Submit & Notify
       </Button>
     </div>
   );

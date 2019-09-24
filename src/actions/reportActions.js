@@ -37,6 +37,7 @@ export function getRequest(requestId) {
         dispatch({
             type: GET_REQUEST_REQUEST,
             loading: true,
+            requestId: requestId,
             loadingMessage: "Fetching Request..."
         });
         return axios
@@ -98,5 +99,14 @@ export function getQcReports(requestId, otherSampleIds) {
                     loading: false
                 });
             });
+    };
+}
+
+export const UPDATE_REPORT_SHOWN = "UPDATE_REPORT_SHOWN";
+export function updateReportShown(report) {
+    console.log(report)
+    return {
+        type: UPDATE_REPORT_SHOWN,
+        payload: report
     };
 }

@@ -21,7 +21,6 @@ class Table extends React.Component {
         for (let i = 0; i < "numberToAdd"; i++) {}
     };
     showError = error => {
-        console.log(error);
         Swal.fire(error);
     };
 
@@ -32,7 +31,6 @@ class Table extends React.Component {
             // handleReceipt,
             // handleDelete
         } = this.props;
-        console.log(this.props.data)
         return (
             <div className={classes.container}>
                 <HotTable

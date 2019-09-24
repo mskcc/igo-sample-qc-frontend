@@ -2,13 +2,17 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
-
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: "grid",
-    gridTemplateRows: "80% 20%",
+    gridTemplateRows: "60% 20%",
     alignItems: "end",
     justifyItems: "end",
     height: "100%",
@@ -19,24 +23,31 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   button: {
-    float: "right",
+    // float: "right",
     height: "40px",
-    width: "30%"
+    width: "100%",
+    marginBottom: "1em"
   }
 }));
 
 export default function CommentTextField(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    multiline: "Controlled"
+    radioSelect: false
   });
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const addComment = () => {
+  const addComment = (report) => {
+    
     props.addComment(values.comment);
+  };
+
+  const addCommentToAllReports = (report) => {
+    
+    props.addCommentToAllReports(values.comment);
   };
 
   return (
@@ -52,15 +63,40 @@ export default function CommentTextField(props) {
         margin="normal"
         variant="outlined"
       />
-      <Button
-        variant="contained"
-        onClick={addComment}
-        color="primary"
-        disabled={values.comment ? false : true}
-        className={classes.button}
-      >
-        Submit
-      </Button>
+
+      {props.numOfReports > 1 ? (
+        <span>
+          <Button
+            variant="contained"
+            onClick={addComment}
+            color="primary"
+            disabled={values.comment ? false : true}
+            className={classes.button}
+          >
+            Comment on {props.currentReportShown}
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={addCommentToAllReports}
+            color="primary"
+            disabled={values.comment ? false : true}
+            className={classes.button}
+          >
+            Comment on all reports
+          </Button>
+        </span>
+      ) : (
+        <Button
+          variant="contained"
+          onClick={addComment}
+          color="primary"
+          disabled={values.comment ? false : true}
+          className={classes.button}
+        >
+          Comment on Report
+        </Button>
+      )}
     </form>
   );
 }

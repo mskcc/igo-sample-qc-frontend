@@ -62,6 +62,9 @@ export default function TableArea(props) {
 
   function handleChange(event, newValue) {
     setValue(newValue);
+    // console.log(newValue)
+    props.updateReportShown(Object.keys(props.tables)[newValue]);
+
   }
   return (
     <div className={classes.container}>

@@ -8,28 +8,49 @@ import { CommentArea, CommentEditor } from "../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
-    this.props.getComments(this.props.request.requestId);
+    this.props.getComments();
   }
 
-  addComment = comment => {
-    this.props.addComment({
-      comment
+  addInitialComment = (comment, reports) => {
+    var keys = Object.keys(reports);
+
+    var filteredReports = keys.filter(function(key) {
+      return reports[key];
     });
+    this.props.addComment(comment, filteredReports);
+  };
+
+  addCommentToAllReports = comment => {
+    this.props.addComment(comment, "all");
+  };
+
+  addComment = comment => {
+    this.props.addComment(comment, this.props.report.reportShown);
   };
 
   render() {
     return (
       <React.Fragment>
-        {this.props.comments.length > 0 ? (
+        {this.props.report.reportShown &&
+        this.props.comments[this.props.report.reportShown] &&
+        this.props.comments[this.props.report.reportShown].length > 0 ? (
           <CommentArea
-            comments={this.props.comments}
+            currentReportShown={this.props.report.reportShown}
+            numOfReports={Object.keys(this.props.report.tables).length}
+            comments={this.props.comments[this.props.report.reportShown]}
+            currentUser={this.props.user.username}
             addComment={this.addComment}
+            addCommentToAllReports={this.addCommentToAllReports}
           />
         ) : (
-          <CommentEditor
-            addComment={this.addComment}
-            request={this.props.request}
-          />
+          this.props.report.tables && (
+            <CommentEditor
+              currentReportShown={this.props.report.reportShown}
+              addInitialComment={this.addInitialComment}
+              request={this.props.report.request}
+              tables={this.props.report.tables}
+            />
+          )
         )}
       </React.Fragment>
     );
@@ -42,7 +63,8 @@ CommentContainer.defaultProps = {
 
 const mapStateToProps = state => ({
   comments: state.communication.comments,
-  request: state.report.request
+  report: state.report,
+  user: state.user
 });
 
 export default withLocalize(

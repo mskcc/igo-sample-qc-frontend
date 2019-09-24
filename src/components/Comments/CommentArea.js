@@ -8,18 +8,32 @@ const styles = theme => ({
   container: {
     textAlign: "center",
     gridArea: "comments",
-    overflowX: 'hidden',
-    overflowY: 'scroll',
+    overflowX: "hidden",
+    overflowY: "scroll",
     display: "grid",
+    height: "50vh",
     gridTemplateAreas: "'commentBox CommentTextField'",
     gridTemplateColumns: "50% 30%"
   }
 });
 
-const CommentArea = ({ comments, addComment, classes }) => (
+const CommentArea = ({
+  comments,
+  currentReportShown,
+  numOfReports,
+  currentUser,
+  addComment,
+  addCommentToAllReports,
+  classes
+}) => (
   <div className={classes.container}>
-    <CommentBox comments={comments} />
-    <CommentTextField addComment={addComment} />
+    <CommentBox comments={comments} currentUser={currentUser} />
+    <CommentTextField
+      numOfReports={numOfReports}
+      currentReportShown={currentReportShown}
+      addComment={addComment}
+      addCommentToAllReports={addCommentToAllReports}
+    />
   </div>
 );
 

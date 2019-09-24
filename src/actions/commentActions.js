@@ -9,6 +9,7 @@ import axios from "axios";
 // } from '../helpers'
 
 import { Config } from "../secret_config.js";
+import { structureComments } from "./helpers";
 
 // // Add a request interceptor
 // axios.interceptors.request.use(
@@ -28,16 +29,49 @@ import { Config } from "../secret_config.js";
 
 export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
-export const ADD_COMMENT_FAL = "ADD_COMMENT_FAL";
+export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
-export function addComment(comment) {
+export function addInitialComment(comment, reports) {
   return (dispatch, getState) => {
+    console.log(reports)
     let commentToSave = {
-      comment: comment.comment,
+      comment: comment,
       username: getState().user.username,
-      user_title: "project manager",
       request_id: getState().report.request.requestId,
-      qc_table: "dna"
+      reports: reports
+    };
+
+    dispatch({ type: ADD_COMMENT });
+    return axios
+      .post(Config.API_ROOT + "/addInitialComment", { data: commentToSave })
+      .then(response => {
+        return dispatch({
+          type: ADD_COMMENT_SUCCESS,
+          payload: response.data.comments
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: ADD_COMMENT_FAIL,
+          error: error
+        });
+      });
+  };
+
+  //ceep copy of comments array
+  // let comments = [...getState().communication.comments];
+  // comments.push(comment);
+}
+
+export function addComment(comment, reports) {
+  return (dispatch, getState) => {
+    if (reports === "all") reports = Object.keys(getState().report.tables);
+
+    let commentToSave = {
+      comment: comment,
+      username: getState().user.username,
+      request_id: getState().report.request.requestId,
+      reports: reports
     };
 
     dispatch({ type: ADD_COMMENT });
@@ -46,12 +80,12 @@ export function addComment(comment) {
       .then(response => {
         return dispatch({
           type: ADD_COMMENT_SUCCESS,
-          payload: response.data
-        });
+          payload: response.data.comments
+        }); 
       })
       .catch(error => {
         return dispatch({
-          type: GET_COMMENTS_FAIL,
+          type: ADD_COMMENT_FAIL,
           error: error
         });
       });
@@ -70,12 +104,14 @@ export function getComments() {
     dispatch({ type: GET_COMMENTS });
     return axios
       .get(Config.API_ROOT + "/getComments", {
-        data: { request_id: getState().report.request.requestId }
+        params: {
+          request_id: getState().report.request.requestId
+        }
       })
       .then(response => {
         return dispatch({
           type: GET_COMMENTS_SUCCESS,
-          payload: response.data
+          payload: response.data.comments
         });
       })
       .catch(error => {

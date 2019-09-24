@@ -26,7 +26,7 @@ const styles = theme => ({
 //   return hr - 4 + ":" + m.substr(-2);
 // }
 
-const CommentBox = ({ comments, classes }) => {
+const CommentBox = ({ comments, currentUser, classes }) => {
   useEffect(() => {
     var box = document.getElementById("comment-box");
     box.scrollTop = box.scrollHeight;
@@ -38,7 +38,7 @@ const CommentBox = ({ comments, classes }) => {
           author={comment.username}
           comment={comment.comment}
           date={comment.date_created}
-          alignment={"patrunoa" === comment.username ? "right" : "left"}
+          alignment={currentUser === comment.username ? "right" : "left"}
           id={`item_${i + 1}`}
           key={i}
         />

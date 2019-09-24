@@ -2,7 +2,8 @@ import { reportActions as ActionTypes } from "../actions";
 
 const initialState = {
   loaded: false,
-  request: ""
+  request: "",
+  reportShown: null,
 };
 
 function reportReducer(state = initialState, action) {
@@ -10,7 +11,7 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.GET_REQUEST_REQUEST:
       return {
         ...state,
-        request: null,
+        request: {request_id: action.requestId},
         loaded: false
       };
     case ActionTypes.GET_REQUEST_SUCCESS:
@@ -26,14 +27,22 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.GET_REPORT_SUCCESS:
+    console.log(Object.keys(action.payload)[0])
       return {
         ...state,
-        tables: action.payload
+        tables: action.payload,
+        reportShown: Object.keys(action.payload)[0]
       };
 
     case ActionTypes.GET_REPORT_FAIL:
       return {
         ...state
+      };
+      case ActionTypes.UPDATE_REPORT_SHOWN:
+      return {
+        ...state,
+        reportShown : action.payload
+
       };
 
     default:

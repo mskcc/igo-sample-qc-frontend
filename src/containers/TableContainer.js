@@ -26,7 +26,10 @@ export class TableContainer extends Component {
       this.props.getQcReports(this.props.report.request.requestId);
     }
   }
-
+  updateReportShown= (report) => {
+    if(this.props.report.request.samples){
+        this.props.updateReportShown(report);}
+  }
   // componentDidUpdate() {
   //   console.log(this.props)
 
@@ -41,6 +44,7 @@ export class TableContainer extends Component {
           <TableArea
             request={report.request}
             tables={report.tables}
+            updateReportShown={this.updateReportShown}
           />
         )}
       </React.Fragment>

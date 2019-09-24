@@ -9,18 +9,19 @@ function commentReducer(state = initialState, action) {
     case ActionTypes.ADD_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: [...action.payload]
+        comments: action.payload
       };
 
     case ActionTypes.GET_COMMENTS_SUCCESS:
       return {
         ...state,
-        comments: [...action.payload.comments]
+        comments: action.payload
       };
 
     case ActionTypes.GET_COMMENTS_FAIL:
       return {
-        ...state
+        ...state,
+        comments: []
       };
 
     default:
