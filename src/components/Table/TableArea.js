@@ -1,27 +1,26 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { Button, Tabs, Tab, Box, Typography } from "@material-ui/core";
 import Table from "./Table";
 import RequestInfo from "./RequestInfo";
 import "handsontable/dist/handsontable.full.css";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: "2em",
-    marginTop: "2em",
+    paddingTop: "2em",
+    paddingLeft: "2em",
     textAlign: "left",
     marginRight: theme.spacing(3),
     gridArea: "table",
     display: "grid",
-    gridTemplateAreas: "'request' 'reports'",
+    gridTemplateAreas: "'toolbar' 'reports'",
     gridRowGap: "1em",
+    gridColumnGap: "2em",
     // gridArea: "comments",
     // width: "85vw",
     overflow: "scroll",
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    backgroundColor: "rgba(0, 148, 144, .08)"
     // display: "grid"
     // gridTemplateAreas: "'table CommentTextField'",
     // gridTemplateColumns: "70% 30%"
@@ -29,6 +28,17 @@ const useStyles = makeStyles(theme => ({
 
   table: {
     gridArea: "table"
+  },
+  toolbar: {
+    display: "grid",
+    gridTemplateAreas: "'request button'",
+    width: "fit-content"
+  },
+  button: {
+    gridArea: "button",
+    width: "fit-content",
+    height: "4em",
+    alignSelf: "end"
   }
 }));
 
@@ -64,12 +74,15 @@ export default function TableArea(props) {
     setValue(newValue);
     // console.log(newValue)
     props.updateReportShown(Object.keys(props.tables)[newValue]);
-
   }
   return (
     <div className={classes.container}>
-      <RequestInfo request={props.request} />
-
+      <div className={classes.toolbar}>
+        <RequestInfo request={props.request} />
+        <Button onClick={props.handleSubmit} variant="contained" color="primary" className={classes.button}>
+          Submit Decisions
+        </Button>
+      </div>
       <div className={classes.report}>
         <Tabs
           value={value}

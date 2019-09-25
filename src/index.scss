@@ -28,7 +28,7 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: 100vh;
+    min-height: 100vh;
     overflow: auto;
 }
 .content {
@@ -37,7 +37,7 @@ body {
     // grid-template-rows: 30vh 65vh;
     grid-template-columns: 15% 80%;
     grid-row-gap: 1em;
-    grid-column-gap: 1em;
+    // grid-column-gap: 1em;
 }
 
 code {
@@ -49,7 +49,7 @@ code {
     background: rgba(0, 48, 77, 0.5) !important;
 }
 
-.passed  {
+.passed {
     color: black;
     background-color: $mskcc-light-green;
 }
@@ -81,4 +81,18 @@ code {
 
 .handsontable .htCheckboxRendererInput {
     height: 2em !important;
+}
+
+.listbox .htDimmed {
+    background-color: white !important;
+    font-size: 1em !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid lightgray !important;
+    border-left: 1px solid lightgray !important;
+    border-right: 1px solid lightgray !important;
+}
+
+.handsontable.listbox tr td.current, .handsontable.listbox tr:hover td { 
+    background: rgba(143, 199, 232, 0.4) !important;
+
 }

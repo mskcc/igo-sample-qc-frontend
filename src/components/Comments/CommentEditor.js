@@ -3,7 +3,18 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 
-import { Paper, Typography, TextField } from "@material-ui/core";
+import {
+  FormGroup,
+  FormControlLabel,
+  Paper,
+  Typography,
+  TextField,
+  Checkbox,
+  FormControl,
+  MenuItem,
+  Select,
+  InputLabel
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   editorContainer: {
@@ -14,13 +25,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: "start",
     justifyItems: "start",
     height: "100%",
-    height: " 50vh",
+    height: " 60vh",
     margin: theme.spacing(3)
   },
   editor: {
     padding: theme.spacing(3, 4),
     width: "80%"
   },
+  editorForm: { display: "grid", gridTemplateColumns: "50% 50%" },
+  materialInput: { minWidth: "170px" },
   preview: { padding: theme.spacing(3, 4) },
   highlight: { backgroundColor: "#8fc7e8" },
   button: {
@@ -37,6 +50,7 @@ const useStyles = makeStyles(theme => ({
     color: "white"
     // fontWeight: "bold"
   },
+  formControl: { minWidth: "170px" },
   input: { float: "right" },
   select: { float: "right" }
 }));
@@ -53,21 +67,30 @@ export default function CommentEditor(props) {
     },
     salutation: <span className={classes.highlight}>...</span>,
     addressee: <span className={classes.highlight}>...</span>,
-    downstreamProcess: <span className={classes.highlight}>...</span>,
+    downstreamProcess: props.recipe,
     service: <span className={classes.highlight}>...</span>,
     bodyType: null,
     rnaChecked: null
   });
 
   const handleChange = name => event => {
+
     if (event.target.value != "default") {
       setValues({ ...values, [name]: event.target.value });
     }
+    console.log(values)
+  };
+
+  const handleCheckbox = name => event => {
+    setValues({ ...values, [name]: !values.name });
   };
   const handleReportsCheckbox = name => event => {
     setValues({
       ...values,
-      reports: { ...values.reports, [name]: !values.reports[name] }
+      reports: {
+        ...values.reports,
+        [name.report]: !values.reports[name.report]
+      }
     });
   };
 
@@ -90,122 +113,146 @@ export default function CommentEditor(props) {
                 <br />
                 {Object.keys(props.tables).map((report, index) => (
                   <span key={report}>
-                    <input
-                      onChange={handleReportsCheckbox(report)}
-                      type="checkbox"
-                      value={report}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={values.report}
+                          onChange={handleReportsCheckbox({ report })}
+                          // value={report}
+                        />
+                      }
+                      label={report}
                     />
-                    {report}
-                    <br />
                   </span>
                 ))}
-                <br />
-                <br />
               </span>
             )}
-            Salutation:{" "}
-            <select
-              className={classes.select}
+            <br />
+            <br />
+
+            <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
+            <Select
+              value={values.salutation}
               onChange={handleChange("salutation")}
+              className={classes.materialInput}
+              inputProps={{
+                name: "salutation",
+                id: "salutation-simple"
+              }}
             >
-              <option value="default" />
-              <option value="Morning">Morning</option>
-              <option value="Evening">Evening</option>
-            </select>{" "}
+              <MenuItem value="Morning">Morning</MenuItem>
+              <MenuItem value="Evening">Evening</MenuItem>
+            </Select>
             <br />
-            Addressee:{" "}
-            <input
-              className={classes.input}
+            <TextField
+              id="addressee-simple"
+              label="Addressee"
+              className={classes.materialInput}
               onChange={handleChange("addressee")}
-              type="text"
-              placeholder="(Dr.) User"
+              margin="normal"
             />
+
             <br />
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="servicePerformed-simple">
+                Service Performed
+              </InputLabel>
+              <Select
+                value={values.service}
+                onChange={handleChange("service")}
+                inputProps={{
+                  name: "servicePerformed",
+                  id: "servicePerformed-simple"
+                }}
+              >
+                <MenuItem value="default" />
+                <MenuItem value="Extraction">Extraction</MenuItem>
+                <MenuItem value="DNA QC">DNA QC</MenuItem>
+                <MenuItem value="RNA QC">RNA QC</MenuItem>
+                <MenuItem value="Library Prep">Library Prep</MenuItem>
+              </Select>
+            </FormControl>
             <br />
-            Service Performed:{" "}
-            <select
-              className={classes.select}
-              onChange={handleChange("service")}
-            >
-              <option value="default" />
-              <option value="Extraction">Extraction</option>
-              <option value="DNA QC">DNA QC</option>
-              <option value="RNA QC">RNA QC</option>
-              <option value="Library Prep">Library Prep</option>
-            </select>
-            <br />
-            Downstream Process:{" "}
-            <select
-              className={classes.select}
+            <TextField
+              id="downstreamProcess-simple"
+              label="Downstream Process"
+              className={classes.formControl}
               onChange={handleChange("downstreamProcess")}
-            >
-              <option value="default" />
-              <option value="Extraction">Extraction</option>
-              <option value="DNA QC">DNA QC</option>
-              <option value="RNA QC">RNA QC</option>
-            </select>
+              margin="normal"
+              value={values.downstreamProcess}
+            />
+
             <br />
-            QC Result:
-            <select
-              className={classes.select}
-              onChange={handleChange("bodyType")}
-            >
-              <option value="default" />
-              <option value="pass">all samples PASS</option>
-              <option value="try">some samples TRY</option>
-              <option value="fail">some samples FAIL</option>
-            </select>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="bodyType-simple">QC Result</InputLabel>
+              <Select
+                value={values.bodyType}
+                onChange={handleChange("bodyType")}
+                inputProps={{
+                  name: "bodyType",
+                  id: "bodyType-simple"
+                }}
+              >
+                <MenuItem value="default" />
+                <MenuItem value="pass">all samples PASS</MenuItem>
+                <MenuItem value="try">some samples TRY</MenuItem>
+                <MenuItem value="fail">some samples FAIL</MenuItem>
+              </Select>
+            </FormControl>
             <br />
             {values.bodyType === "try" && (
               <span>
-                RNA application?{" "}
-                <select
-                  className={classes.select}
-                  onChange={handleChange("rnaChecked")}
-                >
-                  <option value="default" />
-                  <option value="true">yes</option>
-                  <option value="false">no</option>
-                </select>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="rnaChecked-simple">
+                    RNA application?
+                  </InputLabel>
+                  <Select
+                    value={values.rnaChecked}
+                    onChange={handleChange("rnaChecked")}
+                    inputProps={{
+                      name: "rnaChecked",
+                      id: "rnaChecked-simple"
+                    }}
+                  >
+                    <MenuItem value="default" />
+                    <MenuItem value="true">yes</MenuItem>
+                    <MenuItem value="false">no</MenuItem>
+                  </Select>
+                </FormControl>
+                <br />
               </span>
             )}
-            {typeof values.service == "string" &&
-              values.service !== "Extraction" && (
-                <span>
-                  {" "}
-                  Additional Instructions:
-                  <br />
-                  <input
-                    // className={classes.input}
-                    type="checkbox"
-                    onChange={handleChange("onHold")}
-                  />
-                  IGO will put this project on hold until you let us know how
-                  you would like to proceed.
-                  <br />
-                  <input
-                    // className={classes.input}
-                    type="checkbox"
-                    onChange={handleChange("confirmationRequested")}
-                  />
-                  Please confirm that the {values.sampleType} look as expected
-                  in order to continue to sequencing.
-                  <br />
-                </span>
-              )}
-            {/* {values.service == "Extraction" && (
+            {values.service !== "Extraction" && (
               <span>
-                Is this a full sample set?{" "}
-                <select
-                  className={classes.select}
-                  onChange={handleChange("fullSampleSet")}
-                >
-                  <option value="default" />
-                  <option value={true}>yes</option>
-                  <option value={false}>no</option>
-                </select>
+                <br /> Add additional Instructions:
+                <br />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      // checked={values.report}
+                      onChange={handleCheckbox("onHold")}
+                      // value={report}
+                    />
+                  }
+                  label="IGO will put this project on hold until you let us know how you
+                would like to proceed."
+                />{" "}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      // checked={values.report}
+                      onChange={handleCheckbox("confirmationRequested")}
+                      // value={report}
+                    />
+                  }
+                  label={
+                    "Please confirm that the" +
+                    values.sampleType +
+                    "look as expected in order to continue to sequencing."
+                  }
+                />
               </span>
-            )}*/}
+            )}
           </Typography>
         </div>
         <div className={classes.preview}>
@@ -238,6 +285,7 @@ export default function CommentEditor(props) {
                 libraries.
                 {values.rnaChecked && (
                   <span>
+                    <br />
                     Please note that if you decide to move forward with samples
                     containing suboptimal quantities, we will need to normalize
                     ALL samples to the lowest starting amount.
@@ -253,10 +301,9 @@ export default function CommentEditor(props) {
                 removed from processing.
               </span>
             )}
-            <br />
-            <br />
             {values.onHold && (
               <span>
+                <br />
                 IGO will put this project on hold until you let us know how you
                 would like to proceed.
               </span>
@@ -287,7 +334,7 @@ export default function CommentEditor(props) {
                 submitting your new iLab request.
               </span>
             )}
-            {  values.servicePerformed == "Extraction" && (
+            {values.servicePerformed == "Extraction" && (
               <span>
                 {" "}
                 Will these samples be submitted for sequencing? If so, please

@@ -12,12 +12,13 @@ export class CommentContainer extends Component {
   }
 
   addInitialComment = (comment, reports) => {
+    console.log(reports);
     var keys = Object.keys(reports);
 
     var filteredReports = keys.filter(function(key) {
       return reports[key];
     });
-    this.props.addComment(comment, filteredReports);
+    this.props.addInitialComment(comment, filteredReports);
   };
 
   addCommentToAllReports = comment => {
@@ -45,6 +46,10 @@ export class CommentContainer extends Component {
         ) : (
           this.props.report.tables && (
             <CommentEditor
+              recipe={
+                this.props.report.tables[this.props.report.reportShown].data[0]
+                  .recipe
+              }
               currentReportShown={this.props.report.reportShown}
               addInitialComment={this.addInitialComment}
               request={this.props.report.request}

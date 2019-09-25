@@ -1,7 +1,8 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import { Config } from "../secret_config.js";
-import { fillReportTables } from "./helpers";
+import { fillReportTables, allDecistionsMade } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
@@ -102,9 +103,62 @@ export function getQcReports(requestId, otherSampleIds) {
     };
 }
 
+export const POST_INVESTIGATOR_DECISION_REQUEST =
+    "POST_INVESTIGATOR_DECISION_REQUEST";
+export const POST_INVESTIGATOR_DECISION_FAIL =
+    "POST_INVESTIGATOR_DECISION_FAIL";
+export const POST_INVESTIGATOR_DECISION_SUCCESS =
+    "POST_INVESTIGATOR_DECISION_SUCCESS";
+export function submitInvestigatorDecision() {
+    return (dispatch, getState) => {
+        if (!allDecistionsMade(getState().report.tables)) {
+            Swal.fire({
+                title: "Not all Decisions made.",
+                text:
+                    "Please make a decision for each sample in every report before you submit to IGO.",
+
+                type: "info",
+                animation: false,
+                confirmButtonColor: "#007cba",
+                confirmButtonText: "Dismiss"
+            });
+            // } else {
+            //     dispatch({
+            //         type: POST_INVESTIGATOR_DECISION_REQUEST,
+            //         loading: true,
+            //         loadingMessage: "Request found. Checking QC Tables..."
+            //     });
+
+            //     // let data = await fillReportTables(response.data)
+            //     return axios
+            //         .post(Config.API_ROOT + "/getQcReportSamples", {
+            //             data: {
+            //                 request: requestId,
+            //                 samples: getState().report.request.samples
+            //             }
+            //         })
+            //         .then(response => {
+            //             dispatch({
+            //                 type: POST_INVESTIGATOR_DECISION_SUCCESS,
+            //                 loading: false,
+            //                 payload: fillReportTables(response.data)
+            //             });
+            //         })
+
+            //         .catch(error => {
+            //             return dispatch({
+            //                 type: POST_INVESTIGATOR_DECISION_FAIL,
+            //                 error: error,
+
+            //                 loading: false
+            //             });
+            //         });
+        }
+    };
+}
+
 export const UPDATE_REPORT_SHOWN = "UPDATE_REPORT_SHOWN";
 export function updateReportShown(report) {
-    console.log(report)
     return {
         type: UPDATE_REPORT_SHOWN,
         payload: report

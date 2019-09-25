@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     textAlign: "center",
     gridArea: "sidebar",
-    height: "92vh",
+    minHeight: "92vh",
     backgroundColor: "#eceff1",
     display: "grid",
     gridTemplate: "'search' 'tree'",

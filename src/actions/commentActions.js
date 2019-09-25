@@ -38,7 +38,7 @@ export function addInitialComment(comment, reports) {
       comment: comment,
       username: getState().user.username,
       request_id: getState().report.request.requestId,
-      reports: reports
+      reports: reports.join()
     };
 
     dispatch({ type: ADD_COMMENT });

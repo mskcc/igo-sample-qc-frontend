@@ -7,7 +7,9 @@ import Swal from "sweetalert2";
 const styles = theme => ({
     container: {
         width: "100%",
-        overflowX: "auto"
+        overflowX: "auto",
+        display:"grid",
+        
     }
 });
 
@@ -23,6 +25,10 @@ class Table extends React.Component {
     showError = error => {
         Swal.fire(error);
     };
+
+    handleDecision = (rowIndex) => {
+        console.log(rowIndex)
+    }
 
     render() {
         const {
@@ -47,7 +53,26 @@ class Table extends React.Component {
                     columnSorting="true"
                     height="500"
                     rowHeights="35"
+                    // colWidths="200"
+                    // manualColumnResize={true}
                     // allowHTML={true}
+
+                    // afterChange={(changes, source) => {
+                    //     if (changes) {
+                    //         let i = 0;
+                    //         if (source !== "loadData") {
+                    //             changes.forEach(
+                    //                 ([row, prop, oldValue, newValue]) => {
+                    //                     i++;
+                    //                     let rowIndex = row;
+                    //                     if (prop == "investigatorDecision") {
+                    //                         this.handleDecision(rowIndex);
+                    //                     }
+                    //                 }
+                    //             );
+                    //         }
+                    //     }
+                    // }}
                 />
             </div>
         );

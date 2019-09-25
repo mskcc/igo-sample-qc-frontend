@@ -18,3 +18,23 @@ export const fillReportTables = reportList => {
 
     return tables;
 };
+
+//  checks wether investigator made decisions for each sample
+//  defaults to true and returns false as soon as it finds an empty value
+export const allDecistionsMade = tables => {
+    let result = true;
+    for (let table in tables) {
+        for (var j = 0; j < tables[table].data.length; j++) {
+            if (
+                tables[table].data[j].investigatorDecision != null &&
+                tables[table].data[j].investigatorDecision !== ""
+            ) {
+                result = true;
+                continue;
+            } else {
+                return false;
+            }
+        }
+    }
+    return result;
+};

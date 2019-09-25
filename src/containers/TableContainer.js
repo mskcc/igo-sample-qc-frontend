@@ -26,10 +26,17 @@ export class TableContainer extends Component {
       this.props.getQcReports(this.props.report.request.requestId);
     }
   }
-  updateReportShown= (report) => {
-    if(this.props.report.request.samples){
-        this.props.updateReportShown(report);}
-  }
+  updateReportShown = report => {
+    if (this.props.report.request.samples) {
+      this.props.updateReportShown(report);
+    }
+  };
+
+  handleSubmit = () => {
+    this.props.submitInvestigatorDecision()
+
+    
+  };
   // componentDidUpdate() {
   //   console.log(this.props)
 
@@ -45,6 +52,7 @@ export class TableContainer extends Component {
             request={report.request}
             tables={report.tables}
             updateReportShown={this.updateReportShown}
+            handleSubmit={this.handleSubmit}
           />
         )}
       </React.Fragment>
