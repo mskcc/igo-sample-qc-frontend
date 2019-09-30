@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import {
-  FormGroup,
   FormControlLabel,
   Paper,
   Typography,
@@ -24,7 +23,6 @@ const useStyles = makeStyles(theme => ({
     gridColumnGap: "2em",
     alignItems: "start",
     justifyItems: "start",
-    height: "100%",
     height: " 60vh",
     margin: theme.spacing(3)
   },
@@ -75,7 +73,7 @@ export default function CommentEditor(props) {
 
   const handleChange = name => event => {
 
-    if (event.target.value != "default") {
+    if (event.target.value !== "default") {
       setValues({ ...values, [name]: event.target.value });
     }
     console.log(values)
@@ -275,7 +273,7 @@ export default function CommentEditor(props) {
                 for {values.downstreamProcess}.
               </span>
             )}
-            {values.bodyType == "try" && (
+            {values.bodyType === "try" && (
               <span>
                 <br />
                 Samples highlighted in{" "}
@@ -322,7 +320,7 @@ export default function CommentEditor(props) {
                 our Sample Receiving team the IGO number.
               </span>
             )}
-            {values.fullSampleSet == false && (
+            {values.fullSampleSet === false && (
               <span>
                 According to iLab, this is not a full sample set. When your
                 sample set is complete and you are ready to move forward to
@@ -334,7 +332,7 @@ export default function CommentEditor(props) {
                 submitting your new iLab request.
               </span>
             )}
-            {values.servicePerformed == "Extraction" && (
+            {values.servicePerformed === "Extraction" && (
               <span>
                 {" "}
                 Will these samples be submitted for sequencing? If so, please

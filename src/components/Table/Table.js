@@ -8,8 +8,7 @@ const styles = theme => ({
     container: {
         width: "100%",
         overflowX: "auto",
-        display:"grid",
-        
+        display: "grid"
     }
 });
 
@@ -26,10 +25,6 @@ class Table extends React.Component {
         Swal.fire(error);
     };
 
-    handleDecision = (rowIndex) => {
-        console.log(rowIndex)
-    }
-
     render() {
         const {
             classes
@@ -37,6 +32,8 @@ class Table extends React.Component {
             // handleReceipt,
             // handleDelete
         } = this.props;
+        // last column is always RecordId. Needed to set investigator decision efficiently
+        let lastColumnIndex = this.props.data.columnFeatures.length - 1;
         return (
             <div className={classes.container}>
                 <HotTable
@@ -46,6 +43,10 @@ class Table extends React.Component {
                     data={this.props.data.data}
                     columns={this.props.data.columnFeatures}
                     colHeaders={this.props.data.columnHeaders}
+                    hiddenColumns={{
+                        columns: [lastColumnIndex],
+                        indicators: false
+                    }}
                     rowHeaders={true}
                     className="htCenter"
                     stretchH="all"
@@ -53,6 +54,11 @@ class Table extends React.Component {
                     columnSorting="true"
                     height="500"
                     rowHeights="35"
+                    afterValidate={(changes, source) => {
+                        this.props.registerChange();
+
+                    }}
+
                     // colWidths="200"
                     // manualColumnResize={true}
                     // allowHTML={true}

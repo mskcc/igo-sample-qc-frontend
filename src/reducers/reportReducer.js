@@ -44,6 +44,10 @@ function reportReducer(state = initialState, action) {
         reportShown : action.payload
 
       };
+      case ActionTypes.REGISTER_GRID_CHANGE:
+      return {
+        ...state
+      };
 
     default:
       return state;

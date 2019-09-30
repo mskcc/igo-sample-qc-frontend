@@ -9,7 +9,7 @@ import axios from "axios";
 // } from '../helpers'
 
 import { Config } from "../secret_config.js";
-import { structureComments } from "./helpers";
+// import { structureComments } from "./helpers";
 
 // // Add a request interceptor
 // axios.interceptors.request.use(

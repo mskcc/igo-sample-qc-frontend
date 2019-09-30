@@ -33,9 +33,10 @@ export class TableContainer extends Component {
   };
 
   handleSubmit = () => {
-    this.props.submitInvestigatorDecision()
-
-    
+    this.props.submitInvestigatorDecision();
+  };
+  registerChange = () => {
+    this.props.registerChange();
   };
   // componentDidUpdate() {
   //   console.log(this.props)
@@ -53,6 +54,7 @@ export class TableContainer extends Component {
             tables={report.tables}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleSubmit}
+            registerChange={this.registerChange}
           />
         )}
       </React.Fragment>
