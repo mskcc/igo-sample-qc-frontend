@@ -67,16 +67,15 @@ export default function CommentEditor(props) {
     addressee: <span className={classes.highlight}>...</span>,
     downstreamProcess: props.recipe,
     service: <span className={classes.highlight}>...</span>,
-    bodyType: null,
-    rnaChecked: null
+    bodyType: "",
+    rnaChecked: ""
   });
 
   const handleChange = name => event => {
-
     if (event.target.value !== "default") {
       setValues({ ...values, [name]: event.target.value });
     }
-    console.log(values)
+    console.log(values);
   };
 
   const handleCheckbox = name => event => {
@@ -102,7 +101,7 @@ export default function CommentEditor(props) {
           <Typography variant="h5" component="h3">
             Editor
           </Typography>
-          <Typography component="p">
+          <div>
             <br />
             {/* Individual initial comment per table or same one accross? Only show if more than 1 table available */}
             {Object.keys(props.tables).length > 1 && (
@@ -251,13 +250,13 @@ export default function CommentEditor(props) {
                 />
               </span>
             )}
-          </Typography>
+          </div>
         </div>
         <div className={classes.preview}>
           <Typography variant="h5" component="h3">
             Preview
           </Typography>
-          <Typography component="p" ref={commentEl}>
+          <div ref={commentEl}>
             <br />
             Good {values.salutation} {values.addressee},
             <br />
@@ -344,7 +343,7 @@ export default function CommentEditor(props) {
             <br />
             Please reply here if you have any questions or comments.
             <br />
-          </Typography>
+          </div>
         </div>
       </Paper>
       <Button
