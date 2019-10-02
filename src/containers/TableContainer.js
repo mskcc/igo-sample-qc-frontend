@@ -38,8 +38,12 @@ export class TableContainer extends Component {
   registerChange = () => {
     this.props.registerChange();
   };
-  handleDownload = coords => {
-    this.props.download(coords);
+  handleAttachmentDownload = coords => {
+    this.props.downloadAttachment(coords);
+  }; 
+
+  handleReportDownload = () => {
+    this.props.downloadReport(this.props.report.reportShown, this.props.report.request);
   };
   // componentDidUpdate() {
   //   console.log(this.props)
@@ -55,10 +59,12 @@ export class TableContainer extends Component {
           <TableArea
             request={report.request}
             tables={report.tables}
+            reportShown={report.reportShown}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleSubmit}
             registerChange={this.registerChange}
-            handleDownload={this.handleDownload}
+            handleAttachmentDownload={this.handleAttachmentDownload}
+            handleReportDownload={this.handleReportDownload}
           />
         )}
       </React.Fragment>

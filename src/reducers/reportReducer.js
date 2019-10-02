@@ -40,12 +40,12 @@ function reportReducer(state = initialState, action) {
         ...state
       };
 
-    case ActionTypes.DOWNLOAD_REQUEST:
+    case ActionTypes.ATTACHMENT_DOWNLOAD_REQUEST:
       return {
         ...state
       };
 
-    case ActionTypes.DOWNLOAD_SUCCESS:
+    case ActionTypes.ATTACHMENT_DOWNLOAD_SUCCESS:
       FileSaver.saveAs(
         new Blob([action.file], {
           type: "application/pdf"
@@ -56,7 +56,23 @@ function reportReducer(state = initialState, action) {
         ...state
       };
 
-    case ActionTypes.DOWNLOAD_FAIL:
+    case ActionTypes.ATTACHMENT_DOWNLOAD_FAIL:
+      return {
+        ...state
+      };
+
+    case ActionTypes.REPORT_DOWNLOAD_REQUEST:
+      return {
+        ...state
+      };
+
+    case ActionTypes.REPORT_DOWNLOAD_SUCCESS:
+      
+      return {
+        ...state
+      };
+
+    case ActionTypes.REPORT_DOWNLOAD_FAIL:
       return {
         ...state
       };

@@ -58,11 +58,10 @@ class Table extends React.Component {
           afterOnCellMouseDown={(event, coords, TD) => {
             if (isAttachmentTable && event.button === 0 && coords.row > -1) {
               if (coords.col === 1) {
-                this.props.handleDownload(coords);
+                this.props.handleAttachmentDownload(coords);
               }
             }
           }}
-     
         />
       </div>
     );

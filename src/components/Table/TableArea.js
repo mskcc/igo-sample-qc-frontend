@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Tabs, Tab, Box, Typography } from "@material-ui/core";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Table from "./Table";
 import RequestInfo from "./RequestInfo";
 import "handsontable/dist/handsontable.full.css";
@@ -31,11 +32,18 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     display: "grid",
-    gridTemplateAreas: "'request button'",
-    width: "fit-content"
+    gridTemplateAreas: "'request submit-btn download-btn'",
+    width: "fit-content",
+    gridColumnGap: "1em"
   },
-  button: {
-    gridArea: "button",
+  submitBtn: {
+    gridArea: "submit-btn",
+    width: "fit-content",
+    height: "4em",
+    alignSelf: "end"
+  },
+  downloadtBtn: {
+    gridArea: "download-btn",
     width: "fit-content",
     height: "4em",
     alignSelf: "end"
@@ -79,9 +87,25 @@ export default function TableArea(props) {
     <div className={classes.container}>
       <div className={classes.toolbar}>
         <RequestInfo request={props.request} />
-        <Button onClick={props.handleSubmit} variant="contained" color="primary" className={classes.button}>
+        <Button
+          onClick={props.handleSubmit}
+          variant="contained"
+          color="primary"
+          className={classes.submitBtn}
+        >
           Submit Decisions
         </Button>
+        {props.reportShown !== "Attachments" && (
+          <Button
+            onClick={props.handleReportDownload}
+            variant="contained"
+            color="secondary"
+            className={classes.downloadtBtn}
+            startIcon={<CloudDownloadIcon />}
+          >
+            {props.reportShown}
+          </Button>
+        )}
       </div>
       <div className={classes.report}>
         <Tabs
@@ -96,7 +120,13 @@ export default function TableArea(props) {
 
         {Object.keys(props.tables).map((report, index) => (
           <TabPanel key={report} value={value} index={index}>
-            {value === index && <Table handleDownload={props.handleDownload} registerChange={props.registerChange} data={props.tables[report]} />}
+            {value === index && (
+              <Table
+                handleAttachmentDownload={props.handleAttachmentDownload}
+                registerChange={props.registerChange}
+                data={props.tables[report]}
+              />
+            )}
           </TabPanel>
         ))}
       </div>

@@ -1,5 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 
 import { Config } from "../secret_config.js";
 import {
@@ -158,10 +160,10 @@ export function submitInvestigatorDecision() {
     };
 }
 
-export const DOWNLOAD_REQUEST = "DOWNLOAD_REQUEST";
-export const DOWNLOAD_FAIL = "DOWNLOAD_FAIL";
-export const DOWNLOAD_SUCCESS = "DOWNLOAD_SUCCESS";
-export function download(coords) {
+export const ATTACHMENT_DOWNLOAD_REQUEST = "ATTACHMENT_DOWNLOAD_REQUEST";
+export const ATTACHMENT_DOWNLOAD_FAIL = "ATTACHMENT_DOWNLOAD_FAIL";
+export const ATTACHMENT_DOWNLOAD_SUCCESS = "ATTACHMENT_DOWNLOAD_SUCCESS";
+export function downloadAttachment(coords) {
     return (dispatch, getState) => {
         let attachmentRecordId = getState().report.tables["Attachments"].data[
             coords.row
@@ -170,14 +172,14 @@ export function download(coords) {
         let fileName = getState().report.tables["Attachments"].data[coords.row]
             .fileName;
         dispatch({
-            type: DOWNLOAD_REQUEST,
+            type: ATTACHMENT_DOWNLOAD_REQUEST,
             loading: true,
             loadingMessage: "Fetching your data.."
         });
 
         // // let data = await fillReportTables(response.data)
         return axios
-            .get(Config.API_ROOT + "/getAttachment", {
+            .get(Config.API_ROOT + "/downloadAttachment", {
                 params: {
                     recordId: attachmentRecordId,
                     fileName: fileName
@@ -186,7 +188,7 @@ export function download(coords) {
             })
             .then(response => {
                 dispatch({
-                    type: DOWNLOAD_SUCCESS,
+                    type: ATTACHMENT_DOWNLOAD_SUCCESS,
                     loading: false,
                     file: response.data,
                     fileName: fileName
@@ -195,12 +197,39 @@ export function download(coords) {
 
             .catch(error => {
                 return dispatch({
-                    type: DOWNLOAD_FAIL,
+                    type: ATTACHMENT_DOWNLOAD_FAIL,
                     error: error,
 
                     loading: false
                 });
             });
+    };
+}
+
+export const REPORT_DOWNLOAD_REQUEST = "REPORT_DOWNLOAD_REQUEST";
+export const REPORT_DOWNLOAD_FAIL = "REPORT_DOWNLOAD_FAIL";
+export const REPORT_DOWNLOAD_SUCCESS = "REPORT_DOWNLOAD_SUCCESS";
+export function downloadReport(reportShown, request) {
+    return (dispatch, getState) => {
+        let tableToExport = getState().report.tables[reportShown];
+        let fileName =
+            request.requestId + "_" + reportShown.replace(" ", "_") + ".xlsx";
+
+        // remove html from table data
+        let clonedReport = JSON.stringify(tableToExport.data);
+        clonedReport = clonedReport.replace(/<\/?[^>]+>/gi, "");
+        clonedReport = JSON.parse(clonedReport);
+        const fileType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        const fileExtension = ".xlsx";
+        const ws = XLSX.utils.json_to_sheet(clonedReport);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = XLSX.write(wb, {
+            bookType: "xlsx",
+            type: "array"
+        });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, fileName + fileExtension);
     };
 }
 
