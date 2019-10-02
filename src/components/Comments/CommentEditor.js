@@ -28,9 +28,15 @@ const useStyles = makeStyles(theme => ({
   },
   editor: {
     padding: theme.spacing(3, 4),
-    width: "80%"
+    width: "90%"
   },
-  editorForm: { display: "grid", gridTemplateColumns: "50% 50%" },
+  editorForm: {
+    display: "grid",
+
+    gridTemplateColumns: "50% 50%",
+    gridRowGap: "2em",
+    gridColumnGap: "2em"
+  },
   materialInput: { minWidth: "170px" },
   preview: { padding: theme.spacing(3, 4) },
   highlight: { backgroundColor: "#8fc7e8" },
@@ -48,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     color: "white"
     // fontWeight: "bold"
   },
-  formControl: { minWidth: "170px" },
+  formControl: { margin: theme.spacing(2),marginLeft: 0, minWidth: "170px" },
   input: { float: "right" },
   select: { float: "right" }
 }));
@@ -63,10 +69,10 @@ export default function CommentEditor(props) {
       "RNA Report": false,
       "Library Report": false
     },
-    salutation: <span className={classes.highlight}>...</span>,
-    addressee: <span className={classes.highlight}>...</span>,
+    salutation: "",
+    addressee: "",
     downstreamProcess: props.recipe,
-    service: <span className={classes.highlight}>...</span>,
+    service: "",
     bodyType: "",
     rnaChecked: ""
   });
@@ -102,7 +108,6 @@ export default function CommentEditor(props) {
             Editor
           </Typography>
           <div>
-            <br />
             {/* Individual initial comment per table or same one accross? Only show if more than 1 table available */}
             {Object.keys(props.tables).length > 1 && (
               <span>
@@ -124,132 +129,128 @@ export default function CommentEditor(props) {
                 ))}
               </span>
             )}
-            <br />
-            <br />
+            <form>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
+                <Select
+                  value={values.salutation}
+                  onChange={handleChange("salutation")}
+                  inputProps={{
+                    name: "salutation",
+                    id: "salutation-simple"
+                  }}
+                >
+                  <MenuItem value="Morning">Morning</MenuItem>
+                  <MenuItem value="Evening">Evening</MenuItem>
+                </Select>
+              </FormControl>
 
-            <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
-            <Select
-              value={values.salutation}
-              onChange={handleChange("salutation")}
-              className={classes.materialInput}
-              inputProps={{
-                name: "salutation",
-                id: "salutation-simple"
-              }}
-            >
-              <MenuItem value="Morning">Morning</MenuItem>
-              <MenuItem value="Evening">Evening</MenuItem>
-            </Select>
-            <br />
-            <TextField
-              id="addressee-simple"
-              label="Addressee"
-              className={classes.materialInput}
-              onChange={handleChange("addressee")}
-              margin="normal"
-            />
+              <TextField
+                id="addressee-simple"
+                label="Addressee"
+                className={classes.formControl}
+                onChange={handleChange("addressee")}
+                margin="normal"
+              />
 
-            <br />
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="servicePerformed-simple">
-                Service Performed
-              </InputLabel>
-              <Select
-                value={values.service}
-                onChange={handleChange("service")}
-                inputProps={{
-                  name: "servicePerformed",
-                  id: "servicePerformed-simple"
-                }}
-              >
-                <MenuItem value="default" />
-                <MenuItem value="Extraction">Extraction</MenuItem>
-                <MenuItem value="DNA QC">DNA QC</MenuItem>
-                <MenuItem value="RNA QC">RNA QC</MenuItem>
-                <MenuItem value="Library Prep">Library Prep</MenuItem>
-              </Select>
-            </FormControl>
-            <br />
-            <TextField
-              id="downstreamProcess-simple"
-              label="Downstream Process"
-              className={classes.formControl}
-              onChange={handleChange("downstreamProcess")}
-              margin="normal"
-              value={values.downstreamProcess}
-            />
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="servicePerformed-simple">
+                  Service Performed
+                </InputLabel>
+                <Select
+                  value={values.service}
+                  onChange={handleChange("service")}
+                  inputProps={{
+                    name: "servicePerformed",
+                    id: "servicePerformed-simple"
+                  }}
+                >
+                  <MenuItem value="default" />
+                  <MenuItem value="Extraction">Extraction</MenuItem>
+                  <MenuItem value="DNA QC">DNA QC</MenuItem>
+                  <MenuItem value="RNA QC">RNA QC</MenuItem>
+                  <MenuItem value="Library Prep">Library Prep</MenuItem>
+                </Select>
+              </FormControl>
 
-            <br />
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="bodyType-simple">QC Result</InputLabel>
-              <Select
-                value={values.bodyType}
-                onChange={handleChange("bodyType")}
-                inputProps={{
-                  name: "bodyType",
-                  id: "bodyType-simple"
-                }}
-              >
-                <MenuItem value="default" />
-                <MenuItem value="pass">all samples PASS</MenuItem>
-                <MenuItem value="try">some samples TRY</MenuItem>
-                <MenuItem value="fail">some samples FAIL</MenuItem>
-              </Select>
-            </FormControl>
-            <br />
-            {values.bodyType === "try" && (
-              <span>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="rnaChecked-simple">
-                    RNA application?
-                  </InputLabel>
-                  <Select
-                    value={values.rnaChecked}
-                    onChange={handleChange("rnaChecked")}
-                    inputProps={{
-                      name: "rnaChecked",
-                      id: "rnaChecked-simple"
-                    }}
-                  >
-                    <MenuItem value="default" />
-                    <MenuItem value="true">yes</MenuItem>
-                    <MenuItem value="false">no</MenuItem>
-                  </Select>
-                </FormControl>
-                <br />
-              </span>
-            )}
-            {values.service !== "Extraction" && (
-              <span>
-                <br /> Add additional Instructions:
-                <br />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      // checked={values.report}
-                      onChange={handleCheckbox("onHold")}
-                      // value={report}
-                    />
-                  }
-                  label="IGO will put this project on hold until you let us know how you
+              <TextField
+                id="downstreamProcess-simple"
+                label="Downstream Process"
+                className={classes.formControl}
+                onChange={handleChange("downstreamProcess")}
+                margin="normal"
+                value={values.downstreamProcess}
+              />
+
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="bodyType-simple">QC Result</InputLabel>
+                <Select
+                  value={values.bodyType}
+                  onChange={handleChange("bodyType")}
+                  inputProps={{
+                    name: "bodyType",
+                    id: "bodyType-simple"
+                  }}
+                >
+                  <MenuItem value="default" />
+                  <MenuItem value="pass">all samples PASS</MenuItem>
+                  <MenuItem value="try">some samples TRY</MenuItem>
+                  <MenuItem value="fail">some samples FAIL</MenuItem>
+                </Select>
+              </FormControl>
+              {values.bodyType === "try" && (
+                <span>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="rnaChecked-simple">
+                      RNA application?
+                    </InputLabel>
+                    <Select
+                      value={values.rnaChecked}
+                      onChange={handleChange("rnaChecked")}
+                      inputProps={{
+                        name: "rnaChecked",
+                        id: "rnaChecked-simple"
+                      }}
+                    >
+                      <MenuItem value="default" />
+                      <MenuItem value="true">yes</MenuItem>
+                      <MenuItem value="false">no</MenuItem>
+                    </Select>
+                  </FormControl>
+                </span>
+              )}
+              {values.service !== "Extraction" && (
+                <span>
+                  <br /> Add additional Instructions:
+                  <br />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        // checked={values.report}
+                        onChange={handleCheckbox("onHold")}
+                        // value={report}
+                      />
+                    }
+                    label="IGO will put this project on hold until you let us know how you
                 would like to proceed."
-                />{" "}
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      // checked={values.report}
-                      onChange={handleCheckbox("confirmationRequested")}
-                      // value={report}
-                    />
-                  }
-                  label={
-                    "Please confirm that the" +
-                    values.sampleType +
-                    "look as expected in order to continue to sequencing."
-                  }
-                />
-              </span>
-            )}
+                  />{" "}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        // checked={values.report}
+                        onChange={handleCheckbox("confirmationRequested")}
+                        // value={report}
+                      />
+                    }
+                    label={
+                      "Please confirm that the" +
+                      values.sampleType +
+                      "look as expected in order to continue to sequencing."
+                    }
+                  />
+                </span>
+              )}
+            </form>
           </div>
         </div>
         <div className={classes.preview}>
@@ -258,10 +259,18 @@ export default function CommentEditor(props) {
           </Typography>
           <div ref={commentEl}>
             <br />
-            Good {values.salutation} {values.addressee},
+            Good{" "}
+            {values.salutation || (
+              <span className={classes.highlight}>...</span>
+            )}{" "}
+            {values.addressee || <span className={classes.highlight}>...</span>}
+            ,
             <br />
-            IGO has completed {values.service} on Project{" "}
-            {props.request.requestId}.
+            IGO has completed{" "}
+            {values.service || (
+              <span className={classes.highlight}>...</span>
+            )}{" "}
+            on Project {props.request.requestId}.
             <br />
             Please see the reports and documents below for the results.
             <br />

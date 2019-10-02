@@ -218,6 +218,8 @@ export function downloadReport(reportShown, request) {
         // remove html from table data
         let clonedReport = JSON.stringify(tableToExport.data);
         clonedReport = clonedReport.replace(/<\/?[^>]+>/gi, "");
+        clonedReport = clonedReport.replace(/otherSampleId/gi, "sampleName");
+        clonedReport = clonedReport.replace(/sampleId/gi, "igoId");
         clonedReport = JSON.parse(clonedReport);
         const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
