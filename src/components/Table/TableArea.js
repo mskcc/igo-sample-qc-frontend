@@ -96,7 +96,7 @@ export default function TableArea(props) {
 
         {Object.keys(props.tables).map((report, index) => (
           <TabPanel key={report} value={value} index={index}>
-            {value === index && <Table registerChange={props.registerChange} data={props.tables[report]} />}
+            {value === index && <Table handleDownload={props.handleDownload} registerChange={props.registerChange} data={props.tables[report]} />}
           </TabPanel>
         ))}
       </div>

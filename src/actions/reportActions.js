@@ -156,36 +156,52 @@ export function submitInvestigatorDecision() {
                 });
         }
     };
-    //     dispatch({
-    //         type: POST_INVESTIGATOR_DECISION_REQUEST,
-    //         loading: true,
-    //         loadingMessage: "Request found. Checking QC Tables..."
-    //     });
+}
 
-    //     // let data = await fillReportTables(response.data)
-    //     return axios
-    //         .post(Config.API_ROOT + "/getQcReportSamples", {
-    //             data: {
-    //                 request: requestId,
-    //                 samples: getState().report.request.samples
-    //             }
-    //         })
-    //         .then(response => {
-    //             dispatch({
-    //                 type: POST_INVESTIGATOR_DECISION_SUCCESS,
-    //                 loading: false,
-    //                 payload: fillReportTables(response.data)
-    //             });
-    //         })
+export const DOWNLOAD_REQUEST = "DOWNLOAD_REQUEST";
+export const DOWNLOAD_FAIL = "DOWNLOAD_FAIL";
+export const DOWNLOAD_SUCCESS = "DOWNLOAD_SUCCESS";
+export function download(coords) {
+    return (dispatch, getState) => {
+        let attachmentRecordId = getState().report.tables["Attachments"].data[
+            coords.row
+        ].recordId;
 
-    //         .catch(error => {
-    //             return dispatch({
-    //                 type: POST_INVESTIGATOR_DECISION_FAIL,
-    //                 error: error,
+        let fileName = getState().report.tables["Attachments"].data[coords.row]
+            .fileName;
+        dispatch({
+            type: DOWNLOAD_REQUEST,
+            loading: true,
+            loadingMessage: "Fetching your data.."
+        });
 
-    //                 loading: false
-    //             });
-    //         });
+        // // let data = await fillReportTables(response.data)
+        return axios
+            .get(Config.API_ROOT + "/getAttachment", {
+                params: {
+                    recordId: attachmentRecordId,
+                    fileName: fileName
+                },
+                responseType: "blob"
+            })
+            .then(response => {
+                dispatch({
+                    type: DOWNLOAD_SUCCESS,
+                    loading: false,
+                    file: response.data,
+                    fileName: fileName
+                });
+            })
+
+            .catch(error => {
+                return dispatch({
+                    type: DOWNLOAD_FAIL,
+                    error: error,
+
+                    loading: false
+                });
+            });
+    };
 }
 
 export const UPDATE_REPORT_SHOWN = "UPDATE_REPORT_SHOWN";

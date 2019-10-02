@@ -1,9 +1,10 @@
 import { reportActions as ActionTypes } from "../actions";
+import FileSaver from "file-saver";
 
 const initialState = {
   loaded: false,
   request: "",
-  reportShown: null,
+  reportShown: null
 };
 
 function reportReducer(state = initialState, action) {
@@ -11,7 +12,7 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.GET_REQUEST_REQUEST:
       return {
         ...state,
-        request: {request_id: action.requestId},
+        request: { request_id: action.requestId },
         loaded: false
       };
     case ActionTypes.GET_REQUEST_SUCCESS:
@@ -27,7 +28,7 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.GET_REPORT_SUCCESS:
-    console.log(Object.keys(action.payload)[0])
+      console.log(Object.keys(action.payload)[0]);
       return {
         ...state,
         tables: action.payload,
@@ -38,13 +39,33 @@ function reportReducer(state = initialState, action) {
       return {
         ...state
       };
-      case ActionTypes.UPDATE_REPORT_SHOWN:
+
+    case ActionTypes.DOWNLOAD_REQUEST:
+      return {
+        ...state
+      };
+
+    case ActionTypes.DOWNLOAD_SUCCESS:
+      FileSaver.saveAs(
+        new Blob([action.file], {
+          type: "application/pdf"
+        }),
+        action.fileName
+      );
+      return {
+        ...state
+      };
+
+    case ActionTypes.DOWNLOAD_FAIL:
+      return {
+        ...state
+      };
+    case ActionTypes.UPDATE_REPORT_SHOWN:
       return {
         ...state,
-        reportShown : action.payload
-
+        reportShown: action.payload
       };
-      case ActionTypes.REGISTER_GRID_CHANGE:
+    case ActionTypes.REGISTER_GRID_CHANGE:
       return {
         ...state
       };
