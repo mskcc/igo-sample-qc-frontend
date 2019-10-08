@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
     // width: "85vw",
     overflow: "scroll",
     paddingBottom: theme.spacing(2),
-    backgroundColor: "rgba(0, 148, 144, .08)"
+    backgroundColor: "rgba(0, 148, 144, .08)",
+    borderTop: "2px solid darkgray"
     // display: "grid"
     // gridTemplateAreas: "'table CommentTextField'",
     // gridTemplateColumns: "70% 30%"

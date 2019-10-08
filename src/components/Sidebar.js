@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#eceff1",
     display: "grid",
     gridTemplate: "'search' 'tree'",
-    justifyItems: "center"
+    justifyItems: "center",
+    borderRight: "2px solid darkgray"
   },
   search: {
     padding: "2px 4px",

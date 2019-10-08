@@ -4,7 +4,7 @@ import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { commentActions } from "../actions";
 
-import { CommentArea, CommentEditor } from "../components/Comments";
+import { CommentArea, CommentEditorArea } from "../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
@@ -33,8 +33,9 @@ export class CommentContainer extends Component {
     return (
       <React.Fragment>
         {this.props.report.reportShown &&
+        this.props.report.reportShown.includes("Report") &&
         this.props.comments[this.props.report.reportShown] &&
-        this.props.comments[this.props.report.reportShown].length > 0 ? (
+        this.props.comments[this.props.report.reportShown].length > 0 > 0 ? (
           <CommentArea
             currentReportShown={this.props.report.reportShown}
             numOfReports={Object.keys(this.props.report.tables).length}
@@ -44,8 +45,10 @@ export class CommentContainer extends Component {
             addCommentToAllReports={this.addCommentToAllReports}
           />
         ) : (
+          this.props.report.reportShown &&
+          this.props.report.reportShown.includes("Report") &&
           this.props.report.tables && (
-            <CommentEditor
+            <CommentEditorArea
               recipe={
                 this.props.report.tables[this.props.report.reportShown].data[0]
                   .recipe

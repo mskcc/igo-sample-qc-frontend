@@ -28,7 +28,6 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.GET_REPORT_SUCCESS:
-      console.log(Object.keys(action.payload)[0]);
       return {
         ...state,
         tables: action.payload,
@@ -67,7 +66,6 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.REPORT_DOWNLOAD_SUCCESS:
-      
       return {
         ...state
       };
