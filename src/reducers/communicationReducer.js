@@ -1,7 +1,11 @@
-import { commentActions as ActionTypes } from "../actions";
+import {
+  communicationActions as ActionTypes,
+  reportActions as ReportActionTypes
+} from "../actions";
 
 const initialState = {
-  comments: []
+  comments: [],
+  recipients: []
 };
 
 function commentReducer(state = initialState, action) {
@@ -22,6 +26,18 @@ function commentReducer(state = initialState, action) {
       return {
         ...state,
         comments: []
+      };
+
+    case ReportActionTypes.GET_REQUEST_SUCCESS:
+      return {
+        ...state,
+        recipients: action.payload.recipients
+      };
+
+    case ActionTypes.SET_RECIPIENTS:
+      return {
+        ...state,
+        recipients: action.payload
       };
 
     default:

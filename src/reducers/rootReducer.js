@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { localizeReducer } from "react-localize-redux";
 
 // import uploadReducer from './upload/uploadReducer'
-import commentReducer from "./commentReducer";
+import communicationReducer from "./communicationReducer";
 import commonReducer from "./commonReducer";
 import userReducer from "./userReducer";
 import reportReducer from "./reportReducer";
@@ -20,7 +20,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
   // upload: uploadReducer,
-  communication: commentReducer,
+  communication: communicationReducer,
   common: commonReducer,
   user: userReducer,
   report: reportReducer,

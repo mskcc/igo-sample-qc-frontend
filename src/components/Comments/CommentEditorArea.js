@@ -1,20 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
-import CommentEditor from "./CommentEditor";
-import RecipientList from "./RecipientList";
 import Button from "@material-ui/core/Button";
 
-// import {
-//   FormControlLabel,
-//   Paper,
-//   Typography,
-//   TextField,
-//   Checkbox,
-//   FormControl,
-//   MenuItem,
-//   Select,
-//   InputLabel
-// } from "@material-ui/core";
+import CommentEditor from "./CommentEditor";
+import RecipientList from "./RecipientList";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -54,48 +44,23 @@ const useStyles = makeStyles(theme => ({
 export default function CommentEditorArea(props) {
   const classes = useStyles();
 
-  const [values, setValues] = React.useState({});
-
-  // const handleChange = name => event => {
-  //   if (event.target.value !== "default") {
-  //     setValues({ ...values, [name]: event.target.value });
-  //   }
-  //   console.log(values);
-  // };
-
-  // const handleCheckbox = name => event => {
-  //   setValues({ ...values, [name]: !values.name });
-  // };
-  // const handleReportsCheckbox = name => event => {
-  //   setValues({
-  //     ...values,
-  //     reports: {
-  //       ...values.reports,
-  //       [name.report]: !values.reports[name.report]
-  //     }
-  //   });
-  // };
-
-  // const addInitialComment = () => {
-  //   props.addInitialComment(commentEl.current.textContent, values.reports);
-  // };
   return (
     <div className={classes.container}>
       <CommentEditor
         recipe={props.recipe}
         currentReportShown={props.reportShown}
-        // addInitialComment={addInitialComment}
         request={props.request}
         tables={props.tables}
       />
 
       <div className={classes.emailsSubmit}>
-        <RecipientList request={props.request} />
+        <RecipientList
+          handleSubmit={props.handleRecipientSubmit}
+          recipients={props.recipients}
+        />
         <Button
           variant="contained"
-          // onClick={addInitialComment}
           color="primary"
-          // disabled={values.comment ? false : true}
           className={classes.button}
         >
           Submit & Notify

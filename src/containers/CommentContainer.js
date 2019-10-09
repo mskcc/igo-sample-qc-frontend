@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-import { commentActions } from "../actions";
+import { communicationActions } from "../actions";
 
 import { CommentArea, CommentEditorArea } from "../components/Comments";
 
@@ -27,6 +27,9 @@ export class CommentContainer extends Component {
 
   addComment = comment => {
     this.props.addComment(comment, this.props.report.reportShown);
+  };
+  handleRecipientSubmit = recipients => {
+    this.props.setRecipients(recipients);
   };
 
   render() {
@@ -56,7 +59,9 @@ export class CommentContainer extends Component {
               currentReportShown={this.props.report.reportShown}
               addInitialComment={this.addInitialComment}
               request={this.props.report.request}
+              recipients={this.props.recipients}
               tables={this.props.report.tables}
+              handleRecipientSubmit={this.handleRecipientSubmit}
             />
           )
         )}
@@ -66,12 +71,14 @@ export class CommentContainer extends Component {
 }
 
 CommentContainer.defaultProps = {
-  comments: {}
+  comments: {},
+  recipients: {}
 };
 
 const mapStateToProps = state => ({
   comments: state.communication.comments,
   report: state.report,
+  recipients: state.communication.recipients,
   user: state.user
 });
 
@@ -80,7 +87,7 @@ export default withLocalize(
     mapStateToProps,
     {
       // ...uploadGridActions,
-      ...commentActions
+      ...communicationActions
     }
   )(CommentContainer)
 );

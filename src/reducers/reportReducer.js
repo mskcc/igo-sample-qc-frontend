@@ -18,7 +18,7 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
         ...state,
-        request: action.payload,
+        request: action.payload.request,
         loaded: true
       };
 

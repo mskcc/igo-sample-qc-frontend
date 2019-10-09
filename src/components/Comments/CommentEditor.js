@@ -1,11 +1,8 @@
 import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Button from "@material-ui/core/Button";
-
 import {
   FormControlLabel,
-  Paper,
   Typography,
   TextField,
   Checkbox,
@@ -80,7 +77,6 @@ export default function CommentEditor(props) {
     if (event.target.value !== "default") {
       setValues({ ...values, [name]: event.target.value });
     }
-    console.log(values);
   };
 
   const handleCheckbox = name => event => {
@@ -96,9 +92,6 @@ export default function CommentEditor(props) {
     });
   };
 
-  const addInitialComment = () => {
-    props.addInitialComment(commentEl.current.textContent, values.reports);
-  };
   return (
     <div className={classes.container}>
       <div className={classes.editorForm}>
@@ -126,7 +119,7 @@ export default function CommentEditor(props) {
                       />
                     </span>
                   );
-                }
+                } else return null;
               })}
             </span>
           )}

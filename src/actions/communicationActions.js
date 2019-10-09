@@ -33,7 +33,7 @@ export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports) {
   return (dispatch, getState) => {
-    console.log(reports)
+    console.log(reports);
     let commentToSave = {
       comment: comment,
       username: getState().user.username,
@@ -81,7 +81,7 @@ export function addComment(comment, reports) {
         return dispatch({
           type: ADD_COMMENT_SUCCESS,
           payload: response.data.comments
-        }); 
+        });
       })
       .catch(error => {
         return dispatch({
@@ -120,5 +120,12 @@ export function getComments() {
           error: error
         });
       });
+  };
+}
+
+export const SET_RECIPIENTS = "SET_RECIPIENTS";
+export function setRecipients(recipients) {
+  return dispatch => {
+    dispatch({ type: SET_RECIPIENTS, payload: recipients });
   };
 }
