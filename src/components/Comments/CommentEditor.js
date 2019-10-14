@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
+  Button,
   FormControlLabel,
   Typography,
   TextField,
@@ -19,14 +20,12 @@ const useStyles = makeStyles(theme => ({
     gridArea: "editor",
     gridTemplateColumns: "50% 50%",
 
-    gridTemplateAreas: "'editorForm preview'",
+    gridTemplateAreas: "'editorForm preview''button button'",
 
-    gridColumnGap: "2em",
     alignItems: "start",
     justifyItems: "start",
     // height: " 60vh",
-    paddingBottom: theme.spacing(2),
-    borderBottom: "2px solid lightgray"
+    paddingBottom: theme.spacing(2)
   },
   editorForm: {
     height: "100%",
@@ -36,7 +35,8 @@ const useStyles = makeStyles(theme => ({
   },
   materialInput: { minWidth: "170px" },
   preview: {
-    gridArea: "preview"
+    gridArea: "preview",
+    marginLeft: theme.spacing(3)
     // borderBottom: "2px solid lightgray"
   },
   highlight: { backgroundColor: "#8fc7e8" },
@@ -52,7 +52,15 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: { margin: theme.spacing(2), marginLeft: 0, minWidth: "170px" },
   input: { float: "right" },
-  select: { float: "right" }
+  select: { float: "right" },
+  button: {
+    borderTop: "2px solid lightgray",
+    marginTop: "2em",
+    paddingTop: '1em',
+    width: "100%",
+    textAlign: "center",
+    gridArea: "button"
+  }
 }));
 
 export default function CommentEditor(props) {
@@ -92,11 +100,16 @@ export default function CommentEditor(props) {
     });
   };
 
+  const handleInitialComment = () => {
+    
+    props.handleInitialComment(commentEl.current.textContent, values.reports);
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.editorForm}>
         <Typography variant="h5" component="h3">
-          Editor
+          QC Report Comment Editor
         </Typography>
         <div>
           {Object.keys(props.tables).length > 1 && (
@@ -345,6 +358,17 @@ export default function CommentEditor(props) {
           Please reply here if you have any questions or comments.
           <br />
         </div>
+      </div>
+
+      <div className={classes.button}>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={handleInitialComment}
+        >
+          Continue to Review Step
+        </Button>
       </div>
     </div>
   );

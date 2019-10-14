@@ -27,33 +27,37 @@ import { Config } from "../secret_config.js";
 //   }
 // );
 
-export const ADD_COMMENT = "ADD_COMMENT";
-export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
-export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
+export const ADD_INITIAL_COMMENT = "ADD_INITIAL_COMMENT";
+export const ADD_INITIAL_COMMENT_SUCCESS = "ADD_INITIAL_COMMENT_SUCCESS";
+export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
-export function addInitialComment(comment, reports) {
+export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
-    console.log(reports);
+    console.log(reports, recipients, comment);
     let commentToSave = {
-      comment: comment,
-      username: getState().user.username,
+      comment: {
+        content: comment,
+        username: getState().user.username
+      },
       request_id: getState().report.request.requestId,
-      reports: reports.join()
+      reports: reports.join(),
+      recipients: recipients.join()
     };
 
-    dispatch({ type: ADD_COMMENT });
+    dispatch({ type: ADD_INITIAL_COMMENT });
     return axios
-      .post(Config.API_ROOT + "/addInitialComment", { data: commentToSave })
+      .post(Config.API_ROOT + "/addAndNotifyInitial", { data: commentToSave })
       .then(response => {
         return dispatch({
-          type: ADD_COMMENT_SUCCESS,
+          type: ADD_INITIAL_COMMENT_SUCCESS,
           payload: response.data.comments
         });
       })
       .catch(error => {
         return dispatch({
-          type: ADD_COMMENT_FAIL,
-          error: error
+          type: ADD_INITIAL_COMMENT_FAIL,
+          error: error,
+          message: "Sending initial comment failed."
         });
       });
   };
@@ -62,6 +66,10 @@ export function addInitialComment(comment, reports) {
   // let comments = [...getState().communication.comments];
   // comments.push(comment);
 }
+
+export const ADD_COMMENT = "ADD_COMMENT";
+export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addComment(comment, reports) {
   return (dispatch, getState) => {

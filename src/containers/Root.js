@@ -20,9 +20,6 @@ import CommentContainer from "./CommentContainer";
 import TableContainer from "./TableContainer";
 import SidebarContainer from "./SidebarContainer";
 
-// import UploadPage from './Upload/UploadPage'
-// import SubmissionsPage from './Submissions/SubmissionsPage'
-// import Promote from './Promote/Promote'
 import Login from "./Login";
 import Logout from "./Logout";
 import ErrorPage from "./ErrorPage";

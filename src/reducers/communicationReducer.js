@@ -16,6 +16,22 @@ function commentReducer(state = initialState, action) {
         comments: action.payload
       };
 
+    case ActionTypes.ADD_COMMENT_FAIL:
+      return {
+        ...state
+      };
+
+    case ActionTypes.ADD_INITIAL_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comments: action.payload
+      };
+      
+    case ActionTypes.ADD_INITIAL_COMMENT_FAIL:
+      return {
+        ...state
+      };
+
     case ActionTypes.GET_COMMENTS_SUCCESS:
       return {
         ...state,

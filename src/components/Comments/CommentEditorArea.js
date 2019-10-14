@@ -1,7 +1,6 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 
 import CommentEditor from "./CommentEditor";
 import RecipientList from "./RecipientList";
@@ -13,9 +12,8 @@ const useStyles = makeStyles(theme => ({
     // minHeight: "100%",
 
     // gridTemplateRows: "80% 20%",
-    gridTemplateAreas: "'editor' 'emails-submit'",
+    gridTemplateAreas: "'recipients' 'editor' ",
 
-    gridColumnGap: "2em",
     gridRowGap: "2em",
     alignItems: "center",
     justifyItems: "center",
@@ -25,47 +23,38 @@ const useStyles = makeStyles(theme => ({
   editor: {
     gridArea: "editor"
   },
-  emailsSubmit: {
+  recipients: {
     width: "100%",
-    gridArea: "emails-submit",
+    gridArea: "recipients",
     display: "grid",
-    alignItems: "center",
-    justifyItems: "center",
-    gridTemplateAreas: "'emails submit'"
-  },
-  emails: { gridArea: "emails", alignSelf: "start" },
-  button: {
-    gridArea: "submit",
-    height: "40px",
-    width: "30%"
+    alignItems: "start",
+    justifyItems: "start",
+    borderBottom: "2px solid lightgray"
   }
 }));
 
 export default function CommentEditorArea(props) {
   const classes = useStyles();
 
+  const handleInitialComment = (comment, reports) => {
+    props.handleInitialComment(comment,reports)
+  };
+
   return (
     <div className={classes.container}>
+      <div className={classes.recipients}>
+        <RecipientList
+          handleSubmit={props.handleRecipientSubmit}
+          recipients={props.recipients}
+        />
+      </div>
       <CommentEditor
         recipe={props.recipe}
         currentReportShown={props.reportShown}
         request={props.request}
         tables={props.tables}
+        handleInitialComment={handleInitialComment}
       />
-
-      <div className={classes.emailsSubmit}>
-        <RecipientList
-          handleSubmit={props.handleRecipientSubmit}
-          recipients={props.recipients}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-        >
-          Submit & Notify
-        </Button>
-      </div>
     </div>
   );
 }

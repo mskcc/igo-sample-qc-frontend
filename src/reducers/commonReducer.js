@@ -37,7 +37,7 @@ function commonReducer(state = initialState, action) {
         "Our backend is experiencing some downtime. Please refresh, check back later or message an admin."
     };
   }
-  if (error) {
+  if (error && !message) {
     if (error.response && error.status === 401) {
       return {
         ...state,

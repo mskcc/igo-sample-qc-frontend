@@ -64,9 +64,15 @@ code {
     background-color: $mskcc-red;
 }
 
-.download-icon{
+.download-icon {
     cursor: pointer;
     color: #006098;
+}
+
+.swal2-content {
+    .swal-comment-review {
+        text-align: left;
+    }
 }
 
 .htDimmed {
@@ -98,7 +104,7 @@ code {
     border-right: 1px solid lightgray !important;
 }
 
-.handsontable.listbox tr td.current, .handsontable.listbox tr:hover td { 
+.handsontable.listbox tr td.current,
+.handsontable.listbox tr:hover td {
     background: rgba(143, 199, 232, 0.4) !important;
-
 }

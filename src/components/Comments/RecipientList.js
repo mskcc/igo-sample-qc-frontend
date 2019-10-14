@@ -9,10 +9,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    gridArea: "emails",
-    alignSelf: "start",
-    justifySelf: "start",
-    width: "100%"
+    width: "50%"
   },
   list: {
     display: "grid",
@@ -48,7 +45,7 @@ export default function RecipientList(props) {
 
   const handleSubmit = () => {
     setEdit({ editView: false });
-
+    
     props.handleSubmit(recipients);
   };
 
@@ -57,7 +54,7 @@ export default function RecipientList(props) {
       {!edit.editView ? (
         <React.Fragment>
           <Typography variant="h5" component="h3">
-            Recipients{" "}
+            QC Report Recipients{" "}
             <IconButton
               size="small"
               onClick={handleEditClick(props.recipients)}
