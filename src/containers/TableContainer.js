@@ -40,10 +40,13 @@ export class TableContainer extends Component {
   };
   handleAttachmentDownload = coords => {
     this.props.downloadAttachment(coords);
-  }; 
+  };
 
-  handleReportDownload = () => {
-    this.props.downloadReport(this.props.report.reportShown, this.props.report.request);
+  handleReportDownload = (report) => {
+    this.props.downloadReport(
+      report,
+      this.props.report.request
+    );
   };
   // componentDidUpdate() {
   //   console.log(this.props)
@@ -53,6 +56,7 @@ export class TableContainer extends Component {
 
   render() {
     const { report } = this.props;
+    console.log(report.reportShown);
     return (
       <React.Fragment>
         {this.props.report.tables && (

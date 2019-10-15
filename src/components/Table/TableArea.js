@@ -84,6 +84,11 @@ export default function TableArea(props) {
     // console.log(newValue)
     props.updateReportShown(Object.keys(props.tables)[newValue]);
   }
+  
+  function handleReportDownload(index){
+    props.handleReportDownload( Object.keys(props.tables)[value])
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.toolbar}>
@@ -98,13 +103,13 @@ export default function TableArea(props) {
         </Button>
         {props.reportShown !== "Attachments" && (
           <Button
-            onClick={props.handleReportDownload}
+            onClick={handleReportDownload}
             variant="contained"
             color="secondary"
             className={classes.downloadtBtn}
             startIcon={<CloudDownloadIcon />}
           >
-            {props.reportShown}
+            {Object.keys(props.tables)[value]}
           </Button>
         )}
       </div>

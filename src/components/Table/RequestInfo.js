@@ -38,12 +38,12 @@ export default function RequestInfo(props) {
       </Typography>
       <div className={classes.details}>
         <div>
-          <div>Lab Head: {props.request.labHeadName}</div>
-          <div>Investigator: {props.request.investigatorName}</div>
+          <div><strong>Lab Head:</strong> {props.request.labHeadName}</div>
+          <div><strong>Investigator:</strong> {props.request.investigatorName}</div>
         </div>
         <div>
-          <div>Data Analyst: {props.request.dataAnalystName}</div>
-          <div>Project Manager: {props.request.projectManagerName}</div>
+          <div><strong>Data Analyst:</strong> {props.request.dataAnalystName}</div>
+          <div><strong>Project Manager:</strong> {props.request.projectManagerName}</div>
         </div>
       </div>
     </div>

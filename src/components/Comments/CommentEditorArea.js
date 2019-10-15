@@ -9,16 +9,11 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "grid",
     width: "100%",
-    // minHeight: "100%",
-
-    // gridTemplateRows: "80% 20%",
     gridTemplateAreas: "'recipients' 'editor' ",
-
     gridRowGap: "2em",
     alignItems: "center",
     justifyItems: "center",
     margin: theme.spacing(3, 4)
-    // height: " 60vh",
   },
   editor: {
     gridArea: "editor"

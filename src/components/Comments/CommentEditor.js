@@ -19,36 +19,28 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     gridArea: "editor",
     gridTemplateColumns: "50% 50%",
-
     gridTemplateAreas: "'editorForm preview''button button'",
-
     alignItems: "start",
     justifyItems: "start",
-    // height: " 60vh",
     paddingBottom: theme.spacing(2)
   },
   editorForm: {
     height: "100%",
     borderRight: "2px solid lightgray",
-
     gridArea: "editorForm"
   },
   materialInput: { minWidth: "170px" },
   preview: {
     gridArea: "preview",
     marginLeft: theme.spacing(3)
-    // borderBottom: "2px solid lightgray"
   },
   highlight: { backgroundColor: "#8fc7e8" },
-
   yellow: {
     backgroundColor: "#ffc20e"
-    // fontWeight: "bold"
   },
   red: {
     backgroundColor: "#b1132d",
     color: "white"
-    // fontWeight: "bold"
   },
   formControl: { margin: theme.spacing(2), marginLeft: 0, minWidth: "170px" },
   input: { float: "right" },
@@ -93,7 +85,7 @@ export default function CommentEditor(props) {
   };
 
   const handleCheckbox = name => event => {
-    setValues({ ...values, [name]: !values.name });
+    setValues({ ...values, [name]: !values[name] });
   };
   const handleReportsCheckbox = name => event => {
     console.log(values.valid);
@@ -360,12 +352,14 @@ export default function CommentEditor(props) {
               submitting your new iLab request.
             </span>
           )}
-          {values.servicePerformed === "Extraction" && (
+          {values.service === "Extraction" && (
             <span>
-              {" "}
               Will these samples be submitted for sequencing? If so, please
               contact IGO to discuss your downstream sequencing options before
-              submitting your new iLab request.
+              submitting your new iLab request. In order to move forward to
+              sequencing, please fill out an iLab request and notify our Sample
+              Receiving team of the IGO number by emailing
+              zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
             </span>
           )}
           <br />
@@ -385,7 +379,7 @@ export default function CommentEditor(props) {
             values.valid == false || props.recipientsBeingEdited == true
           }
         >
-          Continue to Review Step
+          Continue to Review
         </Button>
       </div>
     </div>
