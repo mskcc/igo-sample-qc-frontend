@@ -113,6 +113,7 @@ export class CommentContainer extends Component {
               recipients={this.props.recipients}
               tables={this.props.report.tables}
               handleRecipientSubmit={this.handleRecipientSubmit}
+              comments={this.props.comments}
             />
           )
         )}

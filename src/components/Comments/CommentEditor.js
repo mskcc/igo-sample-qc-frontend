@@ -117,7 +117,7 @@ export default function CommentEditor(props) {
               Which report should this comment be added to?
               <br />
               {Object.keys(props.tables).map((report, index) => {
-                if (report.includes("Report")) {
+                if (report.includes("Report") && !props.comments[report]) {
                   return (
                     <span key={report}>
                       <FormControlLabel

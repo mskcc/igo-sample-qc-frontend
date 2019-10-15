@@ -53,6 +53,7 @@ export default function CommentEditorArea(props) {
         currentReportShown={props.reportShown}
         request={props.request}
         tables={props.tables}
+        comments={props.comments}
         handleInitialComment={handleInitialComment}
       />
     </div>

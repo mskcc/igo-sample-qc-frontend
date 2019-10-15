@@ -50,7 +50,8 @@ export function addInitialComment(comment, reports, recipients) {
       .then(response => {
         return dispatch({
           type: ADD_INITIAL_COMMENT_SUCCESS,
-          payload: response.data.comments
+          payload: response.data.comments,
+          message: "Comment saved!"
         });
       })
       .catch(error => {
