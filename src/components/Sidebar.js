@@ -63,6 +63,7 @@ export default function Sidebar(props) {
           className={classes.iconButton}
           onClick={handleSubmit}
           aria-label="search"
+          disabled={!values.requestId.length > 0}
         >
           <SearchIcon />
         </IconButton>

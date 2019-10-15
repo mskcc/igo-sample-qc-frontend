@@ -41,11 +41,12 @@ export default function RecipientList(props) {
   const handleEditClick = recipients => event => {
     setEdit({ editView: true });
     setRecipients({ ...recipients });
+    props.handleEdit();
   };
 
   const handleSubmit = () => {
     setEdit({ editView: false });
-    
+    props.handleEdit();
     props.handleSubmit(recipients);
   };
 

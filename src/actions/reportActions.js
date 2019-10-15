@@ -63,6 +63,12 @@ export function getRequest(requestId) {
             })
 
             .catch(error => {
+                if (!error.status) {
+                    return dispatch({
+                        type: GET_REQUEST_FAIL,
+                        serverError: true
+                    });
+                }
                 return dispatch({
                     type: GET_REQUEST_FAIL,
                     message: "Request not found."

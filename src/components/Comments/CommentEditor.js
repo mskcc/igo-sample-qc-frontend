@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     borderTop: "2px solid lightgray",
     marginTop: "2em",
-    paddingTop: '1em',
+    paddingTop: "1em",
     width: "100%",
     textAlign: "center",
     gridArea: "button"
@@ -78,12 +78,17 @@ export default function CommentEditor(props) {
     downstreamProcess: props.recipe,
     service: "",
     bodyType: "",
-    rnaChecked: ""
+    rnaChecked: "",
+    valid: false
   });
 
   const handleChange = name => event => {
     if (event.target.value !== "default") {
-      setValues({ ...values, [name]: event.target.value });
+      setValues({
+        ...values,
+        [name]: event.target.value,
+        valid: validate()
+      });
     }
   };
 
@@ -91,8 +96,10 @@ export default function CommentEditor(props) {
     setValues({ ...values, [name]: !values.name });
   };
   const handleReportsCheckbox = name => event => {
+    console.log(values.valid);
     setValues({
       ...values,
+      valid: validate(),
       reports: {
         ...values.reports,
         [name.report]: !values.reports[name.report]
@@ -101,8 +108,16 @@ export default function CommentEditor(props) {
   };
 
   const handleInitialComment = () => {
-    
     props.handleInitialComment(commentEl.current.textContent, values.reports);
+  };
+
+  const validate = () => {
+    return (
+      values.salutation !== "" &&
+      values.addressee !== "" &&
+      values.downstreamProcess !== "" &&
+      values.service !== ""
+    );
   };
 
   return (
@@ -366,6 +381,9 @@ export default function CommentEditor(props) {
           size="large"
           color="primary"
           onClick={handleInitialComment}
+          disabled={
+            values.valid == false || props.recipientsBeingEdited == true
+          }
         >
           Continue to Review Step
         </Button>

@@ -35,16 +35,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function CommentEditorArea(props) {
   const classes = useStyles();
+  const [values, setValues] = React.useState({ recipientsBeingEdited: false });
 
   const handleInitialComment = (comment, reports) => {
-    props.handleInitialComment(comment,reports)
+    props.handleInitialComment(comment, reports);
   };
+
+  const handleEdit = () => {
+    setValues({...values, recipientsBeingEdited: !values.recipientsBeingEdited})
+    
+  }
 
   return (
     <div className={classes.container}>
       <div className={classes.recipients}>
         <RecipientList
           handleSubmit={props.handleRecipientSubmit}
+          handleEdit={handleEdit}
           recipients={props.recipients}
         />
       </div>
@@ -54,6 +61,7 @@ export default function CommentEditorArea(props) {
         request={props.request}
         tables={props.tables}
         comments={props.comments}
+        recipientsBeingEdited={values.recipientsBeingEdited}
         handleInitialComment={handleInitialComment}
       />
     </div>
