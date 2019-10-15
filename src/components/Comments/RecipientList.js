@@ -112,6 +112,7 @@ export default function RecipientList(props) {
                     multiline
                     rowsMax="4"
                     variant="outlined"
+                    disabled={key === "IGOEmail"}
                   />
                 </div>
                 <br />
