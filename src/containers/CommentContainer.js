@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { communicationActions } from "../actions";
+import { cleanAndFilterRecipients } from "../actions/helpers";
 
 import { CommentArea, CommentEditorArea } from "../components/Comments";
 
@@ -24,22 +25,16 @@ export class CommentContainer extends Component {
   };
 
   handleInitialComment = (comment, reports) => {
-    console.log(reports);
+    
     var keys = Object.keys(reports);
 
     var filteredReports = keys.filter(function(key) {
       return reports[key];
     });
-
-    let recipients = Object.values(this.props.recipients);
-    var filteredRecipients = recipients.filter(function(obj) {
-      return obj != null;
-    });
-
-    console.log(filteredRecipients);
-    let recipientString = Object.values(filteredRecipients).join();
-    recipientString = recipientString.replace(/,/gi, ", ");
-
+    let recipients = cleanAndFilterRecipients(this.props.recipients)  ;
+    
+    let recipientString = recipients.join()
+    
     let reportString = Object.values(filteredReports).join(", ");
 
     let commentString = comment.replace(/\./gi, ".<br> ");
@@ -68,7 +63,7 @@ export class CommentContainer extends Component {
       cancelButtonText: "Back to Edit"
     }).then(result => {
       if (result.value) {
-        return this.props.addInitialComment(commentString, filteredReports, filteredRecipients);
+        return this.props.addInitialComment(commentString, filteredReports, recipients);
       } else {
         return true;
       }

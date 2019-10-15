@@ -72,3 +72,29 @@ export const generateSubmitData = tables => {
     // console.log(submitData);
     return submitData;
 };
+
+export const cleanAndFilterRecipients = stateRecipients => {
+    let recipients = Object.values(stateRecipients);
+
+    //  clear out empty ones
+    let filteredRecipients = recipients.filter(function(obj) {
+        return obj != null;
+    });
+
+    // split comma separated ones
+    let splitRecipients = [];
+    for (var i = filteredRecipients.length - 1; i >= 0; i--) {
+        // replace ; with ,
+        let recipient = filteredRecipients[i].replace(/;/gi, ",");
+        if (recipient.includes(",")) {
+            splitRecipients = splitRecipients.concat(recipient.split(","));
+        } else {
+            splitRecipients.push(recipient);
+        }
+    }
+
+    //  remove dupes
+    let uniqueRecipients = new Set(splitRecipients);
+    uniqueRecipients = Array.from(uniqueRecipients)
+    return uniqueRecipients;
+};

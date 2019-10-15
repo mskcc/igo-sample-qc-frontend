@@ -33,10 +33,7 @@ export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
-    let recipientSet = new Set(recipients);
-    recipientSet = Array.from(recipientSet);
-
-    console.log(reports, recipients, comment);
+    console.log(recipients)
     let commentToSave = {
       comment: {
         content: comment,
@@ -44,7 +41,7 @@ export function addInitialComment(comment, reports, recipients) {
       },
       request_id: getState().report.request.requestId,
       reports: reports.join(),
-      recipients: recipientSet.join()
+      recipients: recipients.join()
     };
 
     dispatch({ type: ADD_INITIAL_COMMENT });
