@@ -33,6 +33,9 @@ export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
+    let recipientSet = new Set(recipients);
+    recipientSet = Array.from(recipientSet);
+
     console.log(reports, recipients, comment);
     let commentToSave = {
       comment: {
@@ -41,7 +44,7 @@ export function addInitialComment(comment, reports, recipients) {
       },
       request_id: getState().report.request.requestId,
       reports: reports.join(),
-      recipients: recipients.join()
+      recipients: recipientSet.join()
     };
 
     dispatch({ type: ADD_INITIAL_COMMENT });
@@ -73,18 +76,35 @@ export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addComment(comment, reports) {
   return (dispatch, getState) => {
-    if (reports === "all") reports = Object.keys(getState().report.tables);
+    let recipients = [];
+    let recipientSet = [];
+    if (reports === "all") {
+      reports = Object.keys(getState().report.tables);
+      for (let report in reports) {
+        let reportRecipients = getState().communication.comments[
+          reports[report]
+        ].recipients.split(",");
+        recipientSet = new Set([...recipients, ...reportRecipients]);
+        
+      }
+      recipients = Array.from(recipientSet);
+    } else {
+      recipients = getState().communication.comments[reports].recipients;
+    }
 
     let commentToSave = {
-      comment: comment,
-      username: getState().user.username,
+      comment: {
+        content: comment,
+        username: getState().user.username
+      },
       request_id: getState().report.request.requestId,
-      reports: reports
+      reports: reports,
+      recipients: recipients
     };
 
     dispatch({ type: ADD_COMMENT });
     return axios
-      .post(Config.API_ROOT + "/addComment", { data: commentToSave })
+      .post(Config.API_ROOT + "/addAndNotify", { data: commentToSave })
       .then(response => {
         return dispatch({
           type: ADD_COMMENT_SUCCESS,

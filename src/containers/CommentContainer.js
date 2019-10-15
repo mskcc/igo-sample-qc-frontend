@@ -93,11 +93,11 @@ export class CommentContainer extends Component {
         {this.props.report.reportShown && this.props.comments &&
         this.props.report.reportShown.includes("Report") &&
         this.props.comments[this.props.report.reportShown] &&
-        this.props.comments[this.props.report.reportShown].length > 0 ? (
+        this.props.comments[this.props.report.reportShown].comments.length > 0 ? (
           <CommentArea
             currentReportShown={this.props.report.reportShown}
             numOfReports={Object.keys(this.props.report.tables).length}
-            comments={this.props.comments[this.props.report.reportShown]}
+            comments={this.props.comments[this.props.report.reportShown].comments}
             currentUser={this.props.user.username}
             addComment={this.addComment}
             addCommentToAllReports={this.addCommentToAllReports}
