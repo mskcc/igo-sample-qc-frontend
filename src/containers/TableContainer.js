@@ -56,7 +56,7 @@ export class TableContainer extends Component {
 
   render() {
     const { report } = this.props;
-    console.log(report.reportShown);
+    
     return (
       <React.Fragment>
         {this.props.report.tables && (

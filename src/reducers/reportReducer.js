@@ -11,7 +11,7 @@ function reportReducer(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.GET_REQUEST_REQUEST:
       return {
-        ...state,
+        ...initialState,
         request: { request_id: action.requestId },
         loaded: false
       };

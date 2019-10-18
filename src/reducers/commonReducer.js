@@ -13,6 +13,7 @@ const initialState = {
 function commonReducer(state = initialState, action) {
   const { error, message, serverError, loading, loadingMessage } = action;
   if (loadingMessage && loading) {
+    console.log(action);
     return {
       ...state,
       loadingMessage: loadingMessage,
@@ -20,7 +21,7 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (loading) {
-    console.log(loading);
+    console.log(action);
     return {
       ...state,
       loading: loading
@@ -28,6 +29,7 @@ function commonReducer(state = initialState, action) {
   }
 
   if (serverError) {
+    console.log(action);
     return {
       ...state,
       error: true,
@@ -38,7 +40,9 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (error && !message) {
+    console.log(action);
     if (error.response && error.status === 401) {
+      console.log(action);
       return {
         ...state,
         error: true,
@@ -47,6 +51,7 @@ function commonReducer(state = initialState, action) {
       };
     }
     if (error.response && error.response.status === 403) {
+      console.log(action);
       Swal.fire({
         title: "Not authorized",
         html:
@@ -60,39 +65,26 @@ function commonReducer(state = initialState, action) {
       return {
         ...state
       };
-    } else {
-      return {
-        ...state,
-        error: true,
-        loading: false,
-        loadingMessage: null,
-        message: action.error.response
-          ? action.error.response.data.message
-          : action.error.message
-      };
     }
   }
   if (message) {
+    console.log(action);
     if (message === "reset") {
+      console.log(action);
       return {
         ...state,
         message: "",
-        loading: false,
-
+        loading: false
       };
     } else {
       return {
         ...state,
         message: action.message,
-        loading: false,
+        loading: false
       };
     }
-  } else {
-    return {
-      ...state,
-      loading: false
-    };
   }
+  return { ...state };
 }
 
 export default commonReducer;

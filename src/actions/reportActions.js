@@ -43,8 +43,8 @@ export function getRequest(requestId) {
     return dispatch => {
         dispatch({
             type: GET_REQUEST_REQUEST,
-            loading: true,
             requestId: requestId,
+            loading: true,
             loadingMessage: "Fetching Request..."
         });
         return axios
@@ -57,21 +57,18 @@ export function getRequest(requestId) {
                 return dispatch({
                     type: GET_REQUEST_SUCCESS,
                     // loading: false, //keep loading as another action will be triggered
-                    message: response.data.message,
-                    payload: response.data
+                    // message: response.data.message,
+                    payload: response.data,
+                    message: "reset",
                 });
             })
 
             .catch(error => {
-                if (!error.status) {
-                    return dispatch({
-                        type: GET_REQUEST_FAIL,
-                        serverError: true
-                    });
-                }
+               
                 return dispatch({
                     type: GET_REQUEST_FAIL,
-                    message: "Request not found."
+                    message: "Request not found.",
+                    loading: false
                 });
             });
     };
@@ -97,10 +94,11 @@ export function getQcReports(requestId, otherSampleIds) {
                 }
             })
             .then(response => {
+                let tables = fillReportTables(response.data);
                 dispatch({
                     type: GET_REPORT_SUCCESS,
-                    loading: false,
-                    payload: fillReportTables(response.data)
+                    message: "reset",
+                    payload: tables
                 });
             })
 
