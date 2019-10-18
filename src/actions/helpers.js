@@ -75,26 +75,39 @@ export const generateSubmitData = tables => {
 
 export const cleanAndFilterRecipients = stateRecipients => {
     let recipients = Object.values(stateRecipients);
-
     //  clear out empty ones
-    let filteredRecipients = recipients.filter(function(obj) {
-        return obj != null;
-    });
 
-    // split comma separated ones
-    let splitRecipients = [];
-    for (var i = filteredRecipients.length - 1; i >= 0; i--) {
-        // replace ; with ,
-        let recipient = filteredRecipients[i].replace(/;/gi, ",");
-        if (recipient.includes(",")) {
-            splitRecipients = splitRecipients.concat(recipient.split(","));
-        } else {
-            splitRecipients.push(recipient);
+    // split comma separated ones and filter out empty ones
+    let filteredRecipients = [];
+    for (var i = recipients.length - 1; i >= 0; i--) {
+        if (recipients[i]) {
+            let recipient = recipients[i].replace(/;/gi, ",");
+            if (recipient.includes(",")) {
+                filteredRecipients = filteredRecipients.concat(
+                    recipient.split(",")
+                );
+            } else {
+                filteredRecipients.push(recipient);
+            }
         }
     }
 
-    //  remove dupes
-    let uniqueRecipients = new Set(splitRecipients);
-    uniqueRecipients = Array.from(uniqueRecipients)
+    let uniqueRecipients = new Set(filteredRecipients);
+    uniqueRecipients = Array.from(uniqueRecipients);
+    console.log(uniqueRecipients);
     return uniqueRecipients;
+};
+
+// determines wether all initial comments have been sent out, only then users
+// can reply to all reports present
+export const allIntialCommentsSent = (reportsWithComments, tablesPresent) => {
+    // filter both objects for elements that have "report" in their name (attachments don't have comments)
+    reportsWithComments = reportsWithComments.filter(commentReport =>
+        commentReport.includes("Report")
+    );
+    tablesPresent = tablesPresent.filter(tableReport =>
+        tableReport.includes("Report")
+    );
+
+    return reportsWithComments.length === tablesPresent.length;
 };

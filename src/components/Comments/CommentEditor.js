@@ -59,17 +59,31 @@ export default function CommentEditor(props) {
   const classes = useStyles();
   const commentEl = useRef(null);
 
+  // const [values, setValues] = React.useState({
+  //   reports: {
+  //     "DNA Report": false,
+  //     "RNA Report": false,
+  //     "Library Report": false
+  //   },
+  //   salutation: "",
+  //   addressee: "",
+  //   downstreamProcess: props.recipe,
+  //   service: "",
+  //   bodyType: "",
+  //   rnaChecked: "",
+  //   valid: false
+  // });
   const [values, setValues] = React.useState({
     reports: {
       "DNA Report": false,
       "RNA Report": false,
       "Library Report": false
     },
-    salutation: "",
-    addressee: "",
+    salutation: "das",
+    addressee: "dsada",
     downstreamProcess: props.recipe,
-    service: "",
-    bodyType: "",
+    service: "dsa",
+    bodyType: "da",
     rnaChecked: "",
     valid: false
   });

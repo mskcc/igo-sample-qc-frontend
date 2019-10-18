@@ -86,7 +86,7 @@ export default function CommentTextField(props) {
           variant="contained"
           onClick={addComment}
           color="primary"
-          disabled={values.comment ? false : true}
+          disabled={values.comment ? false : true && props.allIntialCommentsSent}
           className={classes.button}
         >
           Comment on Report

@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,14 +18,6 @@ const styles = theme => ({
   }
 });
 
-// function convert(t) {
-//   const dt = new Date(t);
-//   const hr = dt.getUTCHours();
-//   const m = "0" + dt.getUTCMinutes();
-
-//   return hr - 4 + ":" + m.substr(-2);
-// }
-
 const CommentBox = ({ comments, currentUser, classes }) => {
   useEffect(() => {
     var box = document.getElementById("comment-box");
@@ -36,6 +28,7 @@ const CommentBox = ({ comments, currentUser, classes }) => {
       {comments.map((comment, i) => (
         <Comment
           author={comment.username}
+          title={comment.user_title}
           comment={comment.comment}
           date={comment.date_created}
           alignment={currentUser === comment.username ? "right" : "left"}

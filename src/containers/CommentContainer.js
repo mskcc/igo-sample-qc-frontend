@@ -5,7 +5,10 @@ import Swal from "sweetalert2";
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { communicationActions } from "../actions";
-import { cleanAndFilterRecipients } from "../actions/helpers";
+import {
+  cleanAndFilterRecipients,
+  allIntialCommentsSent
+} from "../actions/helpers";
 
 import { CommentArea, CommentEditorArea } from "../components/Comments";
 
@@ -14,27 +17,27 @@ export class CommentContainer extends Component {
     this.props.getComments();
   }
 
-  addInitialComment = (comment, reports) => {
-    console.log(reports);
-    var keys = Object.keys(reports);
+  // addInitialComment = (comment, reports) => {
+  //   console.log(reports);
+  //   var keys = Object.keys(reports);
 
-    var filteredReports = keys.filter(function(key) {
-      return reports[key];
-    });
-    this.props.addInitialComment(comment, filteredReports);
-  };
+  //   var filteredReports = keys.filter(function(key) {
+  //     return reports[key];
+  //   });
+  //   this.props.addInitialComment(comment, filteredReports);
+  // };
 
   handleInitialComment = (comment, reports) => {
-    
     var keys = Object.keys(reports);
 
+    // array of all selected reports
     var filteredReports = keys.filter(function(key) {
       return reports[key];
     });
-    let recipients = cleanAndFilterRecipients(this.props.recipients)  ;
-    
-    let recipientString = recipients.join()
-    
+    let recipients = cleanAndFilterRecipients(this.props.recipients);
+
+    let recipientString = recipients.join();
+
     let reportString = Object.values(filteredReports).join(", ");
 
     let commentString = comment.replace(/\./gi, ".<br> ");
@@ -63,16 +66,34 @@ export class CommentContainer extends Component {
       cancelButtonText: "Back to Edit"
     }).then(result => {
       if (result.value) {
-        return this.props.addInitialComment(commentString, filteredReports, recipients);
+        return this.props.addInitialComment(
+          commentString,
+          filteredReports,
+          recipients
+        );
       } else {
         return true;
       }
     });
-
   };
 
   addCommentToAllReports = comment => {
-    this.props.addComment(comment, "all");
+    let reportsWithComments = Object.keys(this.props.comments);
+    let reportsPresent = Object.keys(this.props.report.tables);
+    if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
+      this.props.addCommentToAllReports(comment, Object.keys(this.props.report.tables));
+    } else {
+      Swal.fire({
+        title: "Not all intial comments sent.",
+        text:
+          "You can only comment on all reports at once if IGO has sent out " +
+          "intial notifications for every report present in this request.",
+        type: "info",
+        animation: false,
+        confirmButtonColor: "#007cba",
+        confirmButtonText: "Dismiss"
+      });
+    }
   };
 
   addComment = comment => {
@@ -85,14 +106,18 @@ export class CommentContainer extends Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.report.reportShown && this.props.comments &&
+        {this.props.report.reportShown &&
+        this.props.comments &&
         this.props.report.reportShown.includes("Report") &&
         this.props.comments[this.props.report.reportShown] &&
-        this.props.comments[this.props.report.reportShown].comments.length > 0 ? (
+        this.props.comments[this.props.report.reportShown].comments.length >
+          0 ? (
           <CommentArea
             currentReportShown={this.props.report.reportShown}
             numOfReports={Object.keys(this.props.report.tables).length}
-            comments={this.props.comments[this.props.report.reportShown].comments}
+            comments={
+              this.props.comments[this.props.report.reportShown].comments
+            }
             currentUser={this.props.user.username}
             addComment={this.addComment}
             addCommentToAllReports={this.addCommentToAllReports}
@@ -112,8 +137,8 @@ export class CommentContainer extends Component {
               request={this.props.report.request}
               recipients={this.props.recipients}
               tables={this.props.report.tables}
-              handleRecipientSubmit={this.handleRecipientSubmit}
               comments={this.props.comments}
+              handleRecipientSubmit={this.handleRecipientSubmit}
             />
           )
         )}
@@ -129,6 +154,7 @@ CommentContainer.defaultProps = {
 
 const mapStateToProps = state => ({
   comments: state.communication.comments,
+  communication: state.communication,
   report: state.report,
   recipients: state.communication.recipients,
   user: state.user

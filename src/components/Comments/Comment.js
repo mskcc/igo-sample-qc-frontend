@@ -7,7 +7,7 @@ const styles = theme => ({
   // current user's comments
   right: {
     float: "right",
-    textAlign: "right",
+    textAlign: "left",
     clear: "both",
     marginBottom: "1em",
     ...theme.mixins.gutters(),
@@ -37,12 +37,13 @@ const styles = theme => ({
   }
 });
 
-const Comment = ({ id, author, comment, date, alignment, classes }) => (
+const Comment = ({ id, author, title, comment, date, alignment, classes }) => (
   <div id={id}>
     <Paper className={classes[alignment]}>
-      <div className={classes.author}> {author}</div>
-      <div>{comment}</div>
-      <div className={classes.date}> {date}</div>
+      <div className={classes.author}> {author}, {title}</div>
+
+      <div dangerouslySetInnerHTML={{__html: comment}}></div>
+        <div className={classes.date}> {date}</div>
     </Paper>
   </div>
 );

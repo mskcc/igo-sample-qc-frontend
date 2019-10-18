@@ -9,7 +9,6 @@ import axios from "axios";
 // } from '../helpers'
 
 import { Config } from "../secret_config.js";
-// import { structureComments } from "./helpers";
 
 // // Add a request interceptor
 // axios.interceptors.request.use(
@@ -33,14 +32,14 @@ export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
-    console.log(recipients)
+    console.log(recipients);
     let commentToSave = {
       comment: {
         content: comment,
         username: getState().user.username
       },
       request_id: getState().report.request.requestId,
-      reports: reports.join(),
+      reports: reports,
       recipients: recipients.join()
     };
 
@@ -72,32 +71,15 @@ export const ADD_COMMENT = "ADD_COMMENT";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
-export function addComment(comment, reports) {
+export function addComment(comment, report) {
   return (dispatch, getState) => {
-    let recipients = [];
-    let recipientSet = [];
-    if (reports === "all") {
-      reports = Object.keys(getState().report.tables);
-      for (let report in reports) {
-        let reportRecipients = getState().communication.comments[
-          reports[report]
-        ].recipients.split(",");
-        recipientSet = new Set([...recipients, ...reportRecipients]);
-        
-      }
-      recipients = Array.from(recipientSet);
-    } else {
-      recipients = getState().communication.comments[reports].recipients;
-    }
-
     let commentToSave = {
       comment: {
         content: comment,
         username: getState().user.username
       },
       request_id: getState().report.request.requestId,
-      reports: reports,
-      recipients: recipients
+      report: report
     };
 
     dispatch({ type: ADD_COMMENT });
@@ -109,6 +91,7 @@ export function addComment(comment, reports) {
           payload: response.data.comments
         });
       })
+
       .catch(error => {
         return dispatch({
           type: ADD_COMMENT_FAIL,
@@ -116,10 +99,40 @@ export function addComment(comment, reports) {
         });
       });
   };
+}
 
-  //ceep copy of comments array
-  // let comments = [...getState().communication.comments];
-  // comments.push(comment);
+export const ADD_COMMENT_TO_ALL = "ADD_COMMENT_TO_ALL";
+export const ADD_COMMENT_TO_ALL_SUCCESS = "ADD_COMMENT_TO_ALL_SUCCESS";
+export const ADD_COMMENT_TO_ALL_FAIL = "ADD_COMMENT_TO_ALL_FAIL";
+
+export function addCommentToAllReports(comment, reports) {
+  return (dispatch, getState) => {
+    let commentToSave = {
+      comment: {
+        content: comment,
+        username: getState().user.username
+      },
+      request_id: getState().report.request.requestId,
+      reports: reports
+    };
+
+    dispatch({ type: ADD_COMMENT_TO_ALL });
+    return axios
+      .post(Config.API_ROOT + "/addToAllAndNotify", { data: commentToSave })
+      .then(response => {
+        return dispatch({
+          type: ADD_COMMENT_TO_ALL_SUCCESS,
+          payload: response.data.comments
+        });
+      })
+
+      .catch(error => {
+        return dispatch({
+          type: ADD_COMMENT_TO_ALL_FAIL,
+          error: error
+        });
+      });
+  };
 }
 
 export const GET_COMMENTS = "GET_COMMENTS";

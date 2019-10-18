@@ -15,7 +15,10 @@ function userReducer(state = initialState, action) {
                 ...state,
                 loggedIn: true,
                 username: action.payload.username,
-                // username: action.payload.userTitle
+                role: action.payload.role,
+                title: action.payload.title,
+                fullName: action.payload.full_name,
+                
             };
 
         case ActionTypes.LOGIN_FAIL:
