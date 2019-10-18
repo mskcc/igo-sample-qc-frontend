@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: "2em",
     paddingLeft: "2em",
     textAlign: "left",
-    marginRight: theme.spacing(3),
+    // marginRight: theme.spacing(3),
     gridArea: "table",
     display: "grid",
     gridTemplateAreas: "'toolbar' 'reports'",
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "rgba(0, 148, 144, .08)",
     borderTop: "2px solid darkgray"
     // display: "grid"
-    // gridTemplateAreas: "'table CommentTextField'",
+    // gridTemplateAreas: "'table NewCommentArea'",
     // gridTemplateColumns: "70% 30%"
   },
 

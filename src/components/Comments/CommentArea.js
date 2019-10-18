@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import CommentBox from "./CommentBox";
-import CommentTextField from "./CommentTextField";
+import NewCommentArea from "./NewCommentArea";
 
 const styles = theme => ({
   container: {
@@ -12,9 +12,12 @@ const styles = theme => ({
     overflowY: "scroll",
     display: "grid",
     height: "50vh",
-    paddingLeft: "2em",
-    gridTemplateAreas: "'commentBox CommentTextField'",
-    gridTemplateColumns: "50% 30%"
+    gridTemplateAreas: "'history' 'new-comment'",
+    gridTemplateRows: "80% 20%",
+    // borderBottom: "2px solid rgba(0, 0, 0, 0.23)",
+    // borderLeft: "2px solid rgba(0, 0, 0, 0.23)",
+    // borderRight: "2px solid rgba(0, 0, 0, 0.23)",
+    // borderRadius: "4px"
   }
 });
 
@@ -28,13 +31,13 @@ const CommentArea = ({
   classes
 }) => (
   <div className={classes.container}>
-    <CommentBox comments={comments} currentUser={currentUser} />
-    <CommentTextField
+    <NewCommentArea
       numOfReports={numOfReports}
       currentReportShown={currentReportShown}
       addComment={addComment}
       addCommentToAllReports={addCommentToAllReports}
     />
+    <CommentBox comments={comments} currentUser={currentUser} />
   </div>
 );
 

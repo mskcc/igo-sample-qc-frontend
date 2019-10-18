@@ -9,7 +9,8 @@ const styles = theme => ({
     float: "right",
     textAlign: "left",
     clear: "both",
-    marginBottom: "1em",
+    marginBottom: ".5em",
+    marginTop: ".5em",
     ...theme.mixins.gutters(),
     backgroundColor: "rgba(0, 148, 144, .2)",
     maxWidth: "70%",
@@ -21,8 +22,10 @@ const styles = theme => ({
     float: "left",
     textAlign: "left",
     clear: "both",
-    marginBottom: "1em",
+    marginBottom: ".5em",
+    marginTop: ".5em",
     ...theme.mixins.gutters(),
+    backgroundColor: "rgba(246, 198, 91, .2)",
     maxWidth: "70%",
     minWidth: "30%",
     margin: "0 auto"
@@ -37,10 +40,10 @@ const styles = theme => ({
   }
 });
 
-const Comment = ({ id, author, title, comment, date, alignment, classes }) => (
+const Comment = ({ id, author, title,fullName, comment, date, alignment, classes }) => (
   <div id={id}>
     <Paper className={classes[alignment]}>
-      <div className={classes.author}> {author}, {title}</div>
+      <div className={classes.author}> {author}, {fullName}, {title}</div>
 
       <div dangerouslySetInnerHTML={{__html: comment}}></div>
         <div className={classes.date}> {date}</div>

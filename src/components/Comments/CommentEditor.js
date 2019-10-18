@@ -59,34 +59,34 @@ export default function CommentEditor(props) {
   const classes = useStyles();
   const commentEl = useRef(null);
 
-  // const [values, setValues] = React.useState({
-  //   reports: {
-  //     "DNA Report": false,
-  //     "RNA Report": false,
-  //     "Library Report": false
-  //   },
-  //   salutation: "",
-  //   addressee: "",
-  //   downstreamProcess: props.recipe,
-  //   service: "",
-  //   bodyType: "",
-  //   rnaChecked: "",
-  //   valid: false
-  // });
   const [values, setValues] = React.useState({
     reports: {
       "DNA Report": false,
       "RNA Report": false,
       "Library Report": false
     },
-    salutation: "das",
-    addressee: "dsada",
+    salutation: "",
+    addressee: "",
     downstreamProcess: props.recipe,
-    service: "dsa",
-    bodyType: "da",
+    service: "",
+    bodyType: "",
     rnaChecked: "",
     valid: false
   });
+  // const [values, setValues] = React.useState({
+  //   reports: {
+  //     "DNA Report": false,
+  //     "RNA Report": false,
+  //     "Library Report": false
+  //   },
+  //   salutation: "das",
+  //   addressee: "dsada",
+  //   downstreamProcess: props.recipe,
+  //   service: "dsa",
+  //   bodyType: "da",
+  //   rnaChecked: "",
+  //   valid: false
+  // });
 
   const handleChange = name => event => {
     if (event.target.value !== "default") {
@@ -170,6 +170,7 @@ export default function CommentEditor(props) {
               >
                 <MenuItem value="Morning">Morning</MenuItem>
                 <MenuItem value="Evening">Evening</MenuItem>
+                <MenuItem value="Hello">Hello</MenuItem>
               </Select>
             </FormControl>
 

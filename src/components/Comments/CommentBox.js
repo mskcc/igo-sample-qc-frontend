@@ -7,14 +7,10 @@ import Comment from "./Comment";
 const styles = theme => ({
   container: {
     textAlign: "center",
-    paddingTop: theme.spacing(1),
-    gridArea: "commentBox",
+    gridArea: "history",
     width: "100%",
     overflowX: "auto",
-    borderBottom: "2px solid rgba(0, 0, 0, 0.23)",
-    borderLeft: "2px solid rgba(0, 0, 0, 0.23)",
-    borderRight: "2px solid rgba(0, 0, 0, 0.23)",
-    borderRadius: "4px"
+    
   }
 });
 
@@ -28,7 +24,8 @@ const CommentBox = ({ comments, currentUser, classes }) => {
       {comments.map((comment, i) => (
         <Comment
           author={comment.username}
-          title={comment.user_title}
+          title={comment.title}
+          fullName={comment.full_name}
           comment={comment.comment}
           date={comment.date_created}
           alignment={currentUser === comment.username ? "right" : "left"}

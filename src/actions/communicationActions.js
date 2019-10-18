@@ -50,7 +50,7 @@ export function addInitialComment(comment, reports, recipients) {
         return dispatch({
           type: ADD_INITIAL_COMMENT_SUCCESS,
           payload: response.data.comments,
-          message: "Comment saved!"
+          message: "Saved and notified!"
         });
       })
       .catch(error => {
@@ -76,6 +76,7 @@ export function addComment(comment, report) {
     let commentToSave = {
       comment: {
         content: comment,
+        // username: "patrunoa"
         username: getState().user.username
       },
       request_id: getState().report.request.requestId,
@@ -88,7 +89,8 @@ export function addComment(comment, report) {
       .then(response => {
         return dispatch({
           type: ADD_COMMENT_SUCCESS,
-          payload: response.data.comments
+          payload: response.data.comments,
+          message: "Saved and notified!"
         });
       })
 
@@ -110,6 +112,7 @@ export function addCommentToAllReports(comment, reports) {
     let commentToSave = {
       comment: {
         content: comment,
+        // username: "patrunoa"
         username: getState().user.username
       },
       request_id: getState().report.request.requestId,
@@ -122,7 +125,8 @@ export function addCommentToAllReports(comment, reports) {
       .then(response => {
         return dispatch({
           type: ADD_COMMENT_TO_ALL_SUCCESS,
-          payload: response.data.comments
+          payload: response.data.comments,
+          message: "Saved and notified!"
         });
       })
 
