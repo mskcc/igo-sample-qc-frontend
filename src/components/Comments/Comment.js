@@ -32,21 +32,37 @@ const styles = theme => ({
   },
   author: {
     fontSize: ".8em",
-    textAlign: "left"
+    textAlign: "left",
+    marginTop: ".4em",
+    marginBottom: ".6em"
   },
   date: {
     fontSize: ".8em",
-    textAlign: "right"
+    textAlign: "right",
+    marginBottom: ".4em",
+    marginTop: ".6em"
   }
 });
 
-const Comment = ({ id, author, title,fullName, comment, date, alignment, classes }) => (
+const Comment = ({
+  id,
+  author,
+  title,
+  fullName,
+  comment,
+  date,
+  alignment,
+  classes
+}) => (
   <div id={id}>
     <Paper className={classes[alignment]}>
-      <div className={classes.author}> {author}, {fullName}, {title}</div>
+      <div className={classes.author}>
+        {" "}
+        {author}, {fullName}, {title}
+      </div>
 
-      <div dangerouslySetInnerHTML={{__html: comment}}></div>
-        <div className={classes.date}> {date}</div>
+      <div dangerouslySetInnerHTML={{ __html: comment }} />
+      <div className={classes.date}> {date}</div>
     </Paper>
   </div>
 );

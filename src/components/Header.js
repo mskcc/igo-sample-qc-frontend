@@ -22,7 +22,8 @@ const Header = ({ classes, loggedIn }) => (
       </Typography>
       {loggedIn ? (
         <React.Fragment>
-          <Button>
+          {/* 
+              <Button>
             <NavLink
               to="/upload"
               activeClassName={classes.active}
@@ -45,7 +46,7 @@ const Header = ({ classes, loggedIn }) => (
               </Typography>
             </NavLink>
           </Button>
-
+*/}
           <Button>
             <NavLink
               to="/logout"

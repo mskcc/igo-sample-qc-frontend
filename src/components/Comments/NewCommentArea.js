@@ -21,6 +21,12 @@ const useStyles = makeStyles(theme => ({
     width: "50%"
     // marginBottom: "1em"
   },
+  singleButton: {
+    // float: "right",
+    minHeight: "100%",
+    width: "100%"
+    // marginBottom: "1em"
+  },
   buttons: {
     display: "grid"
   }
@@ -63,7 +69,6 @@ export default function NewCommentArea(props) {
             <Button
               variant="contained"
               size="small"
-
               onClick={addComment}
               color="primary"
               disabled={values.comment ? false : true}
@@ -75,7 +80,6 @@ export default function NewCommentArea(props) {
             <Button
               variant="contained"
               size="small"
-
               onClick={addCommentToAllReports}
               color="secondary"
               disabled={values.comment ? false : true}
@@ -88,15 +92,12 @@ export default function NewCommentArea(props) {
           <Button
             variant="contained"
             size="small"
-
             onClick={addComment}
             color="primary"
-            disabled={
-              values.comment ? false : true && props.allIntialCommentsSent
-            }
-            className={classes.button}
+            disabled={values.comment ? false : true}
+            className={classes.singleButton}
           >
-            Reply to Report
+            Reply to {props.currentReportShown}
           </Button>
         )}
       </span>

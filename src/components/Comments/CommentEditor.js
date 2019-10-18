@@ -272,9 +272,7 @@ export default function CommentEditor(props) {
                     />
                   }
                   label={
-                    "Please confirm that the" +
-                    values.sampleType +
-                    "look as expected in order to continue to sequencing."
+                    "Please confirm that the samples look as expected in order to continue to sequencing."
                   }
                 />
               </span>

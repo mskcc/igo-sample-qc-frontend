@@ -81,7 +81,10 @@ export class CommentContainer extends Component {
     let reportsWithComments = Object.keys(this.props.comments);
     let reportsPresent = Object.keys(this.props.report.tables);
     if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
-      this.props.addCommentToAllReports(comment, Object.keys(this.props.report.tables));
+      this.props.addCommentToAllReports(
+        comment,
+        Object.keys(this.props.report.tables)
+      );
     } else {
       Swal.fire({
         title: "Not all intial comments sent.",
@@ -114,7 +117,11 @@ export class CommentContainer extends Component {
           0 ? (
           <CommentArea
             currentReportShown={this.props.report.reportShown}
-            numOfReports={Object.keys(this.props.report.tables).length}
+            numOfReports={
+              Object.keys(this.props.report.tables).filter(commentReport =>
+                commentReport.includes("Report")
+              ).length
+            }
             comments={
               this.props.comments[this.props.report.reportShown].comments
             }
