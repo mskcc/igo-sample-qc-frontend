@@ -1,5 +1,6 @@
 import { reportActions as ActionTypes } from "../actions";
 import FileSaver from "file-saver";
+import Swal from "sweetalert2";
 
 const initialState = {
   loaded: false,
@@ -23,6 +24,16 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.GET_REQUEST_FAIL:
+      Swal.fire({
+        title: "Request not found.",
+        text:
+          "This request might not exist, " +
+          "not be ready for QC or is not associated with your username.",
+        type: "info",
+        animation: false,
+        confirmButtonColor: "#007cba",
+        confirmButtonText: "Dismiss"
+      });
       return {
         ...state
       };

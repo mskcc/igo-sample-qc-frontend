@@ -40,36 +40,45 @@ export const GET_REQUEST_REQUEST = "GET_REQUEST_REQUEST";
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const GET_REQUEST_SUCCESS = "GET_REQUEST_SUCCESS";
 export function getRequest(requestId) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
             type: GET_REQUEST_REQUEST,
             requestId: requestId,
             loading: true,
             loadingMessage: "Fetching Request..."
         });
+        let username = getState().user.username;
+        let userRole = getState().user.role;
         return axios
             .get(Config.API_ROOT + "/getRequestSamples", {
                 params: {
-                    request_id: requestId
+                    request_id: requestId,
+                    username: username,
+                    role: userRole
                 }
             })
             .then(response => {
                 return dispatch({
                     type: GET_REQUEST_SUCCESS,
-                    // loading: false, //keep loading as another action will be triggered
-                    // message: response.data.message,
                     payload: response.data,
-                    message: "reset",
+                    message: "reset"
                 });
             })
 
             .catch(error => {
-               
-                return dispatch({
-                    type: GET_REQUEST_FAIL,
-                    message: "Request not found.",
-                    loading: false
-                });
+                if (error.response && error.response.status === 404) {
+                    return dispatch({
+                        type: GET_REQUEST_FAIL,
+
+                        message: "reset"
+                    });
+                } else {
+                    return dispatch({
+                        type: GET_REQUEST_FAIL,
+
+                        message: "reset"
+                    });
+                }
             });
     };
 }
