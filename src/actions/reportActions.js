@@ -202,7 +202,7 @@ export function downloadAttachment(coords) {
             .then(response => {
                 dispatch({
                     type: ATTACHMENT_DOWNLOAD_SUCCESS,
-                    loading: false,
+                    message: "reset",
                     file: response.data,
                     fileName: fileName
                 });

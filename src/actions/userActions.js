@@ -94,6 +94,7 @@ export function logout() {
                 });
         }
         let token = sessionStorage.getItem("refresh_token");
+        
         if (refresh_token) {
             sessionStorage.removeItem("refresh_token");
             axios
