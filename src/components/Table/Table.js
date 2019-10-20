@@ -1,98 +1,71 @@
 import React from "react";
 import { HotTable } from "@handsontable/react";
 import { withStyles } from "@material-ui/core/styles";
-import Checkbox from "@material-ui/core/Checkbox";
+// import Checkbox from "@material-ui/core/Checkbox";
 import Swal from "sweetalert2";
 
 const styles = theme => ({
-    container: {
-        width: "100%",
-        overflowX: "auto"
-    }
+  container: {
+    width: "100%",
+    overflowX: "auto",
+    display: "grid"
+  }
 });
 
-const columnFeatures = [
-    { data: "id", name: "id" },
-    { data: "title", name: "title" },
-    { data: "count", type: "numeric" },
-    {
-        data: "move_forward",
-        type: "checkbox"
-    },
-    { data: "comment" }
-];
-
-const columnHeaders = ["id", "title", "count", "Continue?", "Comment"];
-
-const data = [
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 0, title: "row1", count: 20, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 1, title: "row1", count: 40, move_forward: false, comment: "" },
-    { id: 2, title: "row1", count: 60, move_forward: false, comment: "" }
-];
-
 class Table extends React.Component {
-    constructor(props) {
-        super(props);
-        this.hotTableComponent = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.hotTableComponent = React.createRef();
+  }
 
-    getErrorMsg = () => {
-        for (let i = 0; i < "numberToAdd"; i++) {}
-    };
-    showError = error => {
-        console.log(error);
-        Swal.fire(error);
-    };
+  showError = error => {
+    Swal.fire(error);
+  };
 
-    render() {
-        const {
-            classes
-            // handleClick,
-            // handleReceipt,
-            // handleDelete
-        } = this.props;
-        return (
-            <div className={classes.container}>
-                <HotTable
-                    licenseKey="non-commercial-and-evaluation"
-                    id="hot"
-                    ref={this.hotTableComponent}
-                    data={data}
-                    columns={columnFeatures}
-                    colHeaders={columnHeaders}
-                    rowHeaders={true}
-                    className="htCenter"
-                    // columns={this.props.user.submissionsTable.columnFeatures}
-                    stretchH="all"
-                    filters="true"
-                    columnSorting="true"
-                />
-            </div>
-        );
-    }
+  render() {
+    const {
+      classes
+      // handleClick,
+      // handleReceipt,
+      // handleDelete
+    } = this.props;
+    // last column is always RecordId. Needed to set investigator decision efficiently
+    let lastColumnIndex = this.props.data.columnFeatures.length - 1;
+    let isAttachmentTable = this.props.data.columnHeaders.length === 3;
+    return (
+      <div className={classes.container}>
+        <HotTable
+          licenseKey="non-commercial-and-evaluation"
+          id="hot"
+          ref={this.hotTableComponent}
+          data={this.props.data.data}
+          columns={this.props.data.columnFeatures}
+          colHeaders={this.props.data.columnHeaders}
+          hiddenColumns={{
+            columns: [lastColumnIndex],
+            indicators: false
+          }}
+          rowHeaders={true}
+          className="htCenter"
+          stretchH={isAttachmentTable ? "none" : "all"}
+          filters="true"
+          columnSorting="true"
+          height="500"
+          rowHeights="35"
+          afterValidate={(changes, source) => {
+            this.props.registerChange();
+          }}
+          afterOnCellMouseDown={(event, coords, TD) => {
+            if (isAttachmentTable && event.button === 0 && coords.row > -1) {
+              if (coords.col === 1) {
+                this.props.handleAttachmentDownload(coords);
+              }
+            }
+          }}
+        />
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Table);

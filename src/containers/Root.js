@@ -1,29 +1,28 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { connect } from "react-redux";
-// import { commonActions, userActions } from "../actions";
+import { commonActions, userActions } from "../actions";
 import DevTools from "./DevTools";
 
-import { LocalizeProvider, withLocalize } from "react-localize-redux";
+// import { LocalizeProvider, withLocalize } from "react-localize-redux";
+import { withLocalize } from "react-localize-redux";
 import enTranslations from "../translations/en.json";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Header from "../components/Header";
+import LoadingOverlay from "react-loading-overlay";
+
+import { Header, SnackMessage } from "../components";
 import CommentContainer from "./CommentContainer";
 import TableContainer from "./TableContainer";
+import SidebarContainer from "./SidebarContainer";
 
-// import UploadPage from './Upload/UploadPage'
-// import SubmissionsPage from './Submissions/SubmissionsPage'
-// import Promote from './Promote/Promote'
-// import Login from './Login'
-// import Logout from './Logout'
-// import ErrorPage from './ErrorPage'
+import Login from "./Login";
+import Logout from "./Logout";
+import ErrorPage from "./ErrorPage";
 
 import { Config } from "../secret_config.js";
 
@@ -58,42 +57,80 @@ class Root extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   // making sure BE and FE versions match - shows info message if not
-  //   this.props.checkVersion()
-  //   this.props.refreshToken()
-  //   document.addEventListener('keydown', this.escFunction, false)
-  // }
-  // componentWillUnmount() {
-  //   document.removeEventListener('keydown', this.escFunction, false)
-  // }
+  componentDidMount() {
+    //   // making sure BE and FE versions match - shows info message if not
+    // this.props.checkVersion();
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
 
-  // handleMsgClose = () => {
-  //   this.props.resetMessage()
-  //   // this.props.resetErrorMessage()
-  // }
+  handleMsgClose = () => {
+    this.props.resetMessage();
+  };
 
-  // escFunction = event => {
-  //   if (event.keyCode === 27) {
-  //     //Do whatever when esc is pressed
-  //     this.props.resetMessage()
-  //   }
-  // }
+  escFunction = event => {
+    if (event.keyCode === 27) {
+      this.props.resetMessage();
+    }
+  };
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Router basename={Config.BASENAME}>
           <div>
-            <div className="app">
-              {Config.ENV !== "production" ? <DevTools /> : <div />}
-              <div class="content">
-                <Header class="header" loggedIn={this.props.loggedIn} />
-                <div class="sidebar">Project Tree</div>
-                <CommentContainer />
-                <TableContainer />
+            <LoadingOverlay
+              active={this.props.common.loading}
+              spinner
+              text={
+                this.props.common.loadingMessage || "Loading your content..."
+              }
+            >
+              <div className="app">
+                <Header
+                  className="header"
+                  loggedIn={this.props.user.loggedIn}
+                />
+                {Config.ENV !== "production" ? <DevTools /> : <div />}
+                {this.props.common.serverError ? (
+                  <ErrorPage />
+                ) : this.props.user.loggedIn ? (
+                  <React.Fragment>
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      path="/logout"
+                      component={Logout}
+                    />
+                    <Route path="/login" component={Login} />
+
+                    <div className="content">
+                      <SidebarContainer />
+                      {this.props.report.loaded && (
+                        <React.Fragment>
+                          <CommentContainer />
+                          <TableContainer />
+                        </React.Fragment>
+                      )}
+                    </div>
+                  </React.Fragment>
+                ) : (
+                  <Login />
+                )}
+                {this.props.common.message &&
+                this.props.common.message.length > 0 ? (
+                  <span>
+                    <SnackMessage
+                      open
+                      type={this.props.error ? "error" : "info"}
+                      message={this.props.common.message}
+                      handleClose={this.handleMsgClose}
+                    />
+                  </span>
+                ) : null}
               </div>
-            </div>
+            </LoadingOverlay>
           </div>
         </Router>
       </MuiThemeProvider>
@@ -103,11 +140,12 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   common: state.common,
-  ...state.user
+  user: state.user,
+  report: state.report
 });
 const mapDispatchToProps = {
-  // ...commonActions,
-  // ...userActions
+  ...commonActions,
+  ...userActions
 };
 
 export default withLocalize(
@@ -137,48 +175,3 @@ const theme = createMuiTheme({
     textSecondary: "#e0e0e0"
   }
 });
-
-// {this.props.common.serverError ? (
-//                <ErrorPage />
-//              ) : (
-//                <React.Fragment>
-//                  {this.props.common.loading && (
-//                    <CircularProgress color="secondary" size={24} />
-//                  )}
-//                  <div>
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/(upload|)"
-//                      component={UploadPage}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/promote"
-//                      component={Promote}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/submissions"
-//                      component={SubmissionsPage}
-//                    />
-//                    <PrivateRoute
-//                      loggedIn={this.props.loggedIn}
-//                      path="/logout"
-//                      component={Logout}
-//                    />
-//                    <Route path="/login" component={Login} />
-//                    <Route path="/error" component={ErrorPage} />
-//                  </div>{' '}
-//                  {this.props.common.message &&
-//                  this.props.common.message.length > 0 ? (
-//                    <span>
-//                      <SnackMessage
-//                        open
-//                        type={this.props.error ? 'error' : 'info'}
-//                        message={this.props.common.message}
-//                        handleClose={this.handleMsgClose}
-//                      />
-//                    </span>
-//                  ) : null}
-//                </React.Fragment>
-//              )}

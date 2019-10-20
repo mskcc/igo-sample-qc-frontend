@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   Avatar,
@@ -9,7 +9,6 @@ import {
   withStyles
 } from "@material-ui/core";
 
-import classNames from "classnames";
 import image from "./msk.png";
 
 const Header = ({ classes, loggedIn }) => (
@@ -19,11 +18,12 @@ const Header = ({ classes, loggedIn }) => (
       <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
 
       <Typography color="inherit" variant="h6" className={classes.title}>
-        IGO Quality Control
+        Sample QC
       </Typography>
-      {!loggedIn ? (
+      {loggedIn ? (
         <React.Fragment>
-          <Button>
+          {/* 
+              <Button>
             <NavLink
               to="/upload"
               activeClassName={classes.active}
@@ -46,7 +46,7 @@ const Header = ({ classes, loggedIn }) => (
               </Typography>
             </NavLink>
           </Button>
-
+*/}
           <Button>
             <NavLink
               to="/logout"
@@ -83,7 +83,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.logo,
     color: "white",
     textAlign: "center",
-    gridArea: 'header'
+    gridArea: "header"
   },
   avatar: {
     width: "26px",

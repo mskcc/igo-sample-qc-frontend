@@ -28,25 +28,85 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: 100vh;
+    min-height: 100vh;
+    width: 100vw;
     overflow: auto;
 }
 .content {
     display: grid;
-    grid-template-areas: "header header" "sidebar comments" "sidebar table ";
-    grid-template-rows: 8vh 30vh 62vh;
-    grid-template-columns: 20% 80%;
-
-    .sidebar {
-        text-align: center;
-        grid-area: sidebar;
-        height: 92vh;
-
-        background-color: $mskcc-light-gray;
-    }
+    grid-template-areas: "sidebar comments" "sidebar table ";
+    // grid-template-rows: 30vh 65vh;
+    grid-template-columns: 15% 85%;
+    // grid-row-gap: 1em;
+    // grid-column-gap: 1em;
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+._loading_overlay_overlay {
+    background: rgba(0, 48, 77, 0.5) !important;
+}
+
+.passed {
+    color: black;
+    background-color: $mskcc-light-green;
+}
+.try {
+    color: black;
+    background-color: $mskcc-dark-yellow;
+}
+
+.fail {
+    color: black;
+    background-color: $mskcc-red;
+}
+
+.download-icon {
+    cursor: pointer;
+    color: #006098;
+}
+
+.swal2-content {
+    .swal-comment-review {
+        text-align: left;
+    }
+}
+
+
+.htDimmed {
+    color: black !important;
+
+    background-color: $material-gray !important;
+}
+
+.handsontable th,
+.handsontable td {
+    vertical-align: middle !important;
+}
+
+.handsontable th {
+    background-color: rgba(143, 199, 232, 0.4) !important;
+    font-weight: bold !important;
+    // background-color: $mskcc-light-blue !important;
+}
+
+.handsontable .htCheckboxRendererInput {
+    height: 2em !important;
+}
+
+.listbox .htDimmed {
+    background-color: white !important;
+    font-size: 1em !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid lightgray !important;
+    border-left: 1px solid lightgray !important;
+    border-right: 1px solid lightgray !important;
+}
+
+.handsontable.listbox tr td.current,
+.handsontable.listbox tr:hover td {
+    background: rgba(143, 199, 232, 0.4) !important;
 }

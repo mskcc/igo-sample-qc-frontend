@@ -1,42 +1,45 @@
-import { combineReducers } from 'redux'
-import { LocalizeProvider, localizeReducer } from 'react-localize-redux'
+import { combineReducers } from "redux";
+import { localizeReducer } from "react-localize-redux";
 
 // import uploadReducer from './upload/uploadReducer'
-import commentReducer from './commentReducer'
-// import userReducer from './user/userReducer'
-import { persistReducer } from 'redux-persist'
+import communicationReducer from "./communicationReducer";
+import commonReducer from "./commonReducer";
+import userReducer from "./userReducer";
+import reportReducer from "./reportReducer";
+import { persistReducer } from "redux-persist";
 // import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
-import sessionStorage from 'redux-persist/lib/storage/session' // defaults to localStorage for web and AsyncStorage for react-native
+import sessionStorage from "redux-persist/lib/storage/session"; // defaults to localStorage for web and AsyncStorage for react-native
 
 // import { commonActions } from '../actions'
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: sessionStorage,
-  whitelist: ['communication', 'user'],
-}
+  whitelist: ["communication", "user", "report"]
+};
 
 const appReducer = combineReducers({
   // upload: uploadReducer,
-  communication: commentReducer,
-  // user: userReducer,
+  communication: communicationReducer,
+  common: commonReducer,
+  user: userReducer,
+  report: reportReducer,
 
-
-  localize: localizeReducer,
-})
+  localize: localizeReducer
+});
 
 const rootReducer = (state, action) => {
-  if (action.type === 'LOGOUT_SUCCESS') {
-    console.log('goodbye')
+  if (action.type === "LOGOUT_SUCCESS") {
+    console.log("goodbye");
     state = {
-      upload: undefined,
       user: undefined,
-      comments: undefined,
-      localize: state.localize,
-    }
+      communication: undefined,
+      common: undefined,
+      localize: state.localize
+    };
   }
 
-  return appReducer(state, action)
-}
+  return appReducer(state, action);
+};
 
-export default persistReducer(persistConfig, rootReducer)
+export default persistReducer(persistConfig, rootReducer);

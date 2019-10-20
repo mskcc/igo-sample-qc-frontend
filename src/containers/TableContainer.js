@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-// import { commentActions } from "../actions";
-import { Redirect } from "react-router-dom";
+import { reportActions } from "../actions";
 
 import { TableArea } from "../components/Table";
 
@@ -23,11 +21,56 @@ export class TableContainer extends Component {
   //     content: comment
   //   });
   // };
+  componentDidMount() {
+    if (this.props.report.request.samples) {
+      this.props.getQcReports(this.props.report.request.requestId);
+    }
+  }
+  updateReportShown = report => {
+    if (this.props.report.request.samples) {
+      this.props.updateReportShown(report);
+    }
+  };
+
+  handleSubmit = () => {
+    this.props.submitInvestigatorDecision();
+  };
+  registerChange = () => {
+    this.props.registerChange();
+  };
+  handleAttachmentDownload = coords => {
+    this.props.downloadAttachment(coords);
+  };
+
+  handleReportDownload = (report) => {
+    this.props.downloadReport(
+      report,
+      this.props.report.request
+    );
+  };
+  // componentDidUpdate() {
+  //   console.log(this.props)
+
+  //   // this.props.getQcReports(this.props.report.request);
+  // }
 
   render() {
+    const { report } = this.props;
+    
     return (
       <React.Fragment>
-        <TableArea />
+        {this.props.report.tables && (
+          <TableArea
+            request={report.request}
+            tables={report.tables}
+            reportShown={report.reportShown}
+            updateReportShown={this.updateReportShown}
+            handleSubmit={this.handleSubmit}
+            registerChange={this.registerChange}
+            handleAttachmentDownload={this.handleAttachmentDownload}
+            handleReportDownload={this.handleReportDownload}
+          />
+        )}
       </React.Fragment>
     );
   }
@@ -35,13 +78,13 @@ export class TableContainer extends Component {
 
 TableContainer.defaultProps = {};
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({ report: state.report });
 
 export default withLocalize(
   connect(
     mapStateToProps,
     {
-      // ...uploadGridActions,
+      ...reportActions
     }
   )(TableContainer)
 );
