@@ -118,6 +118,38 @@ export function getQcReports(requestId, otherSampleIds) {
     };
 }
 
+export const GET_PENDING_REQUEST = "GET_PENDING_REQUEST";
+export const GET_PENDING_FAIL = "GET_PENDING_FAIL";
+export const GET_PENDING_SUCCESS = "GET_PENDING_SUCCESS";
+export function getPending() {
+    return (dispatch, getState) => {
+        dispatch({
+            type: GET_PENDING_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+
+        // let data = await fillReportTables(response.data)
+        return axios
+            .get(Config.API_ROOT + "/getPending", {})
+            .then(response => {
+                console.log(response);
+                dispatch({
+                    type: GET_PENDING_SUCCESS,
+                    pending: response.data,
+                    message: "reset"
+                });
+            })
+
+            .catch(error => {
+                return dispatch({
+                    type: GET_PENDING_FAIL,
+                    error: error,
+                    message: "Submission failed."
+                });
+            });
+    };
+}
 export const POST_INVESTIGATOR_DECISION_REQUEST =
     "POST_INVESTIGATOR_DECISION_REQUEST";
 export const POST_INVESTIGATOR_DECISION_FAIL =
@@ -239,6 +271,14 @@ export function updateReportShown(report) {
     return {
         type: UPDATE_REPORT_SHOWN,
         payload: report
+    };
+}
+
+export const SHOW_PENDING = "SHOW_PENDING";
+export function showPending(ownProps) {
+    return {
+        type: SHOW_PENDING,
+        payload: "report"
     };
 }
 

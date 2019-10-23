@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 const initialState = {
   loaded: false,
   request: "",
-  reportShown: null
+  reportShown: null,
+  pending: null
 };
 
 function reportReducer(state = initialState, action) {
@@ -85,10 +86,34 @@ function reportReducer(state = initialState, action) {
       return {
         ...state
       };
+
+    case ActionTypes.GET_PENDING_REQUEST:
+      return {
+        ...state
+      };
+
+    case ActionTypes.GET_PENDING_SUCCESS:
+      return {
+        ...state,
+        pending: action.pending
+      };
+
+    case ActionTypes.GET_PENDING_FAIL:
+      return {
+        ...state
+      };
     case ActionTypes.UPDATE_REPORT_SHOWN:
       return {
         ...state,
         reportShown: action.payload
+      };
+
+    case ActionTypes.SHOW_PENDING:
+      return {
+        ...initialState,
+        request: {
+          requestId: "07437_C"
+        }
       };
     case ActionTypes.REGISTER_GRID_CHANGE:
       return {

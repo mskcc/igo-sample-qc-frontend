@@ -133,7 +133,7 @@ export default function CommentEditor(props) {
           QC Report Comment Editor
         </Typography>
         <div>
-          {Object.keys(props.tables).length > 1 && (
+          {Object.keys(props.tables).length > 0 && (
             <span>
               Which report should this comment be added to?
               <br />

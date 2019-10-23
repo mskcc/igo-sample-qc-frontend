@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-import { communicationActions } from "../actions";
+import { communicationActions } from "../../actions";
 import {
   cleanAndFilterRecipients,
   allIntialCommentsSent
-} from "../actions/helpers";
+} from "../../actions/helpers";
 
-import { CommentArea, CommentEditorArea } from "../components/Comments";
+import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {

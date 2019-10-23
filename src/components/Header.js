@@ -11,7 +11,7 @@ import {
 
 import image from "./msk.png";
 
-const Header = ({ classes, loggedIn }) => (
+const Header = ({ classes, loggedIn, role }) => (
   // <div className={classes.mskccHeader}>
   <AppBar position="static" title={image} className={classes.header}>
     <Toolbar>
@@ -47,6 +47,32 @@ const Header = ({ classes, loggedIn }) => (
             </NavLink>
           </Button>
 */}
+          {role === "lab_member" && (
+            <React.Fragment>
+              <Button>
+                <NavLink
+                  to="/"
+                  activeClassName={classes.active}
+                  className={classes.navlink}
+                >
+                  <Typography color="inherit" variant="h6">
+                    Home
+                  </Typography>
+                </NavLink>
+              </Button>
+              <Button>
+                <NavLink
+                  to="/pending"
+                  activeClassName={classes.active}
+                  className={classes.navlink}
+                >
+                  <Typography color="inherit" variant="h6">
+                    Pending
+                  </Typography>
+                </NavLink>
+              </Button>
+            </React.Fragment>
+          )}
           <Button>
             <NavLink
               to="/logout"

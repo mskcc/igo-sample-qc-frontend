@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Swal from "sweetalert2";
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-import { reportActions } from "../actions";
-import { allDecisionsMade } from "../actions/helpers";
+import { reportActions } from "../../actions";
+import { allDecisionsMade } from "../../actions/helpers";
 
-import { TableArea } from "../components/Table";
+import { TableArea } from "../../components/Table";
 
 export class TableContainer extends Component {
   componentDidMount() {
