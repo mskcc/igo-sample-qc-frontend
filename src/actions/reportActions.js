@@ -4,11 +4,7 @@ import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
 import { Config } from "../secret_config.js";
-import {
-    fillReportTables,
-    allDecisionsMade,
-    generateSubmitData
-} from "./helpers";
+import { fillReportTables, generateDecisionSubmitData } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
@@ -130,46 +126,36 @@ export const POST_INVESTIGATOR_DECISION_SUCCESS =
     "POST_INVESTIGATOR_DECISION_SUCCESS";
 export function submitInvestigatorDecision() {
     return (dispatch, getState) => {
-        if (!allDecisionsMade(getState().report.tables)) {
-            Swal.fire({
-                title: "Not all Decisions made.",
-                text:
-                    "Please make a decision for each sample in every report before you submit to IGO.",
+        dispatch({
+            type: POST_INVESTIGATOR_DECISION_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+        let decisions = generateDecisionSubmitData(getState().report.tables);
+        let request_id = getState().report.request.requestId;
+        let username = getState().user.username;
 
-                type: "info",
-                animation: false,
-                confirmButtonColor: "#007cba",
-                confirmButtonText: "Dismiss"
-            });
-        } else {
-            dispatch({
-                type: POST_INVESTIGATOR_DECISION_REQUEST,
-                loading: true,
-                loadingMessage: "Submitting..."
-            });
-            let data = generateSubmitData(getState().report.tables);
-
-            // let data = await fillReportTables(response.data)
-            return axios
-                .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
-                    data
-                })
-                .then(response => {
-                    dispatch({
-                        type: POST_INVESTIGATOR_DECISION_SUCCESS,
-                        loading: false
-                    });
-                })
-
-                .catch(error => {
-                    return dispatch({
-                        type: POST_INVESTIGATOR_DECISION_FAIL,
-                        error: error,
-
-                        loading: false
-                    });
+        // let data = await fillReportTables(response.data)
+        return axios
+            .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
+                decisions,
+                username,
+                request_id
+            })
+            .then(response => {
+                dispatch({
+                    type: POST_INVESTIGATOR_DECISION_SUCCESS,
+                    message: "Submitted!"
                 });
-        }
+            })
+
+            .catch(error => {
+                return dispatch({
+                    type: POST_INVESTIGATOR_DECISION_FAIL,
+                    error: error,
+                    message: "Submission failed."
+                });
+            });
     };
 }
 

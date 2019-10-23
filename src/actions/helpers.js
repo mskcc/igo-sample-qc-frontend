@@ -45,7 +45,7 @@ export const allDecisionsMade = tables => {
 };
 
 // assemble decision object [{datatype:"report",samples: [{"RecordId" : recordId, "InvestigatorDecision": decision}]}]
-export const generateSubmitData = tables => {
+export const generateDecisionSubmitData = tables => {
     let submitData = [];
     let i = 0;
     for (let table in tables) {

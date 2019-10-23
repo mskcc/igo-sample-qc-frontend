@@ -16,20 +16,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function RequestInfo(props) {
   const classes = useStyles();
-  // const [values, setValues] = React.useState({
-  //   multiline: "Controlled"
-  // });
-
-  // const handleChange = name => event => {
-  //   setValues({ ...values, [name]: event.target.value });
-  // };
-
-  // const addComment = () => {
-  //   ["labHeadName"]
-  // ["investigatorName"]
-  // ["dataAnalystName"]
-  // ["projectManagerName"]
-  // };
 
   return (
     <div className={classes.container}>
@@ -45,7 +31,6 @@ export default function RequestInfo(props) {
             <strong>Investigator:</strong> {props.request.investigatorName}
           </div>
         </div>
-        <div />
       </div>
     </div>
   );
