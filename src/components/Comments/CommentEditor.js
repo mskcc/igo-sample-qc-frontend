@@ -102,23 +102,40 @@ export default function CommentEditor(props) {
     setValues({ ...values, [name]: !values[name] });
   };
   const handleReportsCheckbox = name => event => {
-    console.log(values.valid);
     setValues({
       ...values,
-      valid: validate(),
+      valid: validate(!values.reports[name.report], name),
       reports: {
         ...values.reports,
         [name.report]: !values.reports[name.report]
       }
     });
+    // validateAndStore();
   };
 
   const handleInitialComment = () => {
     props.handleInitialComment(commentEl.current.textContent, values.reports);
   };
 
-  const validate = () => {
+  const validate = (reportCheckBox, reportName) => {
+    var keys = Object.keys(values.reports);
+    var filteredReports = keys.filter(function(key) {
+      return values.reports[key];
+    });
+
+    let atLeastOneReport =
+      filteredReports.length > 0 || (reportCheckBox || false);
+    if (atLeastOneReport) {
+      if (
+        filteredReports.length === 1 &&
+        reportName.report === filteredReports[0]
+      ) {
+        // if clicked report was only selected one in filtered reports there are now no reports left
+        atLeastOneReport = false;
+      }
+    }
     return (
+      atLeastOneReport &&
       values.salutation !== "" &&
       values.addressee !== "" &&
       values.downstreamProcess !== "" &&
