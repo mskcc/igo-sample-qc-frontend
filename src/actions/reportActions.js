@@ -40,8 +40,7 @@ export function getRequest(requestId) {
         dispatch({
             type: GET_REQUEST_REQUEST,
             requestId: requestId,
-            loading: true,
-            loadingMessage: "Fetching Request..."
+            loading: true
         });
         let username = getState().user.username;
         let userRole = getState().user.role;
@@ -56,8 +55,7 @@ export function getRequest(requestId) {
             .then(response => {
                 return dispatch({
                     type: GET_REQUEST_SUCCESS,
-                    payload: response.data,
-                    message: "reset"
+                    payload: response.data
                 });
             })
 

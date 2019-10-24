@@ -6,9 +6,9 @@ import Swal from "sweetalert2";
 
 const styles = theme => ({
   container: {
-    width: "100vw",
+    width: "80vw",
     overflowX: "auto",
-    display: "grid"
+    margin: "3em auto"
   }
 });
 
@@ -40,14 +40,20 @@ class Table extends React.Component {
           columns={this.props.data.columnFeatures}
           colHeaders={this.props.data.columnHeaders}
           rowHeaders={true}
-          // className="htCenter"
+          // className={classes.table}
           filters="true"
           columnSorting="true"
-          height="500"
+            stretchH="all"
+          height="100vh"
           afterOnCellMouseDown={(event, coords, TD) => {
             if (event.button === 0 && coords.row > -1) {
               if (coords.col === 4) {
-                this.props.showPending(coords);
+                this.props.showPending(
+                  this.hotTableComponent.current.hotInstance.getCell(
+                    coords.row,
+                    0
+                  ).textContent
+                );
               }
             }
           }}

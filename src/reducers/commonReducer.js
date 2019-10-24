@@ -13,7 +13,6 @@ const initialState = {
 function commonReducer(state = initialState, action) {
   const { error, message, serverError, loading, loadingMessage } = action;
   if (loadingMessage && loading) {
-    console.log(action);
     return {
       ...state,
       loadingMessage: loadingMessage,
@@ -21,7 +20,6 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (loading) {
-    console.log(action);
     return {
       ...state,
       loading: loading
@@ -29,7 +27,6 @@ function commonReducer(state = initialState, action) {
   }
 
   if (serverError) {
-    console.log(action);
     return {
       ...state,
       error: true,
@@ -40,9 +37,7 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (error && !message) {
-    console.log(action);
     if (error.response && error.status === 401) {
-      console.log(action);
       return {
         ...state,
         error: true,
@@ -51,7 +46,6 @@ function commonReducer(state = initialState, action) {
       };
     }
     if (error.response && error.response.status === 403) {
-      console.log(action);
       Swal.fire({
         title: "Not authorized",
         html:
@@ -66,11 +60,17 @@ function commonReducer(state = initialState, action) {
         ...state
       };
     }
+     if (error.response) {
+      return {
+        ...state,
+        error: true,
+        message: error.response.data.message,
+        loading: false
+      };
+    }
   }
-  if (message) {
-    console.log(action);
+  else if (message) {
     if (message === "reset") {
-      console.log(action);
       return {
         ...state,
         message: "",

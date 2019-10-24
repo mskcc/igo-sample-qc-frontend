@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
 import { reportActions } from "../../actions";
-import { Config } from "../../secret_config.js";
 
 import { PendingTable } from "../../components";
 
@@ -13,9 +12,9 @@ export class PendingContainer extends Component {
       this.props.getPending();
     }
   }
-  showPending = report => {
+  showPending = request => {
     this.props.history.push("/");
-    this.props.getRequest("07437_C");
+    this.props.getRequest(request);
   };
   render() {
     return (
