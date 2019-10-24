@@ -125,13 +125,15 @@ export default function CommentEditor(props) {
 
     let atLeastOneReport =
       filteredReports.length > 0 || (reportCheckBox || false);
-    if (atLeastOneReport) {
-      if (
-        filteredReports.length === 1 &&
-        reportName.report === filteredReports[0]
-      ) {
-        // if clicked report was only selected one in filtered reports there are now no reports left
-        atLeastOneReport = false;
+    if (reportCheckBox && reportName) {
+      if (atLeastOneReport) {
+        if (
+          filteredReports.length === 1 &&
+          reportName.report === filteredReports[0]
+        ) {
+          // if clicked report was only selected one in filtered reports there are now no reports left
+          atLeastOneReport = false;
+        }
       }
     }
     return (

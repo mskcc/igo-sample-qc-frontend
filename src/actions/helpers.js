@@ -5,6 +5,7 @@ export const fillReportTables = reportList => {
     let dnaReport = reportList.dnaReportSamples;
     let rnaReport = reportList.rnaReportSamples;
     let libraryReport = reportList.libraryReportSamples;
+    let pathologyReport = reportList.pathologyReportSamples;
     let attachments = reportList.attachments;
 
     if (dnaReport.data) {
@@ -15,6 +16,9 @@ export const fillReportTables = reportList => {
     }
     if (libraryReport.data) {
         tables["Library Report"] = libraryReport;
+    }
+    if (pathologyReport.data) {
+        tables["Pathology Report"] = pathologyReport;
     }
 
     if (attachments.data) {

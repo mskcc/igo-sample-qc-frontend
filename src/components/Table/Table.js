@@ -46,7 +46,7 @@ class Table extends React.Component {
             indicators: false
           }}
           rowHeaders={true}
-          className="htCenter"
+          // className="htCenter"
           stretchH={isAttachmentTable ? "none" : "all"}
           columnSorting="true"
           height="500"

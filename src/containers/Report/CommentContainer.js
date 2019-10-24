@@ -14,6 +14,7 @@ import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
+    console.log(this.props.history)
     this.props.getComments();
   }
 

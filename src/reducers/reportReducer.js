@@ -15,7 +15,8 @@ function reportReducer(state = initialState, action) {
       return {
         ...initialState,
         request: { request_id: action.requestId },
-        loaded: false
+        loaded: false,
+        
       };
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
@@ -108,13 +109,6 @@ function reportReducer(state = initialState, action) {
         reportShown: action.payload
       };
 
-    case ActionTypes.SHOW_PENDING:
-      return {
-        ...initialState,
-        request: {
-          requestId: "07437_C"
-        }
-      };
     case ActionTypes.REGISTER_GRID_CHANGE:
       return {
         ...state

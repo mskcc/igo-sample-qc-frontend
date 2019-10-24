@@ -40,7 +40,7 @@ class Table extends React.Component {
           columns={this.props.data.columnFeatures}
           colHeaders={this.props.data.columnHeaders}
           rowHeaders={true}
-          // className={classes.table}
+          className="pending"
           filters="true"
           columnSorting="true"
             stretchH="all"
