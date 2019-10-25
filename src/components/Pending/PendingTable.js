@@ -1,6 +1,8 @@
 import React from "react";
 import { HotTable } from "@handsontable/react";
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
 // import Checkbox from "@material-ui/core/Checkbox";
 import Swal from "sweetalert2";
 
@@ -32,6 +34,9 @@ class Table extends React.Component {
     // last column is always RecordId. Needed to set investigator decision efficiently
     return (
       <div className={classes.container}>
+        <Typography variant="h5">
+          Waiting for Investigator Decision
+        </Typography>
         <HotTable
           licenseKey="non-commercial-and-evaluation"
           id="hot"
@@ -43,7 +48,7 @@ class Table extends React.Component {
           className="pending"
           filters="true"
           columnSorting="true"
-            stretchH="all"
+          stretchH="all"
           height="100vh"
           afterOnCellMouseDown={(event, coords, TD) => {
             if (event.button === 0 && coords.row > -1) {

@@ -25,13 +25,11 @@ class Table extends React.Component {
   render() {
     const {
       classes
-      // handleClick,
-      // handleReceipt,
-      // handleDelete
     } = this.props;
     // last column is always RecordId. Needed to set investigator decision efficiently
     let lastColumnIndex = this.props.data.columnFeatures.length - 1;
     let isAttachmentTable = this.props.data.columnHeaders.length === 3;
+    let isPathologyTable = this.props.data.columnHeaders.length > 3 & this.props.data.columnHeaders.length < 6;
     return (
       <div className={classes.container}>
         <HotTable
@@ -46,8 +44,7 @@ class Table extends React.Component {
             indicators: false
           }}
           rowHeaders={true}
-          // className="htCenter"
-          stretchH={isAttachmentTable ? "none" : "all"}
+          stretchH={isAttachmentTable || isPathologyTable? "none" : "all"}
           columnSorting="true"
           height="500"
           rowHeights="35"

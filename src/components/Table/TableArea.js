@@ -84,33 +84,36 @@ export default function TableArea(props) {
     // console.log(newValue)
     props.updateReportShown(Object.keys(props.tables)[newValue]);
   }
-  
-  function handleReportDownload(index){
-    props.handleReportDownload( Object.keys(props.tables)[value])
+
+  function handleReportDownload(index) {
+    props.handleReportDownload(Object.keys(props.tables)[value]);
   }
 
   return (
     <div className={classes.container}>
       <div className={classes.toolbar}>
         <RequestInfo request={props.request} />
-        <Button
-          onClick={props.handleSubmit}
-          variant="contained"
-          color="primary"
-          className={classes.submitBtn}
-        >
-          Submit Decisions
-        </Button>
-        {props.reportShown !== "Attachments" && (
-          <Button
-            onClick={handleReportDownload}
-            variant="contained"
-            color="secondary"
-            className={classes.downloadtBtn}
-            startIcon={<CloudDownloadIcon />}
-          >
-            {Object.keys(props.tables)[value]}
-          </Button>
+        {props.reportShown.includes("Report") && (
+          <React.Fragment>
+            <Button
+              onClick={props.handleSubmit}
+              variant="contained"
+              color="primary"
+              className={classes.submitBtn}
+            >
+              Submit Decisions
+            </Button>
+
+            <Button
+              onClick={handleReportDownload}
+              variant="contained"
+              color="secondary"
+              className={classes.downloadtBtn}
+              startIcon={<CloudDownloadIcon />}
+            >
+              {Object.keys(props.tables)[value]}
+            </Button>
+          </React.Fragment>
         )}
       </div>
       <div className={classes.report}>
@@ -131,6 +134,7 @@ export default function TableArea(props) {
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}
                 data={props.tables[report]}
+                
               />
             )}
           </TabPanel>

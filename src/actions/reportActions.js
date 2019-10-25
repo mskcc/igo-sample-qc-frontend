@@ -143,7 +143,7 @@ export function getPending() {
                 return dispatch({
                     type: GET_PENDING_FAIL,
                     error: error,
-                    message: "Submission failed."
+                    message: "Fetching pending requests failed."
                 });
             });
     };
