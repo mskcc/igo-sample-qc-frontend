@@ -2,6 +2,7 @@ import React from "react";
 import { HotTable } from "@handsontable/react";
 import { withStyles } from "@material-ui/core/styles";
 // import Checkbox from "@material-ui/core/Checkbox";
+import {normalizeMixedDataValue} from "../../actions/helpers"
 import Swal from "sweetalert2";
 
 const styles = theme => ({
@@ -18,18 +19,20 @@ class Table extends React.Component {
     this.hotTableComponent = React.createRef();
   }
 
+  
+
   showError = error => {
     Swal.fire(error);
   };
 
   render() {
-    const {
-      classes
-    } = this.props;
+    const { classes } = this.props;
     // last column is always RecordId. Needed to set investigator decision efficiently
     let lastColumnIndex = this.props.data.columnFeatures.length - 1;
     let isAttachmentTable = this.props.data.columnHeaders.length === 3;
-    let isPathologyTable = this.props.data.columnHeaders.length > 3 & this.props.data.columnHeaders.length < 6;
+    let isPathologyTable =
+      (this.props.data.columnHeaders.length > 3) &
+      (this.props.data.columnHeaders.length < 6);
     return (
       <div className={classes.container}>
         <HotTable
@@ -44,7 +47,7 @@ class Table extends React.Component {
             indicators: false
           }}
           rowHeaders={true}
-          stretchH={isAttachmentTable || isPathologyTable? "none" : "all"}
+          stretchH={isAttachmentTable || isPathologyTable ? "none" : "all"}
           columnSorting="true"
           height="500"
           rowHeights="35"

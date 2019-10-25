@@ -9,15 +9,19 @@ export const fillReportTables = reportList => {
     let attachments = reportList.attachments;
 
     if (dnaReport.data) {
+        dnaReport.data = sortBySampleId(dnaReport.data);
         tables["DNA Report"] = dnaReport;
     }
     if (rnaReport.data) {
+        rnaReport.data = sortBySampleId(rnaReport.data);
         tables["RNA Report"] = rnaReport;
     }
     if (libraryReport.data) {
+        libraryReport.data = sortBySampleId(libraryReport.data);
         tables["Library Report"] = libraryReport;
     }
     if (pathologyReport.data) {
+        pathologyReport.data = sortBySampleId(pathologyReport.data);
         tables["Pathology Report"] = pathologyReport;
     }
 
@@ -98,7 +102,6 @@ export const cleanAndFilterRecipients = stateRecipients => {
 
     let uniqueRecipients = new Set(filteredRecipients);
     uniqueRecipients = Array.from(uniqueRecipients);
-    console.log(uniqueRecipients);
     return uniqueRecipients;
 };
 
@@ -114,4 +117,55 @@ export const allIntialCommentsSent = (reportsWithComments, tablesPresent) => {
     );
 
     return reportsWithComments.length === tablesPresent.length;
+};
+
+// I take a value and try to return a value in which
+// the numeric values have a standardized number of
+// leading and trailing zeros. This *MAY* help makes
+// an alphabetic sort seem more natural to the user's
+// intent.
+export const normalizeMixedDataValue = value => {
+    var padding = "000000000000000";
+
+    // Loop over all numeric values in the string and
+    // replace them with a value of a fixed-width for
+    // both leading (integer) and trailing (decimal)
+    // padded zeroes.
+    value = value.replace(/(\d+)((\.\d+)+)?/g, function(
+        $0,
+        integer,
+        decimal,
+        $3
+    ) {
+        // If this numeric value has "multiple"
+        // decimal portions, then the complexity
+        // is too high for this simple approach -
+        // just return the padded integer.
+        if (decimal !== $3) {
+            return padding.slice(integer.length) + integer + decimal;
+        }
+
+        decimal = decimal || ".0";
+
+        return (
+            padding.slice(integer.length) +
+            integer +
+            decimal +
+            padding.slice(decimal.length)
+        );
+    });
+
+    return value;
+};
+
+const sortBySampleId = data => {
+    data.sort(function(a, b) {
+        // Normalize the file names with fixed-
+        // width numeric data.
+        var aMixed = normalizeMixedDataValue(a.sampleId);
+        var bMixed = normalizeMixedDataValue(b.sampleId);
+
+        return aMixed < bMixed ? -1 : 1;
+    });
+    return data;
 };

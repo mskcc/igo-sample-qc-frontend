@@ -188,8 +188,9 @@ export default function CommentEditor(props) {
                 }}
               >
                 <MenuItem value="Morning">Morning</MenuItem>
+                <MenuItem value="Evening">Afternoon</MenuItem>
                 <MenuItem value="Evening">Evening</MenuItem>
-                <MenuItem value="Hello">Hello</MenuItem>
+                
               </Select>
             </FormControl>
 
