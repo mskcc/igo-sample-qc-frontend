@@ -15,8 +15,7 @@ function reportReducer(state = initialState, action) {
       return {
         ...initialState,
         request: { request_id: action.requestId },
-        loaded: false,
-        
+        loaded: false
       };
     case ActionTypes.GET_REQUEST_SUCCESS:
       return {
@@ -37,7 +36,8 @@ function reportReducer(state = initialState, action) {
         confirmButtonText: "Dismiss"
       });
       return {
-        ...state
+        ...initialState,
+        loaded: false
       };
 
     case ActionTypes.GET_REPORT_SUCCESS:
