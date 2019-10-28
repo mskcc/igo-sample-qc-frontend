@@ -32,6 +32,28 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
+export const setTablesReadOnly = tables => {
+    for (let table in tables) {
+        if (
+            table === "DNA Report" ||
+            table === "RNA Report" ||
+            table === "Library Report"
+        ) {
+            for (let feature in tables[table].columnFeatures) {
+                if (
+                    tables[table].columnFeatures[feature].limsField ===
+                    "InvestigatorDecision"
+                ) {
+                    tables[table].columnFeatures[feature].readOnly = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    return tables;
+};
+
 //  checks wether investigator made decisions for each sample
 //  defaults to true and returns false as soon as it finds an empty value
 export const allDecisionsMade = tables => {

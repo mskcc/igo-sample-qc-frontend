@@ -4,7 +4,11 @@ import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
 import { Config } from "../secret_config.js";
-import { fillReportTables, generateDecisionSubmitData } from "./helpers";
+import {
+    fillReportTables,
+    generateDecisionSubmitData,
+    setTablesReadOnly
+} from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
@@ -58,7 +62,6 @@ export function getRequest(requestId) {
                     payload: response.data
                 });
             })
-
             .catch(error => {
                 if (error.response && error.response.status === 404) {
                     return dispatch({
@@ -87,8 +90,6 @@ export function getQcReports(requestId, otherSampleIds) {
             loading: true,
             loadingMessage: "Request found. Checking QC Tables..."
         });
-
-        // let data = await fillReportTables(response.data)
         return axios
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
@@ -97,14 +98,16 @@ export function getQcReports(requestId, otherSampleIds) {
                 }
             })
             .then(response => {
-                let tables = fillReportTables(response.data);
+                let tables = fillReportTables(response.data.tables);
                 dispatch({
                     type: GET_REPORT_SUCCESS,
                     message: "reset",
-                    payload: tables
+                    payload: {
+                        readOnly: response.data.read_only,
+                        tables: tables
+                    }
                 });
             })
-
             .catch(error => {
                 return dispatch({
                     type: GET_REPORT_FAIL,
@@ -126,12 +129,9 @@ export function getPending() {
             loading: true,
             loadingMessage: "Submitting..."
         });
-
-        // let data = await fillReportTables(response.data)
         return axios
             .get(Config.API_ROOT + "/getPending", {})
             .then(response => {
-                console.log(response);
                 dispatch({
                     type: GET_PENDING_SUCCESS,
                     pending: response.data,
@@ -165,7 +165,6 @@ export function submitInvestigatorDecision() {
         let request_id = getState().report.request.requestId;
         let username = getState().user.username;
 
-        // let data = await fillReportTables(response.data)
         return axios
             .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
                 decisions,
@@ -175,10 +174,10 @@ export function submitInvestigatorDecision() {
             .then(response => {
                 dispatch({
                     type: POST_INVESTIGATOR_DECISION_SUCCESS,
+                    payload: setTablesReadOnly(getState().report.tables),
                     message: "Submitted!"
                 });
             })
-
             .catch(error => {
                 return dispatch({
                     type: POST_INVESTIGATOR_DECISION_FAIL,
@@ -223,7 +222,6 @@ export function downloadAttachment(coords) {
                     fileName: fileName
                 });
             })
-
             .catch(error => {
                 return dispatch({
                     type: ATTACHMENT_DOWNLOAD_FAIL,

@@ -1,6 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tabs, Tab, Box, Typography } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardContent,
+  Tabs,
+  Tab,
+  Box,
+  Typography
+} from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Table from "./Table";
 import RequestInfo from "./RequestInfo";
@@ -41,13 +49,16 @@ const useStyles = makeStyles(theme => ({
     gridArea: "submit-btn",
     width: "fit-content",
     height: "4em",
-    alignSelf: "end"
+    alignSelf: "center"
   },
   downloadtBtn: {
     gridArea: "download-btn",
     width: "fit-content",
     height: "4em",
-    alignSelf: "end"
+    alignSelf: "center"
+  },
+  decisions: {
+    paddingBottom: "11px"
   }
 }));
 
@@ -82,28 +93,48 @@ export default function TableArea(props) {
   function handleChange(event, newValue) {
     setValue(newValue);
     // console.log(newValue)
-    props.updateReportShown(Object.keys(props.tables)[newValue]);
+    props.updateReportShown(Object.keys(props.report.tables)[newValue]);
   }
 
   function handleReportDownload(index) {
-    props.handleReportDownload(Object.keys(props.tables)[value]);
+    props.handleReportDownload(Object.keys(props.report.tables)[value]);
   }
 
   return (
     <div className={classes.container}>
       <div className={classes.toolbar}>
-        <RequestInfo request={props.request} />
-        {props.reportShown.includes("Report") && (
+        <RequestInfo request={props.report.request} />
+        {props.report.reportShown.includes("Report") && (
           <React.Fragment>
-            <Button
-              onClick={props.handleSubmit}
-              variant="contained"
-              color="primary"
-              className={classes.submitBtn}
-            >
-              Submit Decisions
-            </Button>
-
+            {props.report.readOnly ? (
+              <Card>
+                <CardContent className={classes.decisions}>
+                  <Typography
+                    color="textSecondary"
+                    // gutterBottom
+                  >
+                    Decisions have been submitted.
+                  </Typography>
+                  <Typography variant="body1">
+                    To make any changes, please reach out <br /> to IGO at
+                    <a href="mailto:zzPDL_CMO_IGO@mskcc.org">
+                      {" "}
+                      zzPDL_CMO_IGO@mskcc.org
+                    </a>
+                    .
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : (
+              <Button
+                onClick={props.handleSubmit}
+                variant="contained"
+                color="primary"
+                className={classes.submitBtn}
+              >
+                Submit Decisions
+              </Button>
+            )}
             <Button
               onClick={handleReportDownload}
               variant="contained"
@@ -111,7 +142,7 @@ export default function TableArea(props) {
               className={classes.downloadtBtn}
               startIcon={<CloudDownloadIcon />}
             >
-              {Object.keys(props.tables)[value]}
+              {Object.keys(props.report.tables)[value]}
             </Button>
           </React.Fragment>
         )}
@@ -122,19 +153,18 @@ export default function TableArea(props) {
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          {Object.keys(props.tables).map((report, index) => (
+          {Object.keys(props.report.tables).map((report, index) => (
             <Tab key={report} label={report} {...a11yProps(index)} />
           ))}
         </Tabs>
 
-        {Object.keys(props.tables).map((report, index) => (
+        {Object.keys(props.report.tables).map((report, index) => (
           <TabPanel key={report} value={value} index={index}>
             {value === index && (
               <Table
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}
-                data={props.tables[report]}
-                
+                data={props.report.tables[report]}
               />
             )}
           </TabPanel>

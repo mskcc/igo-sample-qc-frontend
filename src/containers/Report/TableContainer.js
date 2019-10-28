@@ -78,9 +78,7 @@ export class TableContainer extends Component {
       <React.Fragment>
         {this.props.report.tables && (
           <TableArea
-            request={report.request}
-            tables={report.tables}
-            reportShown={report.reportShown}
+            report={report}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleInvestigatorSubmit}
             registerChange={this.registerChange}

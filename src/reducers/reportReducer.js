@@ -6,7 +6,8 @@ const initialState = {
   loaded: false,
   request: "",
   reportShown: null,
-  pending: null
+  pending: null,
+  readOnly: true
 };
 
 function reportReducer(state = initialState, action) {
@@ -43,13 +44,14 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.GET_REPORT_SUCCESS:
       return {
         ...state,
-        tables: action.payload,
-        reportShown: Object.keys(action.payload)[0]
+        tables: action.payload.tables,
+        reportShown: Object.keys(action.payload.tables)[0],
+        readOnly: action.payload.readOnly
       };
 
     case ActionTypes.GET_REPORT_FAIL:
       return {
-        ...state
+        ...initialState
       };
 
     case ActionTypes.ATTACHMENT_DOWNLOAD_REQUEST:
@@ -86,6 +88,13 @@ function reportReducer(state = initialState, action) {
     case ActionTypes.REPORT_DOWNLOAD_FAIL:
       return {
         ...state
+      };
+
+    case ActionTypes.POST_INVESTIGATOR_DECISION_SUCCESS:
+      return {
+        ...state,
+        readOnly: false,
+        tables: action.payload
       };
 
     case ActionTypes.GET_PENDING_REQUEST:

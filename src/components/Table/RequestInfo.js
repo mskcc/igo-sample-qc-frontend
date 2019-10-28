@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     width: 450,
     lineHeight: 2,
     display: "grid",
-    gridTemplateAreas: "'a b' "
+    gridTemplateAreas: "'a' "
   }
 }));
 
