@@ -29,6 +29,8 @@ export const fillReportTables = reportList => {
         tables["Attachments"] = attachments;
     }
 
+
+
     return tables;
 };
 

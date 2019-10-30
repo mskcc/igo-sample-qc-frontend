@@ -2,7 +2,7 @@ import React from "react";
 import { HotTable } from "@handsontable/react";
 import { withStyles } from "@material-ui/core/styles";
 // import Checkbox from "@material-ui/core/Checkbox";
-import {normalizeMixedDataValue} from "../../actions/helpers"
+import { normalizeMixedDataValue } from "../../actions/helpers";
 import Swal from "sweetalert2";
 
 const styles = theme => ({
@@ -18,8 +18,29 @@ class Table extends React.Component {
     super(props);
     this.hotTableComponent = React.createRef();
   }
+  componentDidMount = () => {
+    if (
+      this.hotTableComponent != undefined &&
+      this.hotTableComponent.current != undefined &&
+      this.hotTableComponent.current.hotInstance != undefined
+    ) {
+      let data = this.hotTableComponent.current.hotInstance.getData();
+      this.hotTableComponent.current.hotInstance.updateSettings({
+        cells: function(row, col) {
+          var cellProperties = {};
 
-  
+          if (
+            data[row][col] === "Submit new iLab request" ||
+            data[row][col] === "Already moved forward by IGO"
+          ) {
+            cellProperties.readOnly = true;
+          }
+
+          return cellProperties;
+        }
+      });
+    }
+  };
 
   showError = error => {
     Swal.fire(error);
