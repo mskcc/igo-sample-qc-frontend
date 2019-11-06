@@ -14,7 +14,7 @@ import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
-    console.log(this.props.history)
+    console.log(this.props.history);
     this.props.getComments();
   }
 
@@ -48,8 +48,6 @@ export class CommentContainer extends Component {
     //   "Please visit https://igo.mskcc.org/sample-qc to ask any questions or submit your decisions.  "
     // );
 
-
-
     Swal.fire({
       title: "Review",
       html:
@@ -58,7 +56,6 @@ export class CommentContainer extends Component {
         "<br><strong>Send to:</strong><br>" +
         recipientString +
         "<br><strong>Content:</strong><br>" +
-        commentString +
         " </div>",
       input: "textarea",
       inputValue: commentString.replace(/<br>/gi, "\n"),
@@ -69,8 +66,8 @@ export class CommentContainer extends Component {
       cancelButtonColor: "#df4602",
       confirmButtonText: "Send Notification",
       cancelButtonText: "Back to Edit"
-    }).then((result) => {
-      console.log(result)
+    }).then(result => {
+      console.log(result);
       if (result.value) {
         return this.props.addInitialComment(
           result.value.replace(/\n/gi, "<br>"),
@@ -78,7 +75,7 @@ export class CommentContainer extends Component {
           recipients
         );
       } else {
-        console.log(result)
+        console.log(result);
         // console.log(value)
         return true;
       }
