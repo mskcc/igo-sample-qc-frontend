@@ -48,6 +48,8 @@ export class CommentContainer extends Component {
     //   "Please visit https://igo.mskcc.org/sample-qc to ask any questions or submit your decisions.  "
     // );
 
+
+
     Swal.fire({
       title: "Review",
       html:
@@ -58,6 +60,8 @@ export class CommentContainer extends Component {
         "<br><strong>Content:</strong><br>" +
         commentString +
         " </div>",
+      input: "textarea",
+      inputValue: commentString.replace(/<br>/gi, "\n"),
       type: "warning",
       showCancelButton: true,
       animation: false,
@@ -65,14 +69,17 @@ export class CommentContainer extends Component {
       cancelButtonColor: "#df4602",
       confirmButtonText: "Send Notification",
       cancelButtonText: "Back to Edit"
-    }).then(result => {
+    }).then((result) => {
+      console.log(result)
       if (result.value) {
         return this.props.addInitialComment(
-          commentString,
+          result.value.replace(/\n/gi, "<br>"),
           filteredReports,
           recipients
         );
       } else {
+        console.log(result)
+        // console.log(value)
         return true;
       }
     });
