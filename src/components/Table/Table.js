@@ -69,6 +69,17 @@ class Table extends React.Component {
           }}
           rowHeaders={true}
           stretchH={isAttachmentTable || isPathologyTable ? "none" : "all"}
+          columnSorting={
+            isAttachmentTable
+              ? {
+                  initialConfig: {
+                    column: 1,
+                    sortOrder: "asc"
+                  }
+                }
+              : {}
+          }
+          stretchH={isAttachmentTable || isPathologyTable ? "none" : "all"}
           columnSorting="true"
           height="500"
           rowHeights="35"

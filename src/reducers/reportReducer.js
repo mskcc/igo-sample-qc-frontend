@@ -50,6 +50,16 @@ function reportReducer(state = initialState, action) {
       };
 
     case ActionTypes.GET_REPORT_FAIL:
+      Swal.fire({
+        title: "QC Reports not found.",
+        text:
+          "This request might not exist, " +
+          "not be ready for QC or is not associated with your username.",
+        type: "info",
+        animation: false,
+        confirmButtonColor: "#007cba",
+        confirmButtonText: "Dismiss"
+      });
       return {
         ...initialState
       };

@@ -7,13 +7,15 @@ import { Config } from "../secret_config.js";
 import {
     fillReportTables,
     generateDecisionSubmitData,
-    setTablesReadOnly
+    setTablesReadOnly,
+    isEmpty
 } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
         let token = sessionStorage.getItem("access_token");
         if (token && !config.headers["Authorization"]) {
+            console.log("token attached");
             config.headers["Authorization"] = `Bearer ${token}`;
         }
 
@@ -94,19 +96,29 @@ export function getQcReports(requestId, otherSampleIds) {
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
                     request: requestId,
-                    samples: getState().report.request.samples
+                    samples: getState().report.request.samples,
+                    username: getState().user.username
                 }
             })
             .then(response => {
                 let tables = fillReportTables(response.data.tables);
-                dispatch({
-                    type: GET_REPORT_SUCCESS,
-                    message: "reset",
-                    payload: {
-                        readOnly: response.data.read_only,
-                        tables: tables
-                    }
-                });
+                console.log(tables);
+                if (isEmpty(tables)) {
+                    return dispatch({
+                        type: GET_REPORT_FAIL,
+                        message: "reset",
+                        loading: false
+                    });
+                } else {
+                    dispatch({
+                        type: GET_REPORT_SUCCESS,
+                        message: "reset",
+                        payload: {
+                            readOnly: response.data.read_only,
+                            tables: tables
+                        }
+                    });
+                }
             })
             .catch(error => {
                 return dispatch({

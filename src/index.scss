@@ -61,7 +61,7 @@ code {
     background-color: $mskcc-dark-yellow;
 }
 
-.fail, .pathology-status {
+.failed, .pathology-status {
     color: white;
     text-align: center;
     background-color: $mskcc-red;
@@ -70,6 +70,7 @@ code {
 .download-icon {
     cursor: pointer;
     color: #006098;
+    text-align: center;
 }
 .show-icon {
     cursor: pointer;

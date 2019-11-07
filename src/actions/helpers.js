@@ -29,8 +29,6 @@ export const fillReportTables = reportList => {
         tables["Attachments"] = attachments;
     }
 
-
-
     return tables;
 };
 
@@ -192,4 +190,11 @@ const sortBySampleId = data => {
         return aMixed < bMixed ? -1 : 1;
     });
     return data;
+};
+
+export const isEmpty = obj => {
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
 };
