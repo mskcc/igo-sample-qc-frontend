@@ -7,7 +7,7 @@ import { Config } from "../secret_config.js";
 import {
     fillReportTables,
     generateDecisionSubmitData,
-    setTablesReadOnly,
+    setTablesReadOnlyAfterDecisions,
     isEmpty
 } from "./helpers";
 // Add a request interceptor
@@ -186,7 +186,7 @@ export function submitInvestigatorDecision() {
             .then(response => {
                 dispatch({
                     type: POST_INVESTIGATOR_DECISION_SUCCESS,
-                    payload: setTablesReadOnly(getState().report.tables),
+                    payload: setTablesReadOnlyAfterDecisions(getState().report.tables),
                     message: "Submitted!"
                 });
             })

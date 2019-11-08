@@ -9,7 +9,7 @@ import { Sidebar } from "../../components";
 
 export class SidebarContainer extends Component {
   handleSearch = requestId => {
-    this.props.getRequest(requestId);
+    this.props.getRequest(requestId.toUpperCase());
   };
   // handleGridSubmit = formValues => {
   //   this.props.addGridToBankedSample(this.props);

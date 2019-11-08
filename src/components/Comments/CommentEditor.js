@@ -70,7 +70,7 @@ export default function CommentEditor(props) {
     downstreamProcess: props.recipe,
     service: "",
     bodyType: "",
-    rnaChecked: "",
+    rnaChecked: false,
     valid: false
   });
   // const [values, setValues] = React.useState({
@@ -255,7 +255,7 @@ export default function CommentEditor(props) {
                   </InputLabel>
                   <Select
                     value={values.rnaChecked}
-                    onChange={handleChange("rnaChecked")}
+                    onChange={handleCheckbox("rnaChecked")}
                     inputProps={{
                       name: "rnaChecked",
                       id: "rnaChecked-simple"

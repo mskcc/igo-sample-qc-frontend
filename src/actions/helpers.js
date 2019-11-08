@@ -32,7 +32,7 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
-export const setTablesReadOnly = tables => {
+export const setTablesReadOnlyAfterDecisions = tables => {
     for (let table in tables) {
         if (
             table === "DNA Report" ||
