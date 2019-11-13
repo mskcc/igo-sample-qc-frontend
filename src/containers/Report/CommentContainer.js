@@ -83,30 +83,69 @@ export class CommentContainer extends Component {
   };
 
   addCommentToAllReports = comment => {
-    let reportsWithComments = Object.keys(this.props.comments);
-    let reportsPresent = Object.keys(this.props.report.tables);
-    if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
-      this.props.addCommentToAllReports(
-        comment,
-        Object.keys(this.props.report.tables)
-      );
+    if (this.isValid(comment)) {
+      let reportsWithComments = Object.keys(this.props.comments);
+      let reportsPresent = Object.keys(this.props.report.tables);
+      if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
+        this.props.addCommentToAllReports(
+          comment,
+          Object.keys(this.props.report.tables)
+        );
+      } else {
+        Swal.fire({
+          title: "Not all intial comments sent.",
+          text:
+            "You can only comment on all reports at once if IGO has sent out " +
+            "intial notifications for every report present in this request.",
+          type: "info",
+          animation: false,
+          confirmButtonColor: "#007cba",
+          confirmButtonText: "Dismiss"
+        });
+      }
     } else {
-      Swal.fire({
-        title: "Not all intial comments sent.",
-        text:
-          "You can only comment on all reports at once if IGO has sent out " +
-          "intial notifications for every report present in this request.",
-        type: "info",
-        animation: false,
-        confirmButtonColor: "#007cba",
-        confirmButtonText: "Dismiss"
-      });
+      this.showMrnError();
     }
   };
 
   addComment = comment => {
-    this.props.addComment(comment, this.props.report.reportShown);
+    if (this.isValid(comment)) {
+      this.props.addComment(comment, this.props.report.reportShown);
+    } else {
+      this.showMrnError();
+    }
   };
+
+  isValid = comment => {
+    var r = /\s\d{8}\s/g;
+
+    var matches = comment.match(r);
+    if (matches) {
+      return false;
+    }
+    r = /^\d{8}$/g;
+
+    matches = comment.match(r);
+    if (matches) {
+      return false;
+    }
+    return true;
+  };
+
+  showMrnError = () => {
+    Swal.fire({
+      title: "Comment Invalid",
+      text:
+        "We detected an 8 digit number in your comment. Please delete any MRNs or other PHI and re-submit." +
+        "This webapp is not PHI secure and submitting PHI would violate MSK policy.",
+
+      type: "warning",
+      animation: false,
+      confirmButtonColor: "#007cba",
+      confirmButtonText: "Dismiss"
+    });
+  };
+
   handleRecipientSubmit = recipients => {
     this.props.setRecipients(recipients);
   };
