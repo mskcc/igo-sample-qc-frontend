@@ -58,16 +58,24 @@ export const setTablesReadOnlyAfterDecisions = tables => {
 //  defaults to true and returns false as soon as it finds an empty value
 export const allDecisionsMade = tables => {
     let result = true;
+
     for (let table in tables) {
-        for (var j = 0; j < tables[table].data.length; j++) {
-            if (
-                tables[table].data[j].investigatorDecision != null &&
-                tables[table].data[j].investigatorDecision !== ""
-            ) {
-                result = true;
-                continue;
-            } else {
-                return false;
+        // decisions only need to be made for these three tables
+        if (
+            table === "DNA Report" ||
+            table === "RNA Report" ||
+            table === "Library Report"
+        ) {
+            for (var j = 0; j < tables[table].data.length; j++) {
+                if (
+                    tables[table].data[j].investigatorDecision != null &&
+                    tables[table].data[j].investigatorDecision !== ""
+                ) {
+                    result = true;
+                    continue;
+                } else {
+                    return false;
+                }
             }
         }
     }
