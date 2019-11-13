@@ -58,8 +58,8 @@ export class TableContainer extends Component {
   registerChange = () => {
     this.props.registerChange();
   };
-  handleAttachmentDownload = coords => {
-    this.props.downloadAttachment(coords);
+  handleAttachmentDownload = (recordId, fileName) => {
+    this.props.downloadAttachment(recordId, fileName);
   };
 
   handleReportDownload = report => {

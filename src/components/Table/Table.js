@@ -35,13 +35,12 @@ class Table extends React.Component {
           ) {
             cellProperties.readOnly = true;
           }
-
           return cellProperties;
         }
       });
     }
   };
- 
+
   showError = error => {
     Swal.fire(error);
   };
@@ -106,7 +105,10 @@ class Table extends React.Component {
           afterOnCellMouseDown={(event, coords, TD) => {
             if (isAttachmentTable && event.button === 0 && coords.row > -1) {
               if (coords.col === 1) {
-                this.props.handleAttachmentDownload(coords);
+                this.props.handleAttachmentDownload(
+                  TD.firstElementChild.getAttribute("submission-id"),
+                  TD.firstElementChild.getAttribute("file-name")
+                );
               }
             }
           }}

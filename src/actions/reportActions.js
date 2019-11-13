@@ -186,7 +186,9 @@ export function submitInvestigatorDecision() {
             .then(response => {
                 dispatch({
                     type: POST_INVESTIGATOR_DECISION_SUCCESS,
-                    payload: setTablesReadOnlyAfterDecisions(getState().report.tables),
+                    payload: setTablesReadOnlyAfterDecisions(
+                        getState().report.tables
+                    ),
                     message: "Submitted!"
                 });
             })
@@ -203,21 +205,15 @@ export function submitInvestigatorDecision() {
 export const ATTACHMENT_DOWNLOAD_REQUEST = "ATTACHMENT_DOWNLOAD_REQUEST";
 export const ATTACHMENT_DOWNLOAD_FAIL = "ATTACHMENT_DOWNLOAD_FAIL";
 export const ATTACHMENT_DOWNLOAD_SUCCESS = "ATTACHMENT_DOWNLOAD_SUCCESS";
-export function downloadAttachment(coords) {
+export function downloadAttachment(attachmentRecordId, fileName) {
     return (dispatch, getState) => {
-        let attachmentRecordId = getState().report.tables["Attachments"].data[
-            coords.row
-        ].recordId;
-
-        let fileName = getState().report.tables["Attachments"].data[coords.row]
-            .fileName;
         dispatch({
             type: ATTACHMENT_DOWNLOAD_REQUEST,
             loading: true,
             loadingMessage: "Fetching your data.."
         });
 
-        // // let data = await fillReportTables(response.data)
+        // let data = await fillReportTables(response.data)
         return axios
             .get(Config.API_ROOT + "/downloadAttachment", {
                 params: {
