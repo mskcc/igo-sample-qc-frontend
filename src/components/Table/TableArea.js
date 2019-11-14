@@ -126,14 +126,16 @@ export default function TableArea(props) {
                 </CardContent>
               </Card>
             ) : (
-              <Button
-                onClick={props.handleSubmit}
-                variant="contained"
-                color="primary"
-                className={classes.submitBtn}
-              >
-                Submit Decisions
-              </Button>
+              !props.report.reportShown.includes("Pathology") && (
+                <Button
+                  onClick={props.handleSubmit}
+                  variant="contained"
+                  color="primary"
+                  className={classes.submitBtn}
+                >
+                  Submit Decisions
+                </Button>
+              )
             )}
             <Button
               onClick={handleReportDownload}
