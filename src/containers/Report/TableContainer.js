@@ -65,11 +65,6 @@ export class TableContainer extends Component {
   handleReportDownload = report => {
     this.props.downloadReport(report, this.props.report.request);
   };
-  // componentDidUpdate() {
-  //   console.log(this.props)
-
-  //   // this.props.getQcReports(this.props.report.request);
-  // }
 
   render() {
     const { report } = this.props;

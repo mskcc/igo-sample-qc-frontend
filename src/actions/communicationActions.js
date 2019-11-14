@@ -10,21 +10,21 @@ import Swal from "sweetalert2";
 
 import { Config } from "../secret_config.js";
 
-// // Add a request interceptor
-// axios.interceptors.request.use(
-//   config => {
-//     let token = sessionStorage.getItem("access_token");
-//     if (token && !config.headers["Authorization"]) {
-//       config.headers["Authorization"] = `Bearer ${token}`;
-//     }
+// Add a request interceptor
+axios.interceptors.request.use(
+  config => {
+    let token = sessionStorage.getItem("access_token");
+    if (token && !config.headers["Authorization"]) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
 
-//     return config;
-//   },
+    return config;
+  },
 
-//   error => {
-//     return Promise.reject(error);
-//   }
-// );
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 export const ADD_INITIAL_COMMENT = "ADD_INITIAL_COMMENT";
 export const ADD_INITIAL_COMMENT_SUCCESS = "ADD_INITIAL_COMMENT_SUCCESS";
@@ -71,12 +71,12 @@ export function addComment(comment, report) {
     Swal.fire({
       title: "Are you sure?",
       html:
-        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br>" +
+        "<div class='swal-comment-review'>In production, this comment will trigger an email notification to the following recipients:<br> <br>" +
         getState().communication.comments[report].recipients.replace(
           /,/gi,
           "<br>"
         ) +
-        "<br></div>",
+        "<br> During testing, it will be sent to you, Anna and Lisa.</div>",
       footer:
         "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
       type: "warning",
@@ -125,12 +125,15 @@ export const ADD_COMMENT_TO_ALL_FAIL = "ADD_COMMENT_TO_ALL_FAIL";
 
 export function addCommentToAllReports(comment, reports) {
   return (dispatch, getState) => {
+    let recipients = Object.values(getState().communication.recipients);
+    let recipientsSet = new Set(recipients);
+
     Swal.fire({
       title: "Are you sure?",
       html:
-        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br>" +
-        getState().communication.recipients.replace(/,/gi, "<br>") +
-        "<br></div>",
+        "<div class='swal-comment-review'>In production, this comment will trigger an email notification to the following recipients:<br> <br>" +
+        recipientsSet.join("<br>") +
+        "<br> During testing, it will be sent to you, Anna and Lisa.</div>",
       footer:
         "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
       type: "warning",
@@ -141,32 +144,34 @@ export function addCommentToAllReports(comment, reports) {
       confirmButtonText: "Send Notification",
       cancelButtonText: "Back to Edit"
     }).then(result => {
-      let commentToSave = {
-        comment: {
-          content: comment,
-          username: getState().user.username
-        },
-        request_id: getState().report.request.requestId,
-        reports: reports
-      };
+      if (result.value) {
+        let commentToSave = {
+          comment: {
+            content: comment,
+            username: getState().user.username
+          },
+          request_id: getState().report.request.requestId,
+          reports: reports
+        };
 
-      dispatch({ type: ADD_COMMENT_TO_ALL });
-      return axios
-        .post(Config.API_ROOT + "/addToAllAndNotify", { data: commentToSave })
-        .then(response => {
-          return dispatch({
-            type: ADD_COMMENT_TO_ALL_SUCCESS,
-            payload: response.data.comments,
-            message: "Saved and notified!"
-          });
-        })
+        dispatch({ type: ADD_COMMENT_TO_ALL });
+        return axios
+          .post(Config.API_ROOT + "/addToAllAndNotify", { data: commentToSave })
+          .then(response => {
+            return dispatch({
+              type: ADD_COMMENT_TO_ALL_SUCCESS,
+              payload: response.data.comments,
+              message: "Saved and notified!"
+            });
+          })
 
-        .catch(error => {
-          return dispatch({
-            type: ADD_COMMENT_TO_ALL_FAIL,
-            error: error
+          .catch(error => {
+            return dispatch({
+              type: ADD_COMMENT_TO_ALL_FAIL,
+              error: error
+            });
           });
-        });
+      }
     });
   };
 }
