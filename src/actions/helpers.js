@@ -96,7 +96,7 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
     submitData[0] = { dataType: dataType, samples: [] };
 
     for (var j = 0; j < tables[currentReport].data.length; j++) {
-        submitData[i].samples.push({
+        submitData[0].samples.push({
             recordId: tables[currentReport].data[j].recordId,
             investigatorDecision:
                 tables[currentReport].data[j].investigatorDecision
