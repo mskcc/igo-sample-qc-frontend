@@ -46,7 +46,8 @@ export function getRequest(requestId) {
         dispatch({
             type: GET_REQUEST_REQUEST,
             requestId: requestId,
-            loading: true
+            loading: true,
+            loadingMessage: "Searching for Request " + requestId
         });
         let username = getState().user.username;
         let userRole = getState().user.role;
@@ -282,13 +283,13 @@ export function updateReportShown(report) {
     };
 }
 
-export const SHOW_PENDING = "SHOW_PENDING";
-export function showPending(ownProps) {
-    return {
-        type: SHOW_PENDING,
-        payload: "report"
-    };
-}
+// export const SHOW_PENDING = "SHOW_PENDING";
+// export function showPending(ownProps) {
+//     return {
+//         type: SHOW_PENDING,
+//         payload: "report"
+//     };
+// }
 
 export const REGISTER_GRID_CHANGE = "REGISTER_GRID_CHANGE";
 export function registerChange(report) {
