@@ -51,7 +51,7 @@ export class CommentContainer extends Component {
     Swal.fire({
       title: "Review",
       html:
-        "<div class='swal-comment-review'><strong>Add to:</strong>" +
+        "<div class='swal-comment-review'> For testing, this notification will be sent to you, Anna and Lisa. <br><br> <strong>Add to:</strong>" +
         reportString +
         "<br><strong>Send to:</strong><br>" +
         recipientString +
