@@ -67,7 +67,6 @@ export class CommentContainer extends Component {
       confirmButtonText: "Send Notification",
       cancelButtonText: "Back to Edit"
     }).then(result => {
-      console.log(result);
       if (result.value) {
         return this.props.addInitialComment(
           result.value.replace(/\n/gi, "<br>"),
@@ -75,8 +74,6 @@ export class CommentContainer extends Component {
           recipients
         );
       } else {
-        console.log(result);
-        // console.log(value)
         return true;
       }
     });

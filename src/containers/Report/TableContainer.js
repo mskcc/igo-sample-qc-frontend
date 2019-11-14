@@ -20,11 +20,11 @@ export class TableContainer extends Component {
   };
 
   handleInvestigatorSubmit = () => {
-    if (!allDecisionsMade(this.props.report.tables)) {
+    if (!allDecisionsMade(this.props.report.tables, this.props.report.reportShown)) {
       Swal.fire({
         title: "Not all Decisions made.",
         text:
-          "Please make a decision for each sample in every report before you submit to IGO.",
+          "Please make a decision for each sample in this report before you submit to IGO.",
 
         type: "info",
         animation: false,

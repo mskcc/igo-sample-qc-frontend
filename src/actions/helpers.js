@@ -32,21 +32,19 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
-export const setTablesReadOnlyAfterDecisions = tables => {
-    for (let table in tables) {
-        if (
-            table === "DNA Report" ||
-            table === "RNA Report" ||
-            table === "Library Report"
-        ) {
-            for (let feature in tables[table].columnFeatures) {
-                if (
-                    tables[table].columnFeatures[feature].limsField ===
-                    "InvestigatorDecision"
-                ) {
-                    tables[table].columnFeatures[feature].readOnly = true;
-                    break;
-                }
+export const setTableReadOnlyAfterDecisions = (tables, currentReport) => {
+    if (
+        currentReport === "DNA Report" ||
+        currentReport === "RNA Report" ||
+        currentReport === "Library Report"
+    ) {
+        for (let feature in tables[currentReport].columnFeatures) {
+            if (
+                tables[currentReport].columnFeatures[feature].limsField ===
+                "InvestigatorDecision"
+            ) {
+                tables[currentReport].columnFeatures[feature].readOnly = true;
+                break;
             }
         }
     }
@@ -56,26 +54,24 @@ export const setTablesReadOnlyAfterDecisions = tables => {
 
 //  checks wether investigator made decisions for each sample
 //  defaults to true and returns false as soon as it finds an empty value
-export const allDecisionsMade = tables => {
+export const allDecisionsMade = (tables, currentReport) => {
     let result = true;
-
-    for (let table in tables) {
-        // decisions only need to be made for these three tables
-        if (
-            table === "DNA Report" ||
-            table === "RNA Report" ||
-            table === "Library Report"
-        ) {
-            for (var j = 0; j < tables[table].data.length; j++) {
-                if (
-                    tables[table].data[j].investigatorDecision != null &&
-                    tables[table].data[j].investigatorDecision !== ""
-                ) {
-                    result = true;
-                    continue;
-                } else {
-                    return false;
-                }
+    // for (let table in tables) {
+    // decisions only need to be made for these three tables
+    if (
+        currentReport === "DNA Report" ||
+        currentReport === "RNA Report" ||
+        currentReport === "Library Report"
+    ) {
+        for (var j = 0; j < tables[currentReport].data.length; j++) {
+            if (
+                tables[currentReport].data[j].investigatorDecision != null &&
+                tables[currentReport].data[j].investigatorDecision !== ""
+            ) {
+                result = true;
+                continue;
+            } else {
+                return false;
             }
         }
     }
@@ -83,30 +79,30 @@ export const allDecisionsMade = tables => {
 };
 
 // assemble decision object [{datatype:"report",samples: [{"RecordId" : recordId, "InvestigatorDecision": decision}]}]
-export const generateDecisionSubmitData = tables => {
+export const generateDecisionSubmitData = (tables, currentReport) => {
     let submitData = [];
-    let i = 0;
-    for (let table in tables) {
-        let dataType = "";
-        if (table === "DNA Report") {
-            dataType = "qcReportDna";
-        }
-        if (table === "RNA Report") {
-            dataType = "qcReportRna";
-        }
-        if (table === "Library Report") {
-            dataType = "qcReportLibrary";
-        }
-        submitData[i] = { dataType: dataType, samples: [] };
-
-        for (var j = 0; j < tables[table].data.length; j++) {
-            submitData[i].samples.push({
-                recordId: tables[table].data[j].recordId,
-                investigatorDecision: tables[table].data[j].investigatorDecision
-            });
-        }
-        i++;
+    // for (let table in tables) {
+    let dataType = "";
+    if (currentReport === "DNA Report") {
+        dataType = "qcReportDna";
     }
+    if (currentReport === "RNA Report") {
+        dataType = "qcReportRna";
+    }
+    if (currentReport === "Library Report") {
+        dataType = "qcReportLibrary";
+    }
+    // LIMS expects a JSON array because it is able to do multiple reports' decisions at once
+    submitData[0] = { dataType: dataType, samples: [] };
+
+    for (var j = 0; j < tables[currentReport].data.length; j++) {
+        submitData[i].samples.push({
+            recordId: tables[currentReport].data[j].recordId,
+            investigatorDecision:
+                tables[currentReport].data[j].investigatorDecision
+        });
+    }
+    // }
     // console.log(submitData);
     return submitData;
 };
