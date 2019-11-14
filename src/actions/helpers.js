@@ -8,24 +8,24 @@ export const fillReportTables = reportList => {
     let pathologyReport = reportList.pathologyReportSamples;
     let attachments = reportList.attachments;
 
-    if (dnaReport.data) {
+    if (dnaReport && dnaReport.data) {
         dnaReport.data = sortBySampleId(dnaReport.data);
         tables["DNA Report"] = dnaReport;
     }
-    if (rnaReport.data) {
+    if (rnaReport && rnaReport.data) {
         rnaReport.data = sortBySampleId(rnaReport.data);
         tables["RNA Report"] = rnaReport;
     }
-    if (libraryReport.data) {
+    if (libraryReport && libraryReport.data) {
         libraryReport.data = sortBySampleId(libraryReport.data);
         tables["Library Report"] = libraryReport;
     }
-    if (pathologyReport.data) {
+    if (pathologyReport && pathologyReport.data) {
         pathologyReport.data = sortBySampleId(pathologyReport.data);
         tables["Pathology Report"] = pathologyReport;
     }
 
-    if (attachments.data) {
+    if (attachments && attachments.data) {
         tables["Attachments"] = attachments;
     }
 

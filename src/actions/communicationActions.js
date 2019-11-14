@@ -1,5 +1,5 @@
 import axios from "axios";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 // import {
 //   generateSubmitData,
 //   generateSubmissionsGrid,
@@ -32,7 +32,6 @@ export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
-    console.log(recipients);
     let commentToSave = {
       comment: {
         content: comment,
@@ -61,10 +60,6 @@ export function addInitialComment(comment, reports, recipients) {
         });
       });
   };
-
-  //ceep copy of comments array
-  // let comments = [...getState().communication.comments];
-  // comments.push(comment);
 }
 
 export const ADD_COMMENT = "ADD_COMMENT";
@@ -73,33 +68,54 @@ export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addComment(comment, report) {
   return (dispatch, getState) => {
-    let commentToSave = {
-      comment: {
-        content: comment,
-        // username: "patrunoa"
-        username: getState().user.username
-      },
-      request_id: getState().report.request.requestId,
-      report: report
-    };
+    Swal.fire({
+      title: "Are you sure?",
+      html:
+        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br>" +
+        getState().communication.comments[report].recipients.replace(
+          /,/gi,
+          "<br>"
+        ) +
+        "<br></div>",
+      footer:
+        "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
+      type: "warning",
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: "#007cba",
+      cancelButtonColor: "#df4602",
+      confirmButtonText: "Send Notification",
+      cancelButtonText: "Back to Edit"
+    }).then(result => {
+      if (result.value) {
+        let commentToSave = {
+          comment: {
+            content: comment,
+            username: getState().user.username
+          },
+          request_id: getState().report.request.requestId,
+          report: report
+        };
 
-    dispatch({ type: ADD_COMMENT });
-    return axios
-      .post(Config.API_ROOT + "/addAndNotify", { data: commentToSave })
-      .then(response => {
-        return dispatch({
-          type: ADD_COMMENT_SUCCESS,
-          payload: response.data.comments,
-          message: "Saved and notified!"
-        });
-      })
+        dispatch({ type: ADD_COMMENT });
+        return axios
+          .post(Config.API_ROOT + "/addAndNotify", { data: commentToSave })
+          .then(response => {
+            return dispatch({
+              type: ADD_COMMENT_SUCCESS,
+              payload: response.data.comments,
+              message: "Saved and notified!"
+            });
+          })
 
-      .catch(error => {
-        return dispatch({
-          type: ADD_COMMENT_FAIL,
-          error: error
-        });
-      });
+          .catch(error => {
+            return dispatch({
+              type: ADD_COMMENT_FAIL,
+              error: error
+            });
+          });
+      }
+    });
   };
 }
 
@@ -109,33 +125,49 @@ export const ADD_COMMENT_TO_ALL_FAIL = "ADD_COMMENT_TO_ALL_FAIL";
 
 export function addCommentToAllReports(comment, reports) {
   return (dispatch, getState) => {
-    let commentToSave = {
-      comment: {
-        content: comment,
-        // username: "patrunoa"
-        username: getState().user.username
-      },
-      request_id: getState().report.request.requestId,
-      reports: reports
-    };
+    Swal.fire({
+      title: "Are you sure?",
+      html:
+        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br>" +
+        getState().communication.recipients.replace(/,/gi, "<br>") +
+        "<br></div>",
+      footer:
+        "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
+      type: "warning",
+      showCancelButton: true,
+      animation: false,
+      confirmButtonColor: "#007cba",
+      cancelButtonColor: "#df4602",
+      confirmButtonText: "Send Notification",
+      cancelButtonText: "Back to Edit"
+    }).then(result => {
+      let commentToSave = {
+        comment: {
+          content: comment,
+          username: getState().user.username
+        },
+        request_id: getState().report.request.requestId,
+        reports: reports
+      };
 
-    dispatch({ type: ADD_COMMENT_TO_ALL });
-    return axios
-      .post(Config.API_ROOT + "/addToAllAndNotify", { data: commentToSave })
-      .then(response => {
-        return dispatch({
-          type: ADD_COMMENT_TO_ALL_SUCCESS,
-          payload: response.data.comments,
-          message: "Saved and notified!"
-        });
-      })
+      dispatch({ type: ADD_COMMENT_TO_ALL });
+      return axios
+        .post(Config.API_ROOT + "/addToAllAndNotify", { data: commentToSave })
+        .then(response => {
+          return dispatch({
+            type: ADD_COMMENT_TO_ALL_SUCCESS,
+            payload: response.data.comments,
+            message: "Saved and notified!"
+          });
+        })
 
-      .catch(error => {
-        return dispatch({
-          type: ADD_COMMENT_TO_ALL_FAIL,
-          error: error
+        .catch(error => {
+          return dispatch({
+            type: ADD_COMMENT_TO_ALL_FAIL,
+            error: error
+          });
         });
-      });
+    });
   };
 }
 
