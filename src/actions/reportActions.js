@@ -103,7 +103,6 @@ export function getQcReports(requestId, otherSampleIds) {
             })
             .then(response => {
                 let tables = fillReportTables(response.data.tables);
-                console.log(tables);
                 if (isEmpty(tables)) {
                     return dispatch({
                         type: GET_REPORT_FAIL,
@@ -115,7 +114,7 @@ export function getQcReports(requestId, otherSampleIds) {
                         type: GET_REPORT_SUCCESS,
                         message: "reset",
                         payload: {
-                            readOnly: response.data.read_only,
+                            // readOnly: response.data.read_only,
                             tables: tables
                         }
                     });

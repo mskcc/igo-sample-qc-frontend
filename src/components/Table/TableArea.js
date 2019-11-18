@@ -106,7 +106,7 @@ export default function TableArea(props) {
         <RequestInfo request={props.report.request} />
         {props.report.reportShown.includes("Report") && (
           <React.Fragment>
-            {props.report.readOnly ? (
+            {props.report.tables[props.report.reportShown].readOnly ? (
               <Card>
                 <CardContent className={classes.decisions}>
                   <Typography
