@@ -179,12 +179,14 @@ export function submitInvestigatorDecision() {
         );
         let request_id = getState().report.request.requestId;
         let username = getState().user.username;
+        let report =             getState().report.reportShown
 
         return axios
             .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
                 decisions,
                 username,
-                request_id
+                request_id,
+                report
             })
             .then(response => {
                 dispatch({
