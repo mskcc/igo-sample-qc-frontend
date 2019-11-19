@@ -45,7 +45,7 @@ function reportReducer(state = initialState, action) {
       return {
         ...state,
         tables: action.payload.tables,
-        reportShown: Object.keys(action.payload.tables)[0],
+        reportShown: Object.keys(action.payload.tables)[0]
       };
 
     case ActionTypes.GET_REPORT_FAIL:

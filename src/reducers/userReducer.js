@@ -1,11 +1,15 @@
 import { userActions as ActionTypes } from "../actions";
-
+import { reportActions as ReportActionTypes } from "../actions";
 const initialState = {
     loggedIn: false
 };
 
 function userReducer(state = initialState, action) {
     switch (action.type) {
+        case ReportActionTypes.EXPIRED:
+            return {
+                ...initialState
+            };
         case ActionTypes.LOGIN_REQUEST:
             return {
                 ...state
@@ -17,8 +21,7 @@ function userReducer(state = initialState, action) {
                 username: action.payload.username,
                 role: action.payload.role,
                 title: action.payload.title,
-                fullName: action.payload.full_name,
-                
+                fullName: action.payload.full_name
             };
 
         case ActionTypes.LOGIN_FAIL:

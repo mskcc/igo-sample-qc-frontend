@@ -37,7 +37,7 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (error && !message) {
-    if (error.response && error.status === 401) {
+    if (error.response && error.response.status === 401) {
       return {
         ...state,
         error: true,
@@ -60,7 +60,7 @@ function commonReducer(state = initialState, action) {
         ...state
       };
     }
-     if (error.response) {
+    if (error.response) {
       return {
         ...state,
         error: true,
@@ -68,8 +68,7 @@ function commonReducer(state = initialState, action) {
         loading: false
       };
     }
-  }
-  else if (message) {
+  } else if (message) {
     if (message === "reset") {
       return {
         ...state,

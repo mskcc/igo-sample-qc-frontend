@@ -30,15 +30,18 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     function(response) {
         // Do something with response data
+        console.log(response);
         return response;
     },
     function(error) {
         // Do something with response error
+        console.log(error);
         return Promise.reject(error);
     }
 );
 
 export const GET_REQUEST_REQUEST = "GET_REQUEST_REQUEST";
+export const EXPIRED = "EXPIRED";
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const GET_REQUEST_SUCCESS = "GET_REQUEST_SUCCESS";
 export function getRequest(requestId) {
@@ -66,11 +69,10 @@ export function getRequest(requestId) {
                 });
             })
             .catch(error => {
-                if (error.response && error.response.status === 404) {
+                if (error.response && error.response.status === 401) {
                     return dispatch({
-                        type: GET_REQUEST_FAIL,
-
-                        message: "reset"
+                        type: EXPIRED,
+                        error: error
                     });
                 } else {
                     return dispatch({
@@ -179,7 +181,7 @@ export function submitInvestigatorDecision() {
         );
         let request_id = getState().report.request.requestId;
         let username = getState().user.username;
-        let report =             getState().report.reportShown
+        let report = getState().report.reportShown;
 
         return axios
             .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
