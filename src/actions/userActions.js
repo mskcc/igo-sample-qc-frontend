@@ -94,7 +94,7 @@ export function logout() {
                 });
         }
         let token = sessionStorage.getItem("refresh_token");
-        
+
         if (refresh_token) {
             sessionStorage.removeItem("refresh_token");
             axios
@@ -117,6 +117,37 @@ export function logout() {
         } else
             return dispatch({
                 type: LOGOUT_SUCCESS
+            });
+    };
+}
+
+export const SUBMIT_FEEDBACK_REQUEST = "SUBMIT_FEEDBACK_REQUEST";
+export const SUBMIT_FEEDBACK_FAIL = "SUBMIT_FEEDBACK_FAIL";
+export const SUBMIT_FEEDBACK_SUCCESS = "SUBMIT_FEEDBACK_SUCCESS";
+export function submitFeedback(feedbackBody, feedbackSubject, feedbackType) {
+    return dispatch => {
+        dispatch({ type: SUBMIT_FEEDBACK_REQUEST, loading: true });
+        return axios
+            .post(Config.API_ROOT + "/submitFeedback", {
+                data: {
+                    feedbackBody,
+                    feedbackSubject,
+                    feedbackType
+                }
+            })
+            .then(response => {
+                return dispatch({
+                    type: SUBMIT_FEEDBACK_SUCCESS,
+                    message: "Feedback submitted. Thank you!"
+                });
+            })
+
+            .catch(error => {
+                return dispatch({
+                    type: SUBMIT_FEEDBACK_FAIL,
+                    message:
+                        "Error submitting feedback. Please email wagnerl@mskcc.org."
+                });
             });
     };
 }

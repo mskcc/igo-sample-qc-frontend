@@ -8,101 +8,103 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
+import Feedback from "./Feedback/Feedback";
+import image from "./igo.png";
 
-import image from "./msk.png";
+const Header = ({ classes, loggedIn, role, submitFeedback }) => {
+  const [values, setValues] = React.useState({
+    show: false
+  });
 
-const Header = ({ classes, loggedIn, role }) => (
+  const handleShow = () => {
+    setValues({
+      show: !values.show
+    });
+  };
   // <div className={classes.mskccHeader}>
-  <AppBar position="static" title={image} className={classes.header}>
-    <Toolbar>
-      <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
+  return (
+    <AppBar position="static" title={image} className={classes.header}>
+      <Toolbar>
+        <Avatar alt="mskcc logo" src={image} className={classes.avatar} />
 
-      <Typography color="inherit" variant="h6" className={classes.title}>
-        Sample QC
-      </Typography>
-      {loggedIn ? (
-        <React.Fragment>
-          {/* 
-              <Button>
-            <NavLink
-              to="/upload"
-              activeClassName={classes.active}
-              className={classes.navlink}
-            >
-              <Typography color="inherit" variant="h6">
-                QC
-              </Typography>
-            </NavLink>
-          </Button>
-
+        <Typography color="inherit" variant="h6" className={classes.title}>
+          Sample QC
+        </Typography>
+        {loggedIn ? (
+          <React.Fragment>
+            {role === "lab_member" ? (
+              <React.Fragment>
+                <Button>
+                  <NavLink
+                    to="/"
+                    activeClassName={classes.active}
+                    className={classes.navlink}
+                  >
+                    <Typography color="inherit" variant="h6">
+                      Home
+                    </Typography>
+                  </NavLink>
+                </Button>
+                <Button>
+                  <NavLink
+                    to="/pending"
+                    activeClassName={classes.active}
+                    className={classes.navlink}
+                  >
+                    <Typography color="inherit" variant="h6">
+                      Pending
+                    </Typography>
+                  </NavLink>
+                </Button>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Typography
+                  color="inherit"
+                  variant="h6"
+                  className={classes.feedback}
+                >
+                  <Button onClick={handleShow}>Feedback</Button>
+                </Typography>
+                {values.show && (
+                  <Feedback
+                    handleShow={handleShow}
+                    submitFeedback={submitFeedback}
+                  />
+                )}
+                )}
+              </React.Fragment>
+            )}
+            <Button>
+              <NavLink
+                to="/logout"
+                activeClassName={classes.active}
+                className={classes.navlink}
+              >
+                <Typography color="inherit" variant="h6">
+                  Logout
+                </Typography>
+              </NavLink>
+            </Button>
+          </React.Fragment>
+        ) : (
           <Button>
             <NavLink
-              to="/submissions"
+              to="/login"
               activeClassName={classes.active}
               className={classes.navlink}
             >
               <Typography color="inherit" variant="h6">
-                Past Decisions
+                Login
               </Typography>
             </NavLink>
           </Button>
-*/}
-          {role === "lab_member" && (
-            <React.Fragment>
-              <Button>
-                <NavLink
-                  to="/"
-                  activeClassName={classes.active}
-                  className={classes.navlink}
-                >
-                  <Typography color="inherit" variant="h6">
-                    Home
-                  </Typography>
-                </NavLink>
-              </Button>
-              <Button>
-                <NavLink
-                  to="/pending"
-                  activeClassName={classes.active}
-                  className={classes.navlink}
-                >
-                  <Typography color="inherit" variant="h6">
-                    Pending
-                  </Typography>
-                </NavLink>
-              </Button>
-            </React.Fragment>
-          )}
-          <Button>
-            <NavLink
-              to="/logout"
-              activeClassName={classes.active}
-              className={classes.navlink}
-            >
-              <Typography color="inherit" variant="h6">
-                Logout
-              </Typography>
-            </NavLink>
-          </Button>
-        </React.Fragment>
-      ) : (
-        <Button>
-          <NavLink
-            to="/login"
-            activeClassName={classes.active}
-            className={classes.navlink}
-          >
-            <Typography color="inherit" variant="h6">
-              Login
-            </Typography>
-          </NavLink>
-        </Button>
-      )}
-    </Toolbar>
-  </AppBar>
-
+        )}
+      </Toolbar>
+    </AppBar>
+  );
   // </div>
-);
+};
 
 const styles = theme => ({
   header: {
@@ -128,6 +130,12 @@ const styles = theme => ({
   active: {
     color: "white",
     fontSize: "1em"
+  },
+  feedback: {
+    flex: 1,
+    color: "white",
+    textAlign: "right",
+    justifyContent: "flex-end"
   }
 });
 

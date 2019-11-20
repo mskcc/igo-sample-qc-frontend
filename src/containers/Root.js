@@ -93,8 +93,9 @@ class Root extends Component {
                   className="header"
                   loggedIn={this.props.user.loggedIn}
                   role={this.props.user.role}
+                  submitFeedback={this.props.submitFeedback}
                 />
-                {Config.ENV !== "production" ? <DevTools /> : <div />}
+                {Config.ENV == "production" ? <DevTools /> : <div />}
                 {this.props.common.serverError ? (
                   <ErrorPage />
                 ) : this.props.user.loggedIn ? (
