@@ -32,49 +32,28 @@ const Header = ({ classes, loggedIn, role, submitFeedback }) => {
         </Typography>
         {loggedIn ? (
           <React.Fragment>
-            {role === "lab_member" ? (
-              <React.Fragment>
-                <Button>
-                  <NavLink
-                    to="/"
-                    activeClassName={classes.active}
-                    className={classes.navlink}
-                  >
-                    <Typography color="inherit" variant="h6">
-                      Home
-                    </Typography>
-                  </NavLink>
-                </Button>
-                <Button>
-                  <NavLink
-                    to="/pending"
-                    activeClassName={classes.active}
-                    className={classes.navlink}
-                  >
-                    <Typography color="inherit" variant="h6">
-                      Pending
-                    </Typography>
-                  </NavLink>
-                </Button>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Typography
-                  color="inherit"
-                  variant="h6"
-                  className={classes.feedback}
-                >
-                  <Button onClick={handleShow}>Feedback</Button>
+            <Button>
+              <NavLink
+                to="/"
+                activeClassName={classes.active}
+                className={classes.navlink}
+              >
+                <Typography color="inherit" variant="h6">
+                  Home
                 </Typography>
-                {values.show && (
-                  <Feedback
-                    handleShow={handleShow}
-                    submitFeedback={submitFeedback}
-                  />
-                )}
-                )}
-              </React.Fragment>
-            )}
+              </NavLink>
+            </Button>
+            <Button>
+              <NavLink
+                to="/pending"
+                activeClassName={classes.active}
+                className={classes.navlink}
+              >
+                <Typography color="inherit" variant="h6">
+                  Pending
+                </Typography>
+              </NavLink>
+            </Button>
             <Button>
               <NavLink
                 to="/logout"
@@ -86,6 +65,19 @@ const Header = ({ classes, loggedIn, role, submitFeedback }) => {
                 </Typography>
               </NavLink>
             </Button>
+            <Typography
+              color="inherit"
+              variant="h6"
+              className={classes.feedback}
+            >
+              <Button onClick={handleShow}>Feedback</Button>
+            </Typography>
+            {values.show && (
+              <Feedback
+                handleShow={handleShow}
+                submitFeedback={submitFeedback}
+              />
+            )}
           </React.Fragment>
         ) : (
           <Button>
