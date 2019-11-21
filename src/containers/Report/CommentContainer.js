@@ -85,7 +85,7 @@ export class CommentContainer extends Component {
       let reportsPresent = Object.keys(this.props.report.tables);
       if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
         this.props.addCommentToAllReports(
-          comment,
+          comment.replace(/\n/gi, "<br>"),
           Object.keys(this.props.report.tables)
         );
       } else {
@@ -107,7 +107,7 @@ export class CommentContainer extends Component {
 
   addComment = comment => {
     if (this.isValid(comment)) {
-      this.props.addComment(comment, this.props.report.reportShown);
+      this.props.addComment(comment.replace(/\n/gi, "<br>"), this.props.report.reportShown);
     } else {
       this.showMrnError();
     }
