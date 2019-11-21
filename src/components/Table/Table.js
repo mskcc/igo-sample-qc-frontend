@@ -82,31 +82,11 @@ class Table extends React.Component {
           columnSorting="true"
           height="500"
           rowHeights="35"
-          // afterValidate={(changes, source) => {
-          //   console.log(changes.length);
-          //   for (var i = changes.length - 1; i >= 0; i--) {
-          //     if (i == changes.length) {
-          //       this.props.registerChange();
-          //     }
-          //   }
-          // }}
-
-          //   if (changes) {
-          //     let i = 0;
-          //     if (source !== "loadData") {
-          //       changes.forEach(([row, prop, oldValue, newValue]) => {
-          //         i++;
-
-          //         this.props.registerChange();
-          //       });
-          //     }
-          //   }
-          // console.log(changes);
           afterOnCellMouseDown={(event, coords, TD) => {
             if (isAttachmentTable && event.button === 0 && coords.row > -1) {
               if (coords.col === 1) {
                 this.props.handleAttachmentDownload(
-                  TD.firstElementChild.getAttribute("submission-id"),
+                  TD.firstElementChild.getAttribute("record-id"),
                   TD.firstElementChild.getAttribute("file-name")
                 );
               }
