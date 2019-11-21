@@ -11,6 +11,8 @@ const initialState = {
 function commentReducer(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.ADD_COMMENT_SUCCESS:
+      // Hacky but efficient and less painful to implement than anywhere else 
+      document.getElementById("new-comment-field").value = ""
       return {
         ...state,
         comments: action.payload
@@ -22,6 +24,8 @@ function commentReducer(state = initialState, action) {
       };
 
      case ActionTypes.ADD_COMMENT_TO_ALL_SUCCESS:
+// Hacky but efficient and less painful to implement than anywhere else 
+     document.getElementById("new-comment-field").value = ""
       return {
         ...state,
         comments: action.payload
@@ -33,6 +37,7 @@ function commentReducer(state = initialState, action) {
       };
 
     case ActionTypes.ADD_INITIAL_COMMENT_SUCCESS:
+
       return {
         ...state,
         comments: action.payload

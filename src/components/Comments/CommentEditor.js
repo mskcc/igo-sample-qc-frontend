@@ -218,6 +218,8 @@ export default function CommentEditor(props) {
                 <MenuItem value="Extraction">Extraction</MenuItem>
                 <MenuItem value="DNA QC">DNA QC</MenuItem>
                 <MenuItem value="RNA QC">RNA QC</MenuItem>
+                <MenuItem value="Library QC">Library QC</MenuItem>
+                <MenuItem value="Pool QC">Pool QC</MenuItem>
                 <MenuItem value="Library Prep">Library Prep</MenuItem>
               </Select>
             </FormControl>

@@ -220,7 +220,6 @@ export function downloadAttachment(attachmentRecordId, fileName) {
             loading: true,
             loadingMessage: "Fetching your data.."
         });
-
         // let data = await fillReportTables(response.data)
         return axios
             .get(Config.API_ROOT + "/downloadAttachment", {

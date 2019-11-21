@@ -55,7 +55,7 @@ export default function NewCommentArea(props) {
   return (
     <div className={classes.container}>
       <TextField
-        id="outlined-multiline-static"
+        id="new-comment-field"
         label="New Comment"
         multiline
         rows="3"
