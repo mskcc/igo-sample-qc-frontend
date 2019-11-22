@@ -143,8 +143,14 @@ export function getPending() {
             loading: true,
             loadingMessage: "Submitting..."
         });
+        let endpoint;
+        if (getState().user.role == "lab_member") {
+            endpoint = "/getPending";
+        } else {
+            endpoint = "/getUserPending";
+        }
         return axios
-            .get(Config.API_ROOT + "/getPending", {})
+            .get(Config.API_ROOT + endpoint, {})
             .then(response => {
                 dispatch({
                     type: GET_PENDING_SUCCESS,

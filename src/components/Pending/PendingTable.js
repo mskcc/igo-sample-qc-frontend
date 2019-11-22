@@ -27,15 +27,14 @@ class Table extends React.Component {
   render() {
     const {
       classes
-      // handleClick,
-      // handleReceipt,
-      // handleDelete
     } = this.props;
     // last column is always RecordId. Needed to set investigator decision efficiently
     return (
       <div className={classes.container}>
         <Typography variant="h5">Waiting for Investigator Decision</Typography>
-        <Typography variant="body1">To send reminders, click on show and add a new comment.</Typography>
+        <Typography variant="body1">
+          To send reminders, click on show and add a new comment.
+        </Typography>
         <HotTable
           licenseKey="non-commercial-and-evaluation"
           id="hot"
@@ -51,7 +50,7 @@ class Table extends React.Component {
           height="100vh"
           afterOnCellMouseDown={(event, coords, TD) => {
             if (event.button === 0 && coords.row > -1) {
-              if (coords.col === 9) {
+              if (coords.col === this.props.data.columnHeaders.length - 1) {
                 this.props.showPending(
                   TD.firstElementChild.getAttribute("pending-id")
                 );
