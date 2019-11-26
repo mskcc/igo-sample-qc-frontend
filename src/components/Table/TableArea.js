@@ -88,7 +88,15 @@ function a11yProps(index) {
 
 export default function TableArea(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  // make sure active tab is on currentReport after page refresh
+  let index = 0;
+  if (props.report.reportShown) {
+    index = Object.keys(props.report.tables).indexOf(
+      props.report.reportShown
+    );
+  }
+
+  const [value, setValue] = React.useState(index);
 
   function handleChange(event, newValue) {
     setValue(newValue);
