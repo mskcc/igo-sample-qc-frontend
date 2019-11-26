@@ -259,15 +259,29 @@ export const REPORT_DOWNLOAD_SUCCESS = "REPORT_DOWNLOAD_SUCCESS";
 export function downloadReport(reportShown, request) {
     return (dispatch, getState) => {
         let tableToExport = getState().report.tables[reportShown];
+        let columnFeatures = getState().report.tables[reportShown]
+            .columnFeatures;
         let fileName =
             request.requestId + "_" + reportShown.replace(" ", "_") + ".xlsx";
 
-        // remove html from table data
-        let clonedReport = JSON.stringify(tableToExport.data);
-        clonedReport = clonedReport.replace(/<\/?[^>]+>/gi, "");
-        clonedReport = clonedReport.replace(/otherSampleId/gi, "sampleName");
-        clonedReport = clonedReport.replace(/sampleId/gi, "igoId");
-        clonedReport = JSON.parse(clonedReport);
+        // deep copy and rename the data column names with the actual column headers
+        // remove all html code
+        let clonedReport = JSON.parse(
+            JSON.stringify(tableToExport.data).replace(/<\/?[^>]+>/gi, "")
+        );
+        for (let row in clonedReport) {
+            for (let field in clonedReport[row]) {
+                for (let columnFeature in columnFeatures) {
+                    if (field === columnFeatures[columnFeature].data) {
+                        clonedReport[row][
+                            columnFeatures[columnFeature].columnHeader
+                        ] = clonedReport[row][field];
+                        delete clonedReport[row][field];
+                    }
+                }
+            }
+        }
+
         const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
         const fileExtension = ".xlsx";
