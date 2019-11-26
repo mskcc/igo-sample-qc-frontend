@@ -209,8 +209,7 @@ export function submitInvestigatorDecision() {
             .catch(error => {
                 return dispatch({
                     type: POST_INVESTIGATOR_DECISION_FAIL,
-                    error: error,
-                    message: "Submission failed."
+                    error: error
                 });
             });
     };

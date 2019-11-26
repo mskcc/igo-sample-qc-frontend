@@ -20,7 +20,7 @@ export default function RequestInfo(props) {
   return (
     <div className={classes.container}>
       <Typography variant="h5">
-        QC Results for {props.request.requestId}
+        <strong> QC Results for {props.request.requestId}</strong>
       </Typography>
       <div className={classes.details}>
         <div>

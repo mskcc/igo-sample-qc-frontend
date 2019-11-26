@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
     // marginBottom: "1em"
   },
   buttons: {
-    display: "grid"
+    display: "grid",
+    minHeight: "50%",
   }
 }));
 

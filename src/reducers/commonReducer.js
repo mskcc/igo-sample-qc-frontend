@@ -63,7 +63,7 @@ function commonReducer(state = initialState, action) {
     if (error.response) {
       return {
         ...state,
-        error: true,
+        // error: true,
         message: error.response.data.message,
         loading: false
       };
