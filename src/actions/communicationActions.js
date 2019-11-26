@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 // } from '../helpers'
 
 import { Config } from "../secret_config.js";
-
+import { allDecisionsMadeInBackend, generateDecisionSubmitData } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
@@ -32,6 +32,16 @@ export const ADD_INITIAL_COMMENT_FAIL = "ADD_INITIAL_COMMENT_FAIL";
 
 export function addInitialComment(comment, reports, recipients) {
   return (dispatch, getState) => {
+    let decisionsMade = {};
+    for (let report in reports) {
+      // determines wether creating an initial comment also triggers an entry to the decisions table
+      if (allDecisionsMadeInBackend(getState().report.tables[reports[report]].columnFeatures, reports[report]))
+        decisionsMade[reports[report]] = generateDecisionSubmitData(
+          getState().report.tables,
+          reports[report]
+        );
+    }
+
     let commentToSave = {
       comment: {
         content: comment,
@@ -39,9 +49,10 @@ export function addInitialComment(comment, reports, recipients) {
       },
       request_id: getState().report.request.requestId,
       reports: reports,
-      recipients: recipients.join()
+      recipients: recipients.join(),
+      decisions_made: decisionsMade
     };
-
+    console.log(commentToSave);
     dispatch({ type: ADD_INITIAL_COMMENT });
     return axios
       .post(Config.API_ROOT + "/addAndNotifyInitial", { data: commentToSave })

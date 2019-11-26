@@ -78,6 +78,25 @@ export const allDecisionsMade = (tables, currentReport) => {
     return result;
 };
 
+//  checks if data was delivered with readonly set for invDec
+// determines wether creating an initial comment also triggers an entry to the decisions table
+export const allDecisionsMadeInBackend = (columnFeatures, currentReport) => {
+    let result = false;
+
+    if (
+        currentReport === "DNA Report" ||
+        currentReport === "RNA Report" ||
+        currentReport === "Library Report"
+    ) {
+        for (let index in columnFeatures) {
+            if (columnFeatures[index].data === "investigatorDecision") {
+                return columnFeatures[index].readOnly;
+            }
+        }
+    }
+    return result;
+};
+
 // assemble decision object [{datatype:"report",samples: [{"RecordId" : recordId, "InvestigatorDecision": decision}]}]
 export const generateDecisionSubmitData = (tables, currentReport) => {
     let submitData = [];
