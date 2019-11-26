@@ -4,16 +4,17 @@ import Swal from "sweetalert2";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-import { communicationActions } from "../actions";
+import { communicationActions } from "../../actions";
 import {
   cleanAndFilterRecipients,
   allIntialCommentsSent
-} from "../actions/helpers";
+} from "../../actions/helpers";
 
-import { CommentArea, CommentEditorArea } from "../components/Comments";
+import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
+    console.log(this.props.history);
     this.props.getComments();
   }
 
@@ -50,13 +51,14 @@ export class CommentContainer extends Component {
     Swal.fire({
       title: "Review",
       html:
-        "<div class='swal-comment-review'><strong>Add to:</strong>" +
+        "<div class='swal-comment-review'> For testing, this notification will be sent to you, Anna and Lisa. <br><br> <strong>Add to:</strong>" +
         reportString +
         "<br><strong>Send to:</strong><br>" +
         recipientString +
         "<br><strong>Content:</strong><br>" +
-        commentString +
         " </div>",
+      input: "textarea",
+      inputValue: commentString.replace(/<br>/gi, "\n"),
       type: "warning",
       showCancelButton: true,
       animation: false,
@@ -67,7 +69,7 @@ export class CommentContainer extends Component {
     }).then(result => {
       if (result.value) {
         return this.props.addInitialComment(
-          commentString,
+          result.value.replace(/\n/gi, "<br>"),
           filteredReports,
           recipients
         );
@@ -78,30 +80,69 @@ export class CommentContainer extends Component {
   };
 
   addCommentToAllReports = comment => {
-    let reportsWithComments = Object.keys(this.props.comments);
-    let reportsPresent = Object.keys(this.props.report.tables);
-    if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
-      this.props.addCommentToAllReports(
-        comment,
-        Object.keys(this.props.report.tables)
-      );
+    if (this.isValid(comment)) {
+      let reportsWithComments = Object.keys(this.props.comments);
+      let reportsPresent = Object.keys(this.props.report.tables);
+      if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
+        this.props.addCommentToAllReports(
+          comment.replace(/\n/gi, "<br>"),
+          Object.keys(this.props.report.tables)
+        );
+      } else {
+        Swal.fire({
+          title: "Not all intial comments sent.",
+          text:
+            "You can only comment on all reports at once if IGO has sent out " +
+            "intial notifications for every report present in this request.",
+          type: "info",
+          animation: false,
+          confirmButtonColor: "#007cba",
+          confirmButtonText: "Dismiss"
+        });
+      }
     } else {
-      Swal.fire({
-        title: "Not all intial comments sent.",
-        text:
-          "You can only comment on all reports at once if IGO has sent out " +
-          "intial notifications for every report present in this request.",
-        type: "info",
-        animation: false,
-        confirmButtonColor: "#007cba",
-        confirmButtonText: "Dismiss"
-      });
+      this.showMrnError();
     }
   };
 
   addComment = comment => {
-    this.props.addComment(comment, this.props.report.reportShown);
+    if (this.isValid(comment)) {
+      this.props.addComment(comment.replace(/\n/gi, "<br>"), this.props.report.reportShown);
+    } else {
+      this.showMrnError();
+    }
   };
+
+  isValid = comment => {
+    var r = /\s\d{8}\s/g;
+
+    var matches = comment.match(r);
+    if (matches) {
+      return false;
+    }
+    r = /^\d{8}$/g;
+
+    matches = comment.match(r);
+    if (matches) {
+      return false;
+    }
+    return true;
+  };
+
+  showMrnError = () => {
+    Swal.fire({
+      title: "Comment Invalid",
+      text:
+        "We detected an 8 digit number in your comment. Please delete any MRNs or other PHI and re-submit." +
+        "This webapp is not PHI secure and submitting PHI would violate MSK policy.",
+
+      type: "warning",
+      animation: false,
+      confirmButtonColor: "#007cba",
+      confirmButtonText: "Dismiss"
+    });
+  };
+
   handleRecipientSubmit = recipients => {
     this.props.setRecipients(recipients);
   };

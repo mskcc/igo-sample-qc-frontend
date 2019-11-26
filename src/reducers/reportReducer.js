@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 const initialState = {
   loaded: false,
   request: "",
-  reportShown: null
+  reportShown: null,
+  pending: null,
+  readOnly: true
 };
 
 function reportReducer(state = initialState, action) {
@@ -35,19 +37,30 @@ function reportReducer(state = initialState, action) {
         confirmButtonText: "Dismiss"
       });
       return {
-        ...state
+        ...initialState,
+        loaded: false
       };
 
     case ActionTypes.GET_REPORT_SUCCESS:
       return {
         ...state,
-        tables: action.payload,
-        reportShown: Object.keys(action.payload)[0]
+        tables: action.payload.tables,
+        reportShown: Object.keys(action.payload.tables)[0]
       };
 
     case ActionTypes.GET_REPORT_FAIL:
+      Swal.fire({
+        title: "QC Reports not found.",
+        text:
+          "This request might not exist, " +
+          "not be ready for QC or is not associated with your username.",
+        type: "info",
+        animation: false,
+        confirmButtonColor: "#007cba",
+        confirmButtonText: "Dismiss"
+      });
       return {
-        ...state
+        ...initialState
       };
 
     case ActionTypes.ATTACHMENT_DOWNLOAD_REQUEST:
@@ -85,11 +98,35 @@ function reportReducer(state = initialState, action) {
       return {
         ...state
       };
+
+    case ActionTypes.POST_INVESTIGATOR_DECISION_SUCCESS:
+      return {
+        ...state,
+        readOnly: false,
+        tables: action.payload
+      };
+
+    case ActionTypes.GET_PENDING_REQUEST:
+      return {
+        ...state
+      };
+
+    case ActionTypes.GET_PENDING_SUCCESS:
+      return {
+        ...state,
+        pending: action.pending
+      };
+
+    case ActionTypes.GET_PENDING_FAIL:
+      return {
+        ...state
+      };
     case ActionTypes.UPDATE_REPORT_SHOWN:
       return {
         ...state,
         reportShown: action.payload
       };
+
     case ActionTypes.REGISTER_GRID_CHANGE:
       return {
         ...state

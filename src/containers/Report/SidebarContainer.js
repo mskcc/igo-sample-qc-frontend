@@ -2,14 +2,14 @@ import React, { Component } from "react";
 
 import { withLocalize } from "react-localize-redux";
 import { connect } from "react-redux";
-import { reportActions } from "../actions";
-import { Config } from "../secret_config.js";
+import { reportActions } from "../../actions";
+import { Config } from "../../secret_config.js";
 
-import { Sidebar } from "../components";
+import { Sidebar } from "../../components";
 
 export class SidebarContainer extends Component {
   handleSearch = requestId => {
-    this.props.getRequest(requestId);
+    this.props.getRequest(requestId.toUpperCase());
   };
   // handleGridSubmit = formValues => {
   //   this.props.addGridToBankedSample(this.props);

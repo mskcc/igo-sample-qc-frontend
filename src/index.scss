@@ -52,19 +52,27 @@ code {
 
 .passed {
     color: black;
+    text-align: center;
     background-color: $mskcc-light-green;
 }
 .try {
     color: black;
+    text-align: center;
     background-color: $mskcc-dark-yellow;
 }
 
-.fail {
-    color: black;
+.failed, .pathology-status {
+    color: white;
+    text-align: center;
     background-color: $mskcc-red;
 }
 
 .download-icon {
+    cursor: pointer;
+    color: #006098;
+    text-align: center;
+}
+.show-icon {
     cursor: pointer;
     color: #006098;
 }
@@ -75,15 +83,27 @@ code {
     }
 }
 
-
 .htDimmed {
     color: black !important;
 
     background-color: $material-gray !important;
 }
+.recipients-col{
+    text-align: right !important;
+}
 
-.handsontable th,
+.handsontable th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
 .handsontable td {
+    text-align: right !important;
+    vertical-align: middle !important;
+}
+
+.pending .htDimmed{
+    text-align: center !important;
     vertical-align: middle !important;
 }
 

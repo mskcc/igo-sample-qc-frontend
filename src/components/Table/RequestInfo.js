@@ -10,40 +10,26 @@ const useStyles = makeStyles(theme => ({
     width: 450,
     lineHeight: 2,
     display: "grid",
-    gridTemplateAreas: "'a b' "
+    gridTemplateAreas: "'a' "
   }
 }));
 
 export default function RequestInfo(props) {
   const classes = useStyles();
-  // const [values, setValues] = React.useState({
-  //   multiline: "Controlled"
-  // });
-
-  // const handleChange = name => event => {
-  //   setValues({ ...values, [name]: event.target.value });
-  // };
-
-  // const addComment = () => {
-  //   ["labHeadName"]
-  // ["investigatorName"]
-  // ["dataAnalystName"]
-  // ["projectManagerName"]
-  // };
 
   return (
     <div className={classes.container}>
       <Typography variant="h5">
-        QC Results for {props.request.requestId}
+        <strong> QC Results for {props.request.requestId}</strong>
       </Typography>
       <div className={classes.details}>
         <div>
-          <div><strong>Lab Head:</strong> {props.request.labHeadName}</div>
-          <div><strong>Investigator:</strong> {props.request.investigatorName}</div>
-        </div>
-        <div>
-          <div><strong>Data Analyst:</strong> {props.request.dataAnalystName}</div>
-          <div><strong>Project Manager:</strong> {props.request.projectManagerName}</div>
+          <div>
+            <strong>Lab Head:</strong> {props.request.labHeadName}
+          </div>
+          <div>
+            <strong>Investigator:</strong> {props.request.investigatorName}
+          </div>
         </div>
       </div>
     </div>

@@ -16,9 +16,9 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import LoadingOverlay from "react-loading-overlay";
 
 import { Header, SnackMessage } from "../components";
-import CommentContainer from "./CommentContainer";
-import TableContainer from "./TableContainer";
-import SidebarContainer from "./SidebarContainer";
+
+import PendingContainer from "./Report/PendingContainer";
+import ReportContainer from "./Report/ReportContainer";
 
 import Login from "./Login";
 import Logout from "./Logout";
@@ -92,6 +92,8 @@ class Root extends Component {
                 <Header
                   className="header"
                   loggedIn={this.props.user.loggedIn}
+                  role={this.props.user.role}
+                  submitFeedback={this.props.submitFeedback}
                 />
                 {Config.ENV !== "production" ? <DevTools /> : <div />}
                 {this.props.common.serverError ? (
@@ -103,17 +105,23 @@ class Root extends Component {
                       path="/logout"
                       component={Logout}
                     />
+
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      path="/pending"
+                      component={PendingContainer}
+                    />
+
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      exact
+                      path="/"
+                      component={ReportContainer}
+                    />
+
                     <Route path="/login" component={Login} />
 
-                    <div className="content">
-                      <SidebarContainer />
-                      {this.props.report.loaded && (
-                        <React.Fragment>
-                          <CommentContainer />
-                          <TableContainer />
-                        </React.Fragment>
-                      )}
-                    </div>
+                    
                   </React.Fragment>
                 ) : (
                   <Login />

@@ -63,7 +63,11 @@ export default function RecipientList(props) {
             >
               <EditIcon />
             </IconButton>
+            
           </Typography>
+          Recipients are used for any subsequent communication and for access
+            control to the associated report. Contact the Data Team if you need
+            to change them after sending the initial comment.
           <div className={classes.list}>
             {Object.keys(props.recipients).map((key, index) =>
               key.toLowerCase().includes("contact") ? (

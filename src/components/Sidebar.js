@@ -52,7 +52,6 @@ export default function Sidebar(props) {
           value={values.requestId}
           placeholder="Request ID"
           onChange={handleChange("requestId")}
-          inputProps={{ "aria-label": "search google maps" }}
           onKeyPress={event => {
             if (event.key === "Enter") {
               handleSubmit();

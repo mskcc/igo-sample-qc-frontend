@@ -6,14 +6,16 @@ import XLSX from "xlsx";
 import { Config } from "../secret_config.js";
 import {
     fillReportTables,
-    allDecisionsMade,
-    generateSubmitData
+    generateDecisionSubmitData,
+    setTableReadOnlyAfterDecisions,
+    isEmpty
 } from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
         let token = sessionStorage.getItem("access_token");
         if (token && !config.headers["Authorization"]) {
+            console.log("token attached");
             config.headers["Authorization"] = `Bearer ${token}`;
         }
 
@@ -28,15 +30,18 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     function(response) {
         // Do something with response data
+        console.log(response);
         return response;
     },
     function(error) {
         // Do something with response error
+        console.log(error);
         return Promise.reject(error);
     }
 );
 
 export const GET_REQUEST_REQUEST = "GET_REQUEST_REQUEST";
+export const EXPIRED = "EXPIRED";
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const GET_REQUEST_SUCCESS = "GET_REQUEST_SUCCESS";
 export function getRequest(requestId) {
@@ -45,7 +50,7 @@ export function getRequest(requestId) {
             type: GET_REQUEST_REQUEST,
             requestId: requestId,
             loading: true,
-            loadingMessage: "Fetching Request..."
+            loadingMessage: "Searching for Request " + requestId
         });
         let username = getState().user.username;
         let userRole = getState().user.role;
@@ -60,17 +65,14 @@ export function getRequest(requestId) {
             .then(response => {
                 return dispatch({
                     type: GET_REQUEST_SUCCESS,
-                    payload: response.data,
-                    message: "reset"
+                    payload: response.data
                 });
             })
-
             .catch(error => {
-                if (error.response && error.response.status === 404) {
+                if (error.response && error.response.status === 401) {
                     return dispatch({
-                        type: GET_REQUEST_FAIL,
-
-                        message: "reset"
+                        type: EXPIRED,
+                        error: error
                     });
                 } else {
                     return dispatch({
@@ -93,24 +95,33 @@ export function getQcReports(requestId, otherSampleIds) {
             loading: true,
             loadingMessage: "Request found. Checking QC Tables..."
         });
-
-        // let data = await fillReportTables(response.data)
         return axios
             .post(Config.API_ROOT + "/getQcReportSamples", {
                 data: {
                     request: requestId,
-                    samples: getState().report.request.samples
+                    samples: getState().report.request.samples,
+                    username: getState().user.username
                 }
             })
             .then(response => {
-                let tables = fillReportTables(response.data);
-                dispatch({
-                    type: GET_REPORT_SUCCESS,
-                    message: "reset",
-                    payload: tables
-                });
+                let tables = fillReportTables(response.data.tables);
+                if (isEmpty(tables)) {
+                    return dispatch({
+                        type: GET_REPORT_FAIL,
+                        message: "reset",
+                        loading: false
+                    });
+                } else {
+                    dispatch({
+                        type: GET_REPORT_SUCCESS,
+                        message: "reset",
+                        payload: {
+                            // readOnly: response.data.read_only,
+                            tables: tables
+                        }
+                    });
+                }
             })
-
             .catch(error => {
                 return dispatch({
                     type: GET_REPORT_FAIL,
@@ -122,6 +133,41 @@ export function getQcReports(requestId, otherSampleIds) {
     };
 }
 
+export const GET_PENDING_REQUEST = "GET_PENDING_REQUEST";
+export const GET_PENDING_FAIL = "GET_PENDING_FAIL";
+export const GET_PENDING_SUCCESS = "GET_PENDING_SUCCESS";
+export function getPending() {
+    return (dispatch, getState) => {
+        dispatch({
+            type: GET_PENDING_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+        let endpoint;
+        if (getState().user.role == "lab_member") {
+            endpoint = "/getPending";
+        } else {
+            endpoint = "/getUserPending";
+        }
+        return axios
+            .get(Config.API_ROOT + endpoint, {})
+            .then(response => {
+                dispatch({
+                    type: GET_PENDING_SUCCESS,
+                    pending: response.data,
+                    message: "reset"
+                });
+            })
+
+            .catch(error => {
+                return dispatch({
+                    type: GET_PENDING_FAIL,
+                    error: error,
+                    message: "Fetching pending requests failed."
+                });
+            });
+    };
+}
 export const POST_INVESTIGATOR_DECISION_REQUEST =
     "POST_INVESTIGATOR_DECISION_REQUEST";
 export const POST_INVESTIGATOR_DECISION_FAIL =
@@ -130,67 +176,56 @@ export const POST_INVESTIGATOR_DECISION_SUCCESS =
     "POST_INVESTIGATOR_DECISION_SUCCESS";
 export function submitInvestigatorDecision() {
     return (dispatch, getState) => {
-        if (!allDecisionsMade(getState().report.tables)) {
-            Swal.fire({
-                title: "Not all Decisions made.",
-                text:
-                    "Please make a decision for each sample in every report before you submit to IGO.",
+        dispatch({
+            type: POST_INVESTIGATOR_DECISION_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+        let decisions = generateDecisionSubmitData(
+            getState().report.tables,
+            getState().report.reportShown
+        );
+        let request_id = getState().report.request.requestId;
+        let username = getState().user.username;
+        let report = getState().report.reportShown;
 
-                type: "info",
-                animation: false,
-                confirmButtonColor: "#007cba",
-                confirmButtonText: "Dismiss"
-            });
-        } else {
-            dispatch({
-                type: POST_INVESTIGATOR_DECISION_REQUEST,
-                loading: true,
-                loadingMessage: "Submitting..."
-            });
-            let data = generateSubmitData(getState().report.tables);
-
-            // let data = await fillReportTables(response.data)
-            return axios
-                .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
-                    data
-                })
-                .then(response => {
-                    dispatch({
-                        type: POST_INVESTIGATOR_DECISION_SUCCESS,
-                        loading: false
-                    });
-                })
-
-                .catch(error => {
-                    return dispatch({
-                        type: POST_INVESTIGATOR_DECISION_FAIL,
-                        error: error,
-
-                        loading: false
-                    });
+        return axios
+            .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
+                decisions,
+                username,
+                request_id,
+                report
+            })
+            .then(response => {
+                dispatch({
+                    type: POST_INVESTIGATOR_DECISION_SUCCESS,
+                    payload: setTableReadOnlyAfterDecisions(
+                        getState().report.tables,
+                        getState().report.reportShown
+                    ),
+                    message: "Submitted!"
                 });
-        }
+            })
+            .catch(error => {
+                return dispatch({
+                    type: POST_INVESTIGATOR_DECISION_FAIL,
+                    error: error
+                });
+            });
     };
 }
 
 export const ATTACHMENT_DOWNLOAD_REQUEST = "ATTACHMENT_DOWNLOAD_REQUEST";
 export const ATTACHMENT_DOWNLOAD_FAIL = "ATTACHMENT_DOWNLOAD_FAIL";
 export const ATTACHMENT_DOWNLOAD_SUCCESS = "ATTACHMENT_DOWNLOAD_SUCCESS";
-export function downloadAttachment(coords) {
+export function downloadAttachment(attachmentRecordId, fileName) {
     return (dispatch, getState) => {
-        let attachmentRecordId = getState().report.tables["Attachments"].data[
-            coords.row
-        ].recordId;
-
-        let fileName = getState().report.tables["Attachments"].data[coords.row]
-            .fileName;
         dispatch({
             type: ATTACHMENT_DOWNLOAD_REQUEST,
             loading: true,
             loadingMessage: "Fetching your data.."
         });
-
-        // // let data = await fillReportTables(response.data)
+        // let data = await fillReportTables(response.data)
         return axios
             .get(Config.API_ROOT + "/downloadAttachment", {
                 params: {
@@ -207,7 +242,6 @@ export function downloadAttachment(coords) {
                     fileName: fileName
                 });
             })
-
             .catch(error => {
                 return dispatch({
                     type: ATTACHMENT_DOWNLOAD_FAIL,
@@ -225,15 +259,29 @@ export const REPORT_DOWNLOAD_SUCCESS = "REPORT_DOWNLOAD_SUCCESS";
 export function downloadReport(reportShown, request) {
     return (dispatch, getState) => {
         let tableToExport = getState().report.tables[reportShown];
+        let columnFeatures = getState().report.tables[reportShown]
+            .columnFeatures;
         let fileName =
             request.requestId + "_" + reportShown.replace(" ", "_") + ".xlsx";
 
-        // remove html from table data
-        let clonedReport = JSON.stringify(tableToExport.data);
-        clonedReport = clonedReport.replace(/<\/?[^>]+>/gi, "");
-        clonedReport = clonedReport.replace(/otherSampleId/gi, "sampleName");
-        clonedReport = clonedReport.replace(/sampleId/gi, "igoId");
-        clonedReport = JSON.parse(clonedReport);
+        // deep copy and rename the data column names with the actual column headers
+        // remove all html code
+        let clonedReport = JSON.parse(
+            JSON.stringify(tableToExport.data).replace(/<\/?[^>]+>/gi, "")
+        );
+        for (let row in clonedReport) {
+            for (let field in clonedReport[row]) {
+                for (let columnFeature in columnFeatures) {
+                    if (field === columnFeatures[columnFeature].data) {
+                        clonedReport[row][
+                            columnFeatures[columnFeature].columnHeader
+                        ] = clonedReport[row][field];
+                        delete clonedReport[row][field];
+                    }
+                }
+            }
+        }
+
         const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
         const fileExtension = ".xlsx";
@@ -255,6 +303,14 @@ export function updateReportShown(report) {
         payload: report
     };
 }
+
+// export const SHOW_PENDING = "SHOW_PENDING";
+// export function showPending(ownProps) {
+//     return {
+//         type: SHOW_PENDING,
+//         payload: "report"
+//     };
+// }
 
 export const REGISTER_GRID_CHANGE = "REGISTER_GRID_CHANGE";
 export function registerChange(report) {

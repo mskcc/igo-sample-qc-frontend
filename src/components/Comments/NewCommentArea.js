@@ -8,16 +8,18 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     gridTemplateColumns: "70% 30%",
     height: "100%",
-    width: "100%"
+    width: "100%",
+    alignItems: "end"
   },
   textField: {
+    width: "100%",
     width: "100%",
     margin: 0,
     backgroundColor: "white"
   },
   button: {
     // float: "right",
-    minHeight: "100%",
+    minHeight: "94px",
     width: "50%"
     // marginBottom: "1em"
   },
@@ -28,7 +30,8 @@ const useStyles = makeStyles(theme => ({
     // marginBottom: "1em"
   },
   buttons: {
-    display: "grid"
+    display: "grid",
+    minHeight: "50%",
   }
 }));
 
@@ -53,10 +56,10 @@ export default function NewCommentArea(props) {
   return (
     <div className={classes.container}>
       <TextField
-        id="outlined-multiline-static"
+        id="new-comment-field"
         label="New Comment"
         multiline
-        rows="2"
+        rows="3"
         placeholder="Your Comment"
         onChange={handleChange("comment")}
         className={classes.textField}

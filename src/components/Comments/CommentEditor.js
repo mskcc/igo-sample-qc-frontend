@@ -70,7 +70,7 @@ export default function CommentEditor(props) {
     downstreamProcess: props.recipe,
     service: "",
     bodyType: "",
-    rnaChecked: "",
+    rnaChecked: false,
     valid: false
   });
   // const [values, setValues] = React.useState({
@@ -102,23 +102,42 @@ export default function CommentEditor(props) {
     setValues({ ...values, [name]: !values[name] });
   };
   const handleReportsCheckbox = name => event => {
-    console.log(values.valid);
     setValues({
       ...values,
-      valid: validate(),
+      valid: validate(!values.reports[name.report], name),
       reports: {
         ...values.reports,
         [name.report]: !values.reports[name.report]
       }
     });
+    // validateAndStore();
   };
 
   const handleInitialComment = () => {
     props.handleInitialComment(commentEl.current.textContent, values.reports);
   };
 
-  const validate = () => {
+  const validate = (reportCheckBox, reportName) => {
+    var keys = Object.keys(values.reports);
+    var filteredReports = keys.filter(function(key) {
+      return values.reports[key];
+    });
+
+    let atLeastOneReport =
+      filteredReports.length > 0 || (reportCheckBox || false);
+    if (reportCheckBox && reportName) {
+      if (atLeastOneReport) {
+        if (
+          filteredReports.length === 1 &&
+          reportName.report === filteredReports[0]
+        ) {
+          // if clicked report was only selected one in filtered reports there are now no reports left
+          atLeastOneReport = false;
+        }
+      }
+    }
     return (
+      atLeastOneReport &&
       values.salutation !== "" &&
       values.addressee !== "" &&
       values.downstreamProcess !== "" &&
@@ -133,7 +152,7 @@ export default function CommentEditor(props) {
           QC Report Comment Editor
         </Typography>
         <div>
-          {Object.keys(props.tables).length > 1 && (
+          {Object.keys(props.tables).length > 0 && (
             <span>
               Which report should this comment be added to?
               <br />
@@ -169,8 +188,9 @@ export default function CommentEditor(props) {
                 }}
               >
                 <MenuItem value="Morning">Morning</MenuItem>
+                <MenuItem value="Afternoon">Afternoon</MenuItem>
                 <MenuItem value="Evening">Evening</MenuItem>
-                <MenuItem value="Hello">Hello</MenuItem>
+                
               </Select>
             </FormControl>
 
@@ -198,6 +218,8 @@ export default function CommentEditor(props) {
                 <MenuItem value="Extraction">Extraction</MenuItem>
                 <MenuItem value="DNA QC">DNA QC</MenuItem>
                 <MenuItem value="RNA QC">RNA QC</MenuItem>
+                <MenuItem value="Library QC">Library QC</MenuItem>
+                <MenuItem value="Pool QC">Pool QC</MenuItem>
                 <MenuItem value="Library Prep">Library Prep</MenuItem>
               </Select>
             </FormControl>
@@ -235,7 +257,7 @@ export default function CommentEditor(props) {
                   </InputLabel>
                   <Select
                     value={values.rnaChecked}
-                    onChange={handleChange("rnaChecked")}
+                    onChange={handleCheckbox("rnaChecked")}
                     inputProps={{
                       name: "rnaChecked",
                       id: "rnaChecked-simple"
