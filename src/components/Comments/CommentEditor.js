@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     gridArea: "button"
   },
-  section: { marginLeft: "2em" },
+  section: { marginLeft: "2em", maxWidth: "80%" },
   sectionHeader: {
     fontWeight: 700,
     fontSize: "1.1em",
@@ -232,10 +232,10 @@ export default function CommentEditor(props) {
                   <MenuItem value="default" />
                   <MenuItem value="Extraction">Extraction</MenuItem>
                   <MenuItem value="DNA QC">DNA QC</MenuItem>
-                  <MenuItem value="RNA QC">RNA QC</MenuItem>
+                  <MenuItem value="Library Prep">Library Prep</MenuItem>
                   <MenuItem value="Library QC">Library QC</MenuItem>
                   <MenuItem value="Pool QC">Pool QC</MenuItem>
-                  <MenuItem value="Library Prep">Library Prep</MenuItem>
+                  <MenuItem value="RNA QC">RNA QC</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -294,31 +294,42 @@ export default function CommentEditor(props) {
               </div>
             )}
             <br />
-            {values.service !== "Extraction" && (
-              <React.Fragment>
-                <div className={classes.sectionHeader}>
-                  <i class="material-icons">keyboard_arrow_right</i> Add
-                  additional Instructions:
-                </div>
-                <div className={classes.section}>
-                  <FormControlLabel
-                    control={<Checkbox onChange={handleCheckbox("onHold")} />}
-                    label="IGO will put this project on hold until you let us know how you
+
+            <React.Fragment>
+              <div className={classes.sectionHeader}>
+                <i class="material-icons">keyboard_arrow_right</i> Add
+                additional Instructions:
+              </div>
+              <div className={classes.section}>
+                <FormControlLabel
+                  control={<Checkbox onChange={handleCheckbox("onHold")} />}
+                  label="IGO will put this project on hold until you let us know how you
                 would like to proceed."
-                  />{" "}
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={handleCheckbox("confirmationRequested")}
-                      />
-                    }
-                    label={
-                      "Please confirm that the samples look as expected in order to continue to sequencing."
-                    }
-                  />
-                </div>
-              </React.Fragment>
-            )}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox("confirmationRequested")}
+                    />
+                  }
+                  label={
+                    "Please confirm that the samples look as expected in order to continue to sequencing."
+                  }
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox("sequencingRequested")}
+                    />
+                  }
+                  label={
+                    "In order to move forward to sequencing, please fill out an iLab request and notify our Sample " +
+                    "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org."
+                  }
+                />
+              </div>
+            </React.Fragment>
           </form>
         </div>
       </div>
@@ -394,41 +405,21 @@ export default function CommentEditor(props) {
           )}
           {values.confirmationRequested && (
             <span>
-              Please confirm that the samples look as
-              expected in order to continue to sequencing.
-            </span>
-          )}
-          <br />
-          {values.fullSampleSet && (
-            <span>
-              According to iLab, this is a full sample set. In order to move
-              forward to sequencing, please fill out an iLab request and email
-              our Sample Receiving team the IGO number.
-            </span>
-          )}
-          {values.fullSampleSet === false && (
-            <span>
-              According to iLab, this is not a full sample set. When your sample
-              set is complete and you are ready to move forward to sequencing,
-              please fill out an iLab request and email our Sample Receiving
-              team the IGO number.
+              {" "}
               <br />
-              Will these samples be submitted for sequencing? If so, please
-              contact IGO to discuss your downstream sequencing options before
-              submitting your new iLab request.
+              Please confirm that the samples look as expected in order to
+              continue to sequencing.
             </span>
-          )}
-          {values.service === "Extraction" && (
+          )}{" "}
+          {values.sequencingRequested && (
             <span>
-              Will these samples be submitted for sequencing? If so, please
-              contact IGO to discuss your downstream sequencing options before
-              submitting your new iLab request. In order to move forward to
-              sequencing, please fill out an iLab request and notify our Sample
-              Receiving team of the IGO number by emailing
-              zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
+              {" "}
+              <br />
+              In order to move forward to sequencing, please fill out an iLab
+              request and notify our Sample Receiving team of the IGO ID number
+              by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
             </span>
           )}
-          <br />
           <br />
           Please reply here if you have any questions or comments.
           <br />
