@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(3)
   },
   highlight: { backgroundColor: "#8fc7e8" },
+  green: {
+    backgroundColor: "#a6ce39"
+  },
   yellow: {
     backgroundColor: "#ffc20e"
   },
@@ -52,6 +55,13 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     textAlign: "center",
     gridArea: "button"
+  },
+  section: { marginLeft: "2em" },
+  sectionHeader: {
+    fontWeight: 700,
+    fontSize: "1.1em",
+    display: "flex",
+    alignItems: "center"
   }
 }));
 
@@ -69,7 +79,9 @@ export default function CommentEditor(props) {
     addressee: "",
     downstreamProcess: props.recipe,
     service: "",
-    bodyType: "",
+    pass: false,
+    try: false,
+    fail: false,
     rnaChecked: false,
     valid: false
   });
@@ -148,109 +160,120 @@ export default function CommentEditor(props) {
   return (
     <div className={classes.container}>
       <div className={classes.editorForm}>
-        <Typography variant="h5" component="h3">
-          QC Report Comment Editor
-        </Typography>
         <div>
           {Object.keys(props.tables).length > 0 && (
-            <span>
-              Which report should this comment be added to?
-              <br />
-              {Object.keys(props.tables).map((report, index) => {
-                if (report.includes("Report") && !props.comments[report]) {
-                  return (
-                    <span key={report}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            // checked={values.report}
-                            onChange={handleReportsCheckbox({ report })}
-                            // value={report}
-                          />
-                        }
-                        label={report}
-                      />
-                    </span>
-                  );
-                } else return null;
-              })}
-            </span>
+            <React.Fragment>
+              <div className={classes.sectionHeader}>
+                <i class="material-icons">keyboard_arrow_right</i> Which report
+                should this comment be added to?
+              </div>
+              <div className={classes.section}>
+                {Object.keys(props.tables).map((report, index) => {
+                  if (report.includes("Report") && !props.comments[report]) {
+                    return (
+                      <span key={report}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={values.report}
+                              onChange={handleReportsCheckbox({ report })}
+                              // value={report}
+                            />
+                          }
+                          label={report}
+                        />
+                      </span>
+                    );
+                  } else return null;
+                })}
+              </div>
+            </React.Fragment>
           )}
           <form>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
-              <Select
-                value={values.salutation}
-                onChange={handleChange("salutation")}
-                inputProps={{
-                  name: "salutation",
-                  id: "salutation-simple"
-                }}
-              >
-                <MenuItem value="Morning">Morning</MenuItem>
-                <MenuItem value="Afternoon">Afternoon</MenuItem>
-                <MenuItem value="Evening">Evening</MenuItem>
-                
-              </Select>
-            </FormControl>
-
-            <TextField
-              id="addressee-simple"
-              label="Addressee"
-              className={classes.formControl}
-              onChange={handleChange("addressee")}
-              margin="normal"
-            />
-
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="servicePerformed-simple">
-                Service Performed
-              </InputLabel>
-              <Select
-                value={values.service}
-                onChange={handleChange("service")}
-                inputProps={{
-                  name: "servicePerformed",
-                  id: "servicePerformed-simple"
-                }}
-              >
-                <MenuItem value="default" />
-                <MenuItem value="Extraction">Extraction</MenuItem>
-                <MenuItem value="DNA QC">DNA QC</MenuItem>
-                <MenuItem value="RNA QC">RNA QC</MenuItem>
-                <MenuItem value="Library QC">Library QC</MenuItem>
-                <MenuItem value="Pool QC">Pool QC</MenuItem>
-                <MenuItem value="Library Prep">Library Prep</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              id="downstreamProcess-simple"
-              label="Downstream Process"
-              className={classes.formControl}
-              onChange={handleChange("downstreamProcess")}
-              margin="normal"
-              value={values.downstreamProcess}
-            />
-
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="bodyType-simple">QC Result</InputLabel>
-              <Select
-                value={values.bodyType}
-                onChange={handleChange("bodyType")}
-                inputProps={{
-                  name: "bodyType",
-                  id: "bodyType-simple"
-                }}
-              >
-                <MenuItem value="default" />
-                <MenuItem value="pass">all samples PASS</MenuItem>
-                <MenuItem value="try">some samples TRY</MenuItem>
-                <MenuItem value="fail">some samples FAIL</MenuItem>
-              </Select>
-            </FormControl>
-            {values.bodyType === "try" && (
-              <span>
+            <div className={classes.sectionHeader}>
+              <i class="material-icons">keyboard_arrow_right</i> Fill in the
+              blanks:{" "}
+            </div>
+            <div className={classes.section}>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
+                <Select
+                  value={values.salutation}
+                  onChange={handleChange("salutation")}
+                  inputProps={{
+                    name: "salutation",
+                    id: "salutation-simple"
+                  }}
+                >
+                  <MenuItem value="Morning">Morning</MenuItem>
+                  <MenuItem value="Afternoon">Afternoon</MenuItem>
+                  <MenuItem value="Evening">Evening</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                id="addressee-simple"
+                label="Addressee"
+                className={classes.formControl}
+                onChange={handleChange("addressee")}
+                margin="normal"
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="servicePerformed-simple">
+                  Service Performed
+                </InputLabel>
+                <Select
+                  value={values.service}
+                  onChange={handleChange("service")}
+                  inputProps={{
+                    name: "servicePerformed",
+                    id: "servicePerformed-simple"
+                  }}
+                >
+                  <MenuItem value="default" />
+                  <MenuItem value="Extraction">Extraction</MenuItem>
+                  <MenuItem value="DNA QC">DNA QC</MenuItem>
+                  <MenuItem value="RNA QC">RNA QC</MenuItem>
+                  <MenuItem value="Library QC">Library QC</MenuItem>
+                  <MenuItem value="Pool QC">Pool QC</MenuItem>
+                  <MenuItem value="Library Prep">Library Prep</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                id="downstreamProcess-simple"
+                label="Downstream Process"
+                className={classes.formControl}
+                onChange={handleChange("downstreamProcess")}
+                margin="normal"
+                value={values.downstreamProcess}
+              />
+              <br />
+            </div>
+            <div className={classes.sectionHeader}>
+              <i class="material-icons">keyboard_arrow_right</i> Select all QC
+              statuses present in this report/project:
+            </div>
+            <div className={classes.section}>
+              <FormControlLabel
+                control={
+                  <Checkbox onChange={handleCheckbox("pass")} value="pass" />
+                }
+                label={"pass"}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox onChange={handleCheckbox("try")} value="try" />
+                }
+                label={"try"}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox onChange={handleCheckbox("fail")} value="fail" />
+                }
+                label={"fail"}
+              />
+            </div>
+            {values.try && (
+              <div className={classes.section}>
                 <FormControl className={classes.formControl}>
                   <InputLabel htmlFor="rnaChecked-simple">
                     RNA application?
@@ -268,36 +291,33 @@ export default function CommentEditor(props) {
                     <MenuItem value="false">no</MenuItem>
                   </Select>
                 </FormControl>
-              </span>
+              </div>
             )}
+            <br />
             {values.service !== "Extraction" && (
-              <span>
-                <br /> Add additional Instructions:
-                <br />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      // checked={values.report}
-                      onChange={handleCheckbox("onHold")}
-                      // value={report}
-                    />
-                  }
-                  label="IGO will put this project on hold until you let us know how you
+              <React.Fragment>
+                <div className={classes.sectionHeader}>
+                  <i class="material-icons">keyboard_arrow_right</i> Add
+                  additional Instructions:
+                </div>
+                <div className={classes.section}>
+                  <FormControlLabel
+                    control={<Checkbox onChange={handleCheckbox("onHold")} />}
+                    label="IGO will put this project on hold until you let us know how you
                 would like to proceed."
-                />{" "}
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      // checked={values.report}
-                      onChange={handleCheckbox("confirmationRequested")}
-                      // value={report}
-                    />
-                  }
-                  label={
-                    "Please confirm that the samples look as expected in order to continue to sequencing."
-                  }
-                />
-              </span>
+                  />{" "}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={handleCheckbox("confirmationRequested")}
+                      />
+                    }
+                    label={
+                      "Please confirm that the samples look as expected in order to continue to sequencing."
+                    }
+                  />
+                </div>
+              </React.Fragment>
             )}
           </form>
         </div>
@@ -322,13 +342,21 @@ export default function CommentEditor(props) {
           Please see the reports and documents below for the results.
           <br />
           <br />
-          {values.bodyType === "pass" && (
+          {values.pass && !values.try && !values.fail && (
             <span>
-              All of the samples in this project pass IGO’s QC specifications
-              for {values.downstreamProcess}.
+              All of the samples in this project{" "}
+              <span className={classes.green}>pass</span> IGO’s QC
+              specifications for {values.downstreamProcess}.
             </span>
           )}
-          {values.bodyType === "try" && (
+          {values.pass && (values.try || values.fail) && (
+            <span>
+              Some of the samples in this project{" "}
+              <span className={classes.green}>pass</span> IGO’s QC
+              specifications for {values.downstreamProcess}.
+            </span>
+          )}
+          {values.try && (
             <span>
               <br />
               Samples highlighted in{" "}
@@ -346,9 +374,12 @@ export default function CommentEditor(props) {
               )}
             </span>
           )}
-          {values.bodyType === "fail" && (
+          {values.fail && (
             <span>
-              Samples highlighted in <span className={classes.red}>red</span>{" "}
+              <br />
+              Samples highlighted in <span className={classes.red}>
+                red
+              </span>{" "}
               fail our quantitative and/or qualitative standards for{" "}
               {values.downstreamProcess}. IGO recommends these samples be
               removed from processing.
@@ -363,7 +394,7 @@ export default function CommentEditor(props) {
           )}
           {values.confirmationRequested && (
             <span>
-              Please confirm that the [amplicons/libraries/pools] look as
+              Please confirm that the samples look as
               expected in order to continue to sequencing.
             </span>
           )}
