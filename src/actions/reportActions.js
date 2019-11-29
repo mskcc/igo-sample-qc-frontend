@@ -209,6 +209,10 @@ export function submitInvestigatorDecision() {
             .catch(error => {
                 return dispatch({
                     type: POST_INVESTIGATOR_DECISION_FAIL,
+                    payload: setTableReadOnlyAfterDecisions(
+                        getState().report.tables,
+                        getState().report.reportShown
+                    ),
                     error: error
                 });
             });
