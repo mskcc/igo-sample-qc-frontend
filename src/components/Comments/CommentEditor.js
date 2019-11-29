@@ -16,7 +16,7 @@ import {
 const useStyles = makeStyles(theme => ({
   container: {
     display: "grid",
-    width: "100%",
+    width: "95%",
     gridArea: "editor",
     gridTemplateColumns: "50% 50%",
     gridTemplateAreas: "'editorForm preview''button button'",
@@ -324,7 +324,7 @@ export default function CommentEditor(props) {
                     />
                   }
                   label={
-                    "In order to move forward to sequencing, please fill out an iLab request and notify our Sample " +
+                    "If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample " +
                     "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org."
                   }
                 />
@@ -396,6 +396,7 @@ export default function CommentEditor(props) {
               removed from processing.
             </span>
           )}
+          <br />
           {values.onHold && (
             <span>
               <br />
@@ -415,11 +416,12 @@ export default function CommentEditor(props) {
             <span>
               {" "}
               <br />
-              In order to move forward to sequencing, please fill out an iLab
-              request and notify our Sample Receiving team of the IGO ID number
-              by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
+              If you are ready to move forward to sequencing, please fill out an
+              iLab request and notify our Sample Receiving team of the IGO ID
+              number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
             </span>
           )}
+          <br />
           <br />
           Please reply here if you have any questions or comments.
           <br />
