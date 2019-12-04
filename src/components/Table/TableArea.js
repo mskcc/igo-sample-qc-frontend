@@ -149,7 +149,7 @@ export default function TableArea(props) {
                     color="primary"
                     className={classes.submitBtn}
                   >
-                    Submit Decisions
+                    Submit to IGO
                   </Button>
                   <Tooltip
                     arrow
@@ -163,7 +163,7 @@ export default function TableArea(props) {
                       color="primary"
                       className={classes.saveBtn}
                     >
-                      Save Partial Decisions
+                      Save
                     </Button>
                   </Tooltip>
                 </React.Fragment>
