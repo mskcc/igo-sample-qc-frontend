@@ -219,6 +219,49 @@ export function submitInvestigatorDecision() {
     };
 }
 
+export const POST_PARTIAL_DECISION_REQUEST = "POST_PARTIAL_DECISION_REQUEST";
+export const POST_PARTIAL_DECISION_FAIL = "POST_PARTIAL_DECISION_FAIL";
+export const POST_PARTIAL_DECISION_SUCCESS = "POST_PARTIAL_DECISION_SUCCESS";
+export function savePartialDecision() {
+    return (dispatch, getState) => {
+        dispatch({
+            type: POST_PARTIAL_DECISION_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+        let decisions = generateDecisionSubmitData(
+            getState().report.tables,
+
+            getState().report.reportShown
+        );
+        let request_id = getState().report.request.requestId;
+        let username = getState().user.username;
+        let report = getState().report.reportShown;
+
+        return axios
+            .post(Config.API_ROOT + "/savePartialSubmission", {
+                decisions,
+                username,
+                request_id,
+                report
+            })
+            .then(response => {
+                dispatch({
+                    type: POST_PARTIAL_DECISION_SUCCESS,
+
+                    message: "Saved!"
+                });
+            })
+            .catch(error => {
+                return dispatch({
+                    type: POST_PARTIAL_DECISION_FAIL,
+
+                    error: error
+                });
+            });
+    };
+}
+
 export const ATTACHMENT_DOWNLOAD_REQUEST = "ATTACHMENT_DOWNLOAD_REQUEST";
 export const ATTACHMENT_DOWNLOAD_FAIL = "ATTACHMENT_DOWNLOAD_FAIL";
 export const ATTACHMENT_DOWNLOAD_SUCCESS = "ATTACHMENT_DOWNLOAD_SUCCESS";
@@ -229,7 +272,6 @@ export function downloadAttachment(attachmentRecordId, fileName) {
             loading: true,
             loadingMessage: "Fetching your data.."
         });
-        // let data = await fillReportTables(response.data)
         return axios
             .get(Config.API_ROOT + "/downloadAttachment", {
                 params: {

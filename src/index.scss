@@ -61,7 +61,8 @@ code {
     background-color: $mskcc-dark-yellow;
 }
 
-.failed, .pathology-status {
+.failed,
+.pathology-status {
     color: white;
     text-align: center;
     background-color: $mskcc-red;
@@ -88,7 +89,7 @@ code {
 
     background-color: $material-gray !important;
 }
-.recipients-col{
+.recipients-col {
     text-align: right !important;
 }
 
@@ -102,7 +103,7 @@ code {
     vertical-align: middle !important;
 }
 
-.pending .htDimmed{
+.pending .htDimmed {
     text-align: center !important;
     vertical-align: middle !important;
 }

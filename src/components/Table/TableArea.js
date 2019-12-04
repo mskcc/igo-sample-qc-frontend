@@ -6,8 +6,10 @@ import {
   CardContent,
   Tabs,
   Tab,
+  Tooltip,
   Box,
-  Typography
+  Typography,
+  Zoom
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Table from "./Table";
@@ -41,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     display: "grid",
-    gridTemplateAreas: "'request submit-btn download-btn'",
+    gridTemplateAreas: "'request submit-btn save-btn download-btn'",
     width: "fit-content",
     gridColumnGap: "1em"
   },
@@ -50,6 +52,13 @@ const useStyles = makeStyles(theme => ({
     width: "fit-content",
     height: "4em",
     alignSelf: "center"
+  },
+  saveBtn: {
+    gridArea: "save-btn",
+    width: "fit-content",
+    height: "4em",
+    alignSelf: "center",
+    backgroundColor: "#8fc7e8"
   },
   downloadtBtn: {
     gridArea: "download-btn",
@@ -91,9 +100,7 @@ export default function TableArea(props) {
   // make sure active tab is on currentReport after page refresh
   let index = 0;
   if (props.report.reportShown) {
-    index = Object.keys(props.report.tables).indexOf(
-      props.report.reportShown
-    );
+    index = Object.keys(props.report.tables).indexOf(props.report.reportShown);
   }
 
   const [value, setValue] = React.useState(index);
@@ -135,14 +142,31 @@ export default function TableArea(props) {
               </Card>
             ) : (
               !props.report.reportShown.includes("Pathology") && (
-                <Button
-                  onClick={props.handleSubmit}
-                  variant="contained"
-                  color="primary"
-                  className={classes.submitBtn}
-                >
-                  Submit Decisions
-                </Button>
+                <React.Fragment>
+                  <Button
+                    onClick={props.handleSubmit}
+                    variant="contained"
+                    color="primary"
+                    className={classes.submitBtn}
+                  >
+                    Submit Decisions
+                  </Button>
+                  <Tooltip
+                    arrow
+                    TransitionComponent={Zoom}
+                    title="Save decisions to submit at a later date"
+                    aria-label="add"
+                  >
+                    <Button
+                      onClick={props.handleSave}
+                      variant="contained"
+                      color="primary"
+                      className={classes.saveBtn}
+                    >
+                      Save Partial Decisions
+                    </Button>
+                  </Tooltip>
+                </React.Fragment>
               )
             )}
             <Button

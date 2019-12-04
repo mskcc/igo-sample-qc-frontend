@@ -20,7 +20,9 @@ export class TableContainer extends Component {
   };
 
   handleInvestigatorSubmit = () => {
-    if (!allDecisionsMade(this.props.report.tables, this.props.report.reportShown)) {
+    if (
+      !allDecisionsMade(this.props.report.tables, this.props.report.reportShown)
+    ) {
       Swal.fire({
         title: "Not all Decisions made.",
         text:
@@ -54,6 +56,9 @@ export class TableContainer extends Component {
       });
     }
   };
+  handlePartialDecision = () => {
+    this.props.savePartialDecision();
+  };
 
   registerChange = () => {
     this.props.registerChange();
@@ -76,6 +81,7 @@ export class TableContainer extends Component {
             report={report}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleInvestigatorSubmit}
+            handleSave={this.handlePartialDecision}
             registerChange={this.registerChange}
             handleAttachmentDownload={this.handleAttachmentDownload}
             handleReportDownload={this.handleReportDownload}

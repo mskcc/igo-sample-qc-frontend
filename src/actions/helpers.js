@@ -113,10 +113,12 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
     }
     // LIMS expects a JSON array because it is able to do multiple reports' decisions at once
     submitData[0] = { dataType: dataType, samples: [] };
-
+    
     for (var j = 0; j < tables[currentReport].data.length; j++) {
         submitData[0].samples.push({
             recordId: tables[currentReport].data[j].recordId,
+            sampleId: tables[currentReport].data[j].sampleId,
+            otherSampleId: tables[currentReport].data[j].otherSampleId,
             investigatorDecision:
                 tables[currentReport].data[j].investigatorDecision
         });
