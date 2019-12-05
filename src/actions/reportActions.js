@@ -52,7 +52,7 @@ export function getRequest(requestId) {
             loading: true,
             loadingMessage: "Searching for Request " + requestId
         });
-        let username = getState().user.username;
+        let username = "patrunoa";
         let userRole = getState().user.role;
         return axios
             .get(Config.API_ROOT + "/getRequestSamples", {
@@ -100,7 +100,7 @@ export function getQcReports(requestId, otherSampleIds) {
                 data: {
                     request: requestId,
                     samples: getState().report.request.samples,
-                    username: getState().user.username
+                    username: "patrunoa"
                 }
             })
             .then(response => {
@@ -186,7 +186,7 @@ export function submitInvestigatorDecision() {
             getState().report.reportShown
         );
         let request_id = getState().report.request.requestId;
-        let username = getState().user.username;
+        let username = "patrunoa";
         let report = getState().report.reportShown;
 
         return axios
@@ -235,7 +235,7 @@ export function savePartialDecision() {
             getState().report.reportShown
         );
         let request_id = getState().report.request.requestId;
-        let username = getState().user.username;
+        let username = "patrunoa";
         let report = getState().report.reportShown;
 
         return axios
