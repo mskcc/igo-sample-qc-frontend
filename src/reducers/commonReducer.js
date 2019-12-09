@@ -37,7 +37,7 @@ function commonReducer(state = initialState, action) {
     };
   }
   if (error && !message) {
-    if (error.response && error.response.status === 401) {
+    if (error.response && !error.response.data.message && error.response.status === 401) {
       return {
         ...state,
         error: true,
@@ -45,7 +45,7 @@ function commonReducer(state = initialState, action) {
         loading: false
       };
     }
-    if (error.response && error.response.status === 403) {
+    else if (error.response && error.response.status === 403) {
       Swal.fire({
         title: "Not authorized",
         html:
@@ -60,7 +60,7 @@ function commonReducer(state = initialState, action) {
         ...state
       };
     }
-    if (error.response) {
+    else if (error.response) {
       return {
         ...state,
         // error: true,

@@ -115,11 +115,15 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
     submitData[0] = { dataType: dataType, samples: [] };
 
     for (var j = 0; j < tables[currentReport].data.length; j++) {
-        submitData[0].samples.push({
-            recordId: tables[currentReport].data[j].recordId,
-            investigatorDecision:
-                tables[currentReport].data[j].investigatorDecision
-        });
+        if (tables[currentReport].data[j].investigatorDecision) {
+            submitData[0].samples.push({
+                recordId: tables[currentReport].data[j].recordId,
+                sampleId: tables[currentReport].data[j].sampleId,
+                otherSampleId: tables[currentReport].data[j].otherSampleId,
+                investigatorDecision:
+                    tables[currentReport].data[j].investigatorDecision
+            });
+        }
     }
     // }
     // console.log(submitData);

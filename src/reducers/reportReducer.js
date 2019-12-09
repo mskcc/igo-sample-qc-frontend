@@ -105,6 +105,12 @@ function reportReducer(state = initialState, action) {
         readOnly: false,
         tables: action.payload
       };
+    case ActionTypes.POST_INVESTIGATOR_DECISION_FAIL:
+      return {
+        ...state,
+        readOnly: false,
+        tables: action.payload
+      };
 
     case ActionTypes.GET_PENDING_REQUEST:
       return {

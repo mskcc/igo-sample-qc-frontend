@@ -114,18 +114,18 @@ export class CommentContainer extends Component {
   };
 
   isValid = comment => {
-    var r = /\s\d{8}\s/g;
+    var r = /(\s[1-9]{8}\s|.*[1-9]{8}$|^[1-9]{8}\s.*)/g;
 
     var matches = comment.match(r);
     if (matches) {
       return false;
     }
-    r = /^\d{8}$/g;
+    // r = /^\d{8}$/g;
 
-    matches = comment.match(r);
-    if (matches) {
-      return false;
-    }
+    // matches = comment.match(r);
+    // if (matches) {
+    //   return false;
+    // }
     return true;
   };
 

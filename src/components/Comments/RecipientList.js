@@ -23,7 +23,15 @@ const useStyles = makeStyles(theme => ({
   email: {
     marginTop: ".5em",
     fontWeight: "bold"
-  }
+  },
+  emailChild: { marginLeft: "1em" },
+  sectionHeader: {
+    fontWeight: 700,
+    fontSize: "1.1em",
+    display: "flex",
+    alignItems: "center"
+  },
+  section: { marginLeft: "2em", maxWidth: "80%" }
 }));
 
 export default function RecipientList(props) {
@@ -54,8 +62,8 @@ export default function RecipientList(props) {
     <div className={classes.container}>
       {!edit.editView ? (
         <React.Fragment>
-          <Typography variant="h5" component="h3">
-            QC Report Recipients{" "}
+          <div className={classes.sectionHeader}>
+            <i class="material-icons">keyboard_arrow_right</i> Review Recipients
             <IconButton
               size="small"
               onClick={handleEditClick(props.recipients)}
@@ -63,65 +71,72 @@ export default function RecipientList(props) {
             >
               <EditIcon />
             </IconButton>
-            
-          </Typography>
-          Recipients are used for any subsequent communication and for access
-            control to the associated report. Contact the Data Team if you need
-            to change them after sending the initial comment.
-          <div className={classes.list}>
-            {Object.keys(props.recipients).map((key, index) =>
-              key.toLowerCase().includes("contact") ? (
-                <div key={key + "-" + index}>
-                  <div className={classes.email}>{key}:</div>
-                  <div>
-                    {props.recipients[key].split(/,|;/).map((email, index) => (
-                      <div key={key + "-" + index}>{email}</div>
-                    ))}
+          </div>
+          <div className={classes.section}>
+            Recipients are used for any subsequent communication and for access
+            control to the associated report.
+            <br /> Contact the Data Team if you need to change them after
+            sending the initial comment.
+            <div className={classes.list}>
+              {Object.keys(props.recipients).map((key, index) =>
+                key.toLowerCase().includes("contact") ? (
+                  <div key={key + "-" + index}>
+                    <div className={classes.email}>{key}:</div>
+                    <div className={classes.emailChild}>
+                      {" "}
+                      {props.recipients[key]
+                        .split(/,|;/)
+                        .map((email, index) => (
+                          <div key={key + "-" + index}>{email}</div>
+                        ))}
+                    </div>
+                    <br />
                   </div>
-                  <br />
-                </div>
-              ) : (
-                <div key={key + "-" + index}>
-                  <div className={classes.email}>{key}:</div>
-                  <div>
-                    {props.recipients[key]
-                      ? props.recipients[key].replace(/;/gi, "\n")
-                      : ""}
+                ) : (
+                  <div key={key + "-" + index}>
+                    <div className={classes.email}>{key}:</div>
+                    <div className={classes.emailChild}>
+                      {props.recipients[key]
+                        ? props.recipients[key].replace(/;/gi, "\n")
+                        : ""}
+                    </div>
                   </div>
-                </div>
-              )
-            )}
+                )
+              )}
+            </div>
           </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography variant="h5" component="h3">
-            Recipients{" "}
+          <div className={classes.sectionHeader}>
+            <i class="material-icons">keyboard_arrow_right</i> Review Recipients
             <IconButton size="small" onClick={handleSubmit} color="primary">
               <CheckCircleOutlineIcon />
             </IconButton>
-          </Typography>
-          <div>Please separate multiple addresses by comma or semicolon.</div>
-          <div className={classes.list}>
-            {Object.keys(props.recipients).map((key, index) => (
-              <div key={key + "-" + index}>
-                <div>
-                  <TextField
-                    label={key}
-                    id={key}
-                    value={recipients[key] || ""}
-                    className={classes.formControl}
-                    onChange={handleChange(key)}
-                    margin="normal"
-                    multiline
-                    rowsMax="4"
-                    variant="outlined"
-                    disabled={key === "IGOEmail"}
-                  />
+          </div>
+          <div className={classes.section}>
+            <div>Please separate multiple addresses by comma or semicolon.</div>
+            <div className={classes.list}>
+              {Object.keys(props.recipients).map((key, index) => (
+                <div key={key + "-" + index}>
+                  <div>
+                    <TextField
+                      label={key}
+                      id={key}
+                      value={recipients[key] || ""}
+                      className={classes.formControl}
+                      onChange={handleChange(key)}
+                      margin="normal"
+                      multiline
+                      rowsMax="4"
+                      variant="outlined"
+                      disabled={key === "IGOEmail"}
+                    />
+                  </div>
+                  <br />
                 </div>
-                <br />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </React.Fragment>
       )}

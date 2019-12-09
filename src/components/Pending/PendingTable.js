@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 const styles = theme => ({
   container: {
-    width: "80vw",
+    width: "90vw",
     overflowX: "auto",
     margin: "3em auto"
   }
@@ -47,7 +47,7 @@ class Table extends React.Component {
           filters="true"
           columnSorting="true"
           stretchH="all"
-          height="100vh"
+          height="80vh"
           afterOnCellMouseDown={(event, coords, TD) => {
             if (event.button === 0 && coords.row > -1) {
               if (coords.col === this.props.data.columnHeaders.length - 1) {
