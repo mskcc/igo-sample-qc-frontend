@@ -51,7 +51,7 @@ export class CommentContainer extends Component {
     Swal.fire({
       title: "Review",
       html:
-        "<div class='swal-comment-review'> For testing, this notification will be sent to you, Anna and Lisa. <br><br> <strong>Add to:</strong>" +
+        "<div class='swal-comment-review'> <strong>Add to:</strong>" +
         reportString +
         "<br><strong>Send to:</strong><br>" +
         recipientString +
@@ -107,7 +107,10 @@ export class CommentContainer extends Component {
 
   addComment = comment => {
     if (this.isValid(comment)) {
-      this.props.addComment(comment.replace(/\n/gi, "<br>"), this.props.report.reportShown);
+      this.props.addComment(
+        comment.replace(/\n/gi, "<br>"),
+        this.props.report.reportShown
+      );
     } else {
       this.showMrnError();
     }
