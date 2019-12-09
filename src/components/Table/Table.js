@@ -1,8 +1,6 @@
 import React from "react";
 import { HotTable } from "@handsontable/react";
 import { withStyles } from "@material-ui/core/styles";
-// import Checkbox from "@material-ui/core/Checkbox";
-import { normalizeMixedDataValue } from "../../actions/helpers";
 import Swal from "sweetalert2";
 
 const styles = theme => ({
@@ -20,9 +18,9 @@ class Table extends React.Component {
   }
   componentDidMount = () => {
     if (
-      this.hotTableComponent != undefined &&
-      this.hotTableComponent.current != undefined &&
-      this.hotTableComponent.current.hotInstance != undefined
+      this.hotTableComponent !== undefined &&
+      this.hotTableComponent.current !== undefined &&
+      this.hotTableComponent.current.hotInstance !== undefined
     ) {
       let data = this.hotTableComponent.current.hotInstance.getData();
       this.hotTableComponent.current.hotInstance.updateSettings({
@@ -78,7 +76,6 @@ class Table extends React.Component {
           //       }
           //     : {}
           // }
-          stretchH={isAttachmentTable || isPathologyTable ? "none" : "all"}
           columnSorting="true"
           height="500"
           rowHeights="35"

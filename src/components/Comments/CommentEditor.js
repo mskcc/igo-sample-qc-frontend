@@ -435,7 +435,7 @@ export default function CommentEditor(props) {
           color="primary"
           onClick={handleInitialComment}
           disabled={
-            values.valid == false || props.recipientsBeingEdited == true
+            values.valid === false || props.recipientsBeingEdited === true
           }
         >
           Continue to Review

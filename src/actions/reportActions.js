@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
@@ -15,7 +14,7 @@ axios.interceptors.request.use(
     config => {
         let token = sessionStorage.getItem("access_token");
         if (token && !config.headers["Authorization"]) {
-            console.log("token attached");
+            // console.log("token attached");
             config.headers["Authorization"] = `Bearer ${token}`;
         }
 
@@ -30,12 +29,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     function(response) {
         // Do something with response data
-        console.log(response);
+        // console.log(response);
         return response;
     },
     function(error) {
         // Do something with response error
-        console.log(error);
+        // console.log(error);
         return Promise.reject(error);
     }
 );
@@ -144,7 +143,7 @@ export function getPending() {
             loadingMessage: "Submitting..."
         });
         let endpoint;
-        if (getState().user.role == "lab_member") {
+        if (getState().user.role === "lab_member") {
             endpoint = "/getPending";
         } else {
             endpoint = "/getUserPending";

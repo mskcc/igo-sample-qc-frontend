@@ -14,19 +14,8 @@ import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
-    console.log(this.props.history);
     this.props.getComments();
   }
-
-  // addInitialComment = (comment, reports) => {
-  //   console.log(reports);
-  //   var keys = Object.keys(reports);
-
-  //   var filteredReports = keys.filter(function(key) {
-  //     return reports[key];
-  //   });
-  //   this.props.addInitialComment(comment, filteredReports);
-  // };
 
   handleInitialComment = (comment, reports) => {
     var keys = Object.keys(reports);

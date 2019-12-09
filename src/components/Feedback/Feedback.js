@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import MuiButton from "@material-ui/core/Button/Button";
 import {
-  Button,
   FormControlLabel,
-  Typography,
   TextField,
   Paper,
   Checkbox,
   FormLabel,
   FormControl,
-  MenuItem,
-  Select,
-  InputLabel
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
