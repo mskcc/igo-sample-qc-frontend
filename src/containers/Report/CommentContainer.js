@@ -17,12 +17,12 @@ export class CommentContainer extends Component {
     this.props.getComments();
   }
 
-  handleInitialComment = (comment, reports) => {
-    var keys = Object.keys(reports);
+  handleInitialComment = (comment, values) => {
+    var keys = Object.keys(values);
 
     // array of all selected reports
     var filteredReports = keys.filter(function(key) {
-      return reports[key];
+      return values[key] && key.includes("Report");
     });
     let recipients = cleanAndFilterRecipients(this.props.recipients);
 

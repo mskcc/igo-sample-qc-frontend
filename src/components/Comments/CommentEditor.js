@@ -70,11 +70,9 @@ export default function CommentEditor(props) {
   const commentEl = useRef(null);
 
   const [values, setValues] = React.useState({
-    reports: {
-      "DNA Report": false,
-      "RNA Report": false,
-      "Library Report": false
-    },
+    "DNA Report": false,
+    "RNA Report": false,
+    "Library Report": false,
     salutation: "",
     addressee: "",
     downstreamProcess: props.recipe,
@@ -85,27 +83,12 @@ export default function CommentEditor(props) {
     rnaChecked: false,
     valid: false
   });
-  // const [values, setValues] = React.useState({
-  //   reports: {
-  //     "DNA Report": false,
-  //     "RNA Report": false,
-  //     "Library Report": false
-  //   },
-  //   salutation: "das",
-  //   addressee: "dsada",
-  //   downstreamProcess: props.recipe,
-  //   service: "dsa",
-  //   bodyType: "da",
-  //   rnaChecked: "",
-  //   valid: false
-  // });
 
   const handleChange = name => event => {
     if (event.target.value !== "default") {
       setValues({
         ...values,
-        [name]: event.target.value,
-        valid: validate()
+        [name]: event.target.value
       });
     }
   };
@@ -113,48 +96,9 @@ export default function CommentEditor(props) {
   const handleCheckbox = name => event => {
     setValues({ ...values, [name]: !values[name] });
   };
-  const handleReportsCheckbox = name => event => {
-    setValues({
-      ...values,
-      valid: validate(!values.reports[name.report], name),
-      reports: {
-        ...values.reports,
-        [name.report]: !values.reports[name.report]
-      }
-    });
-    // validateAndStore();
-  };
 
   const handleInitialComment = () => {
-    props.handleInitialComment(commentEl.current.textContent, values.reports);
-  };
-
-  const validate = (reportCheckBox, reportName) => {
-    var keys = Object.keys(values.reports);
-    var filteredReports = keys.filter(function(key) {
-      return values.reports[key];
-    });
-
-    let atLeastOneReport =
-      filteredReports.length > 0 || (reportCheckBox || false);
-    if (reportCheckBox && reportName) {
-      if (atLeastOneReport) {
-        if (
-          filteredReports.length === 1 &&
-          reportName.report === filteredReports[0]
-        ) {
-          // if clicked report was only selected one in filtered reports there are now no reports left
-          atLeastOneReport = false;
-        }
-      }
-    }
-    return (
-      atLeastOneReport &&
-      values.salutation !== "" &&
-      values.addressee !== "" &&
-      values.downstreamProcess !== "" &&
-      values.service !== ""
-    );
+    props.handleInitialComment(commentEl.current.textContent, values);
   };
 
   return (
@@ -164,8 +108,8 @@ export default function CommentEditor(props) {
           {Object.keys(props.tables).length > 0 && (
             <React.Fragment>
               <div className={classes.sectionHeader}>
-                <i className="material-icons">keyboard_arrow_right</i> Which report
-                should this comment be added to?
+                <i className="material-icons">keyboard_arrow_right</i> Which
+                report should this comment be added to?
               </div>
               <div className={classes.section}>
                 {Object.keys(props.tables).map((report, index) => {
@@ -176,7 +120,7 @@ export default function CommentEditor(props) {
                           control={
                             <Checkbox
                               // checked={values.report}
-                              onChange={handleReportsCheckbox({ report })}
+                              onChange={handleCheckbox(report)}
                               // value={report}
                             />
                           }
@@ -249,8 +193,8 @@ export default function CommentEditor(props) {
               <br />
             </div>
             <div className={classes.sectionHeader}>
-              <i className="material-icons">keyboard_arrow_right</i> Select all QC
-              statuses present in this report/project:
+              <i className="material-icons">keyboard_arrow_right</i> Select all
+              QC statuses present in this report/project:
             </div>
             <div className={classes.section}>
               <FormControlLabel
@@ -435,7 +379,14 @@ export default function CommentEditor(props) {
           color="primary"
           onClick={handleInitialComment}
           disabled={
-            values.valid === false || props.recipientsBeingEdited === true
+            ((values["DNA Report"] ||
+              values["RNA Report"] ||
+              values["Library Report"]) &&
+              values.salutation !== "" &&
+              values.addressee !== "" &&
+              values.downstreamProcess !== "" &&
+              values.service !== "") === false ||
+            props.recipientsBeingEdited === true
           }
         >
           Continue to Review
