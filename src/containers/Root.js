@@ -115,7 +115,7 @@ class Root extends Component {
                     <PrivateRoute
                       loggedIn={this.props.user.loggedIn}
                       exact
-                      path="/"
+                      path="/:requestId?"
                       component={ReportContainer}
                     />
 

@@ -9,7 +9,10 @@ import Swal from "sweetalert2";
 // } from '../helpers'
 
 import { Config } from "../secret_config.js";
-import { allDecisionsMadeInBackend, generateDecisionSubmitData } from "./helpers";
+import {
+  allDecisionsMadeInBackend,
+  generateDecisionSubmitData
+} from "./helpers";
 // Add a request interceptor
 axios.interceptors.request.use(
   config => {
@@ -35,7 +38,12 @@ export function addInitialComment(comment, reports, recipients) {
     let decisionsMade = {};
     for (let report in reports) {
       // determines wether creating an initial comment also triggers an entry to the decisions table
-      if (allDecisionsMadeInBackend(getState().report.tables[reports[report]].columnFeatures, reports[report]))
+      if (
+        allDecisionsMadeInBackend(
+          getState().report.tables[reports[report]].columnFeatures,
+          reports[report]
+        )
+      )
         decisionsMade[reports[report]] = generateDecisionSubmitData(
           getState().report.tables,
           reports[report]
@@ -192,11 +200,15 @@ export const GET_COMMENTS_FAIL = "GET_COMMENTS_FAIL";
 export const GET_COMMENTS_SUCCESS = "GET_COMMENTS_SUCCESS";
 export function getComments() {
   return (dispatch, getState) => {
+    let requestId;
+
+    requestId = getState().report.request.requestId;
+
     dispatch({ type: GET_COMMENTS });
     return axios
       .get(Config.API_ROOT + "/getComments", {
         params: {
-          request_id: getState().report.request.requestId
+          request_id: requestId
         }
       })
       .then(response => {

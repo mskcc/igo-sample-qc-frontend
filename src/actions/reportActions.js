@@ -40,6 +40,7 @@ axios.interceptors.response.use(
 );
 
 export const GET_REQUEST_REQUEST = "GET_REQUEST_REQUEST";
+
 export const EXPIRED = "EXPIRED";
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const GET_REQUEST_SUCCESS = "GET_REQUEST_SUCCESS";
@@ -81,6 +82,17 @@ export function getRequest(requestId) {
                     });
                 }
             });
+    };
+}
+export const CLEAR_REQUEST = "CLEAR_REQUEST";
+// export const SET_REQUEST = "SET_REQUEST";
+export function clearRequest() {
+    return dispatch => {
+        dispatch({
+            type: CLEAR_REQUEST,
+            requestId: undefined,
+            loading: false
+        });
     };
 }
 
