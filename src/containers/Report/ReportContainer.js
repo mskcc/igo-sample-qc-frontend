@@ -21,7 +21,7 @@ export class ReportContainer extends Component {
     }
   }
   handleSearch = requestId => {
-        this.props.history.push('/'+requestId)
+    this.props.history.push('/report/'+requestId)
     this.props.getRequest(requestId);
   };
   render() {

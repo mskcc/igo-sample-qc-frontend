@@ -152,7 +152,7 @@ export default function TableArea(props) {
                     Submit to IGO
                   </Button>
                   <Tooltip
-                    arrow
+                    arrow="true"
                     TransitionComponent={Zoom}
                     title="Save decisions to submit at a later date"
                     aria-label="add"
