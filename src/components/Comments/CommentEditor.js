@@ -81,7 +81,10 @@ export default function CommentEditor(props) {
     try: false,
     fail: false,
     rnaChecked: false,
-    valid: false
+    valid: false,
+    confirmationRequested: false,
+    sequencingRequested: false,
+    tumorNormalMatchNote: false,
   });
 
   const handleChange = name => event => {
@@ -272,6 +275,14 @@ export default function CommentEditor(props) {
                     "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org."
                   }
                 />
+                <FormControlLabel
+                  control={
+                    <Checkbox onChange={handleCheckbox("tumorNormalMatchNote")} />
+                  }
+                  label={
+                    "Please note: If a Tumor or Normal fails, its matched T/N should be eliminated."
+                  }
+                />
               </div>
             </React.Fragment>
           </form>
@@ -363,6 +374,14 @@ export default function CommentEditor(props) {
               If you are ready to move forward to sequencing, please fill out an
               iLab request and notify our Sample Receiving team of the IGO ID
               number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
+            </span>
+          )}
+          {values.tumorNormalMatchNote && (
+            <span>
+              {" "}
+              <br />
+              Please note: If a Tumor or Normal fails, its matched T/N should be
+              eliminated.
             </span>
           )}
           <br />
