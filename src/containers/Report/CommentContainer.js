@@ -30,7 +30,7 @@ export class CommentContainer extends Component {
     if (recipientString.includes("FIELD NOT")) {
       Swal.fire({
         title: "Invalid email addresses",
-        text: "Please check the recipient email addressess for validity.",
+        text: "Please check the recipient email addresses for validity.",
         type: "warning",
         loading: false,
         animation: false,
