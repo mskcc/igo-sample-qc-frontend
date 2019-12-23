@@ -27,6 +27,18 @@ export class CommentContainer extends Component {
     let recipients = cleanAndFilterRecipients(this.props.recipients);
 
     let recipientString = recipients.join();
+    if (recipientString.includes("FIELD NOT")) {
+      Swal.fire({
+        title: "Invalid email addresses",
+        text: "Please check the recipient email addressess for validity.",
+        type: "warning",
+        loading: false,
+        animation: false,
+        confirmButtonColor: "#df4602",
+        confirmButtonText: "Go back to edit"
+      });
+      return;
+    }
 
     let reportString = Object.values(filteredReports).join(", ");
 
