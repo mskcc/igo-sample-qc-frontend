@@ -176,7 +176,7 @@ export default function CommentEditor(props) {
                     id: "servicePerformed-simple"
                   }}
                 >
-                  <MenuItem value="default" />
+                  <MenuItem value="10x cDNA preparation">10x cDNA preparation</MenuItem>
                   <MenuItem value="Extraction">Extraction</MenuItem>
                   <MenuItem value="DNA QC">DNA QC</MenuItem>
                   <MenuItem value="Library Prep">Library Prep</MenuItem>
