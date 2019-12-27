@@ -26,13 +26,13 @@ import ErrorPage from "./ErrorPage";
 
 import { Config } from "../secret_config.js";
 
-function PrivateRoute({ component: Component, loggedIn, ...rest }) {
+function PrivateRoute({ component: Component, loggedIn, data, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
         loggedIn === true ? (
-          <Component {...props} />
+          <Component {...data} {...props} />
         ) : (
           <Redirect to={{ pathname: "/login" }} />
         )
@@ -121,6 +121,7 @@ class Root extends Component {
 
                     <PrivateRoute
                       loggedIn={this.props.user.loggedIn}
+                      data={{role:this.props.user.role}}
                       exact
                       path="/instructions"
                       component={Instructions}

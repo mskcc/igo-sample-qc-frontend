@@ -1,44 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   container: {
     width: "80vw",
     height: "80vh",
-    margin: "5% auto",
-    // position: "relative"
+    margin: "5% auto"
   },
-  iframe:{
+  iframe: {
     width: "100%",
-    height: "100%",
+    height: "100%"
   }
-  //   ...theme.mixins.gutters(),
-  //   paddingTop: theme.spacing(2),
-  //   paddingBottom: theme.spacing(2),
-  //   maxWidth: 500,
-  //   margin: "0 auto"
-  // }
 });
 
-const Instructions = ({ type, msg, classes }) => (
-  <div>
-    <div className={classes.container}>
+const Instructions = ({ role, classes }) => (
+  <div className={classes.container}>
+    {role === "lab_member" ? (
       <iframe
-      className={classes.iframe}
-        allowfullscreen
-        frameborder="0"
+        title="IGO-Member-CheatSheet"
+        className={classes.iframe}
+        allowFullScreen
+        frameBorder="0"
         src="https://www.lucidchart.com/documents/embeddedchart/f1fcc586-50bc-4239-8ca8-96cd54833ffa"
         id="MERilBZKM5U~"
       />
-    </div>
+    ) : (
+      <iframe
+        title="Investigator-Member-CheatSheet"
+        className={classes.iframe}
+        allowFullScreen
+        frameBorder="0"
+        src="https://www.lucidchart.com/documents/embeddedchart/9f9aca27-2f94-453f-89a3-4b90c2a5e68b"
+        id=".q6i6VmMzlMS"
+      />
+    )}
   </div>
 );
 
 Instructions.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Instructions);
