@@ -15,7 +15,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import LoadingOverlay from "react-loading-overlay";
 
-import { Header, SnackMessage } from "../components";
+import { Header, SnackMessage, Instructions } from "../components";
 
 import PendingContainer from "./Report/PendingContainer";
 import ReportContainer from "./Report/ReportContainer";
@@ -117,6 +117,13 @@ class Root extends Component {
                       exact
                       path="/"
                       component={ReportContainer}
+                    />
+
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      exact
+                      path="/instructions"
+                      component={Instructions}
                     />
 
                     <Route path="/login" component={Login} />
