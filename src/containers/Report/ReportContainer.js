@@ -12,8 +12,6 @@ export class ReportContainer extends Component {
   componentDidMount() {
     const { requestId } = this.props.match.params;
     // let requestIdParam = requestId
-    console.log(requestId);
-    console.log(this.props);
     if (requestId) {
       this.props.getRequest(requestId.toUpperCase());
     }else {
@@ -21,7 +19,7 @@ export class ReportContainer extends Component {
     }
   }
   handleSearch = requestId => {
-    this.props.history.push('/report/'+requestId)
+    this.props.history.push('/request/'+requestId)
     this.props.getRequest(requestId);
   };
   render() {

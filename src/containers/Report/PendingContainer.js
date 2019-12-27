@@ -13,7 +13,7 @@ export class PendingContainer extends Component {
     }
   }
   showPending = request => {
-    this.props.history.push("/report/" + request);
+    this.props.history.push("/request/" + request);
     this.props.getRequest(request);
   };
   render() {
