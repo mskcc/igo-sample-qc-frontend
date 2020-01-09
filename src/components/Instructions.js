@@ -38,7 +38,7 @@ const Instructions = ({ role, classes }) => (
     <h1 className={classes["instructions-header"]}>Sample QC Instructions</h1>
     <div className={classes["instructional-video-container"]}>
       <h2>Instructional Video</h2>
-      <p>Please watch the video below for to introduce yourself to what's available on the Sample QC Site</p>
+      <p>Please watch the video below to introduce yourself to the Sample QC Site</p>
       <div className={classes["instructional-video"]}>
         <ReactPlayer url='https://www.youtube.com/watch?v=pkCXQ_l8CSY'
           width="100%"
