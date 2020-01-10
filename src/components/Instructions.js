@@ -38,8 +38,6 @@ const Instructions = ({ role, classes }) => (
   <div className={classes.container}>
     <h1 className={classes["instructions-header"]}>Sample QC Instructions</h1>
 
-    <h2>Documentation</h2>
-    <p>Below is the latest documentation available for the Sample QC Site</p>
     {role === "lab_member" ? (
       <iframe
         title="IGO-Member-CheatSheet"
@@ -61,6 +59,10 @@ const Instructions = ({ role, classes }) => (
             <ReactPlayer url={mov} width="100%" height="100%" controls={true} />
           </div>
         </div>
+        <h2>Documentation</h2>
+        <p>
+          Below is the latest documentation available for the Sample QC Site
+        </p>
         <iframe
           title="Investigator-Member-CheatSheet"
           className={classes.iframe}
