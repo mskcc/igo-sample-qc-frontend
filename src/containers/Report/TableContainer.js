@@ -81,6 +81,7 @@ export class TableContainer extends Component {
         {this.props.report.tables && (
           <TableArea
             report={report}
+            role={this.props.user.role}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleInvestigatorSubmit}
             handleSave={this.handlePartialDecision}
@@ -96,7 +97,7 @@ export class TableContainer extends Component {
 
 TableContainer.defaultProps = {};
 
-const mapStateToProps = state => ({ report: state.report });
+const mapStateToProps = state => ({ report: state.report, user: state.user });
 
 export default withLocalize(
   connect(

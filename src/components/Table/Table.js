@@ -17,6 +17,7 @@ class Table extends React.Component {
     this.hotTableComponent = React.createRef();
   }
   componentDidMount = () => {
+    let isLabMember = this.props.role === "lab_member"
     if (
       this.hotTableComponent !== undefined &&
       this.hotTableComponent.current !== undefined &&
@@ -28,8 +29,9 @@ class Table extends React.Component {
           var cellProperties = {};
 
           if (
+            isLabMember ||
             data[row][col] === "Submit new iLab request" ||
-            data[row][col] === "Already moved forward by IGO"
+            data[row][col] === "Already moved forward by IGO" 
           ) {
             cellProperties.readOnly = true;
           }

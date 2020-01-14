@@ -198,6 +198,7 @@ export default function TableArea(props) {
               <Table
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}
+                role={props.role}
                 data={props.report.tables[report]}
               />
             )}
