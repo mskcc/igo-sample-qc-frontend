@@ -9,17 +9,20 @@ import { Sidebar } from "../../components";
 
 export class SidebarContainer extends Component {
   handleSearch = requestId => {
-    this.props.getRequest(requestId.toUpperCase());
+    console.log(this.props);
+    this.props.handleSearch(requestId.toUpperCase());
   };
   // handleGridSubmit = formValues => {
   //   this.props.addGridToBankedSample(this.props);
   // };
 
-
   render() {
     return (
       <React.Fragment>
-        <Sidebar pattern={Config.REQUEST_PATTERN} handleSubmit={this.handleSearch}/>
+        <Sidebar
+          pattern={Config.REQUEST_PATTERN}
+          handleSubmit={this.handleSearch}
+        />
       </React.Fragment>
     );
   }
@@ -27,13 +30,4 @@ export class SidebarContainer extends Component {
 
 SidebarContainer.defaultProps = {};
 
-const mapStateToProps = state => ({});
-
-export default withLocalize(
-  connect(
-    mapStateToProps,
-    {
-      ...reportActions,
-    }
-  )(SidebarContainer)
-);
+export default withLocalize(SidebarContainer);

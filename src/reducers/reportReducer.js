@@ -12,6 +12,12 @@ const initialState = {
 
 function reportReducer(state = initialState, action) {
   switch (action.type) {
+    case ActionTypes.CLEAR_REQUEST:
+      return {
+        ...initialState,
+        request: { request_id: action.requestId },
+        loaded: false
+      };
     case ActionTypes.GET_REQUEST_REQUEST:
       return {
         ...initialState,

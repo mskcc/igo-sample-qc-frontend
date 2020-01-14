@@ -9,7 +9,9 @@ import { TableArea } from "../../components/Table";
 
 export class TableContainer extends Component {
   componentDidMount() {
-    if (this.props.report.request.samples && !this.props.report.tables) {
+    if (this.props.requestIdParam) {
+      this.props.getQcReports(this.props.requestIdParam);
+    } else if (this.props.report.request.samples && !this.props.report.tables) {
       this.props.getQcReports(this.props.report.request.requestId);
     }
   }

@@ -114,6 +114,12 @@ class Root extends Component {
 
                     <PrivateRoute
                       loggedIn={this.props.user.loggedIn}
+                      // exact
+                      path="/request/:requestId?"
+                      component={ReportContainer}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
                       exact
                       path="/"
                       component={ReportContainer}
@@ -128,8 +134,6 @@ class Root extends Component {
                     />
 
                     <Route path="/login" component={Login} />
-
-                    
                   </React.Fragment>
                 ) : (
                   <Login />
