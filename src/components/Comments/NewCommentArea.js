@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     // float: "right",
-    minHeight: "94px",
+    minHeight: "132px",
     width: "50%"
     // marginBottom: "1em"
   },
@@ -58,7 +58,7 @@ export default function NewCommentArea(props) {
         id="new-comment-field"
         label="New Comment"
         multiline
-        rows="3"
+        rows="5"
         placeholder="Your Comment"
         onChange={handleChange("comment")}
         className={classes.textField}

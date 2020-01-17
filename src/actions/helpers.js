@@ -5,6 +5,7 @@ export const fillReportTables = reportList => {
     let dnaReport = reportList.dnaReportSamples;
     let rnaReport = reportList.rnaReportSamples;
     let libraryReport = reportList.libraryReportSamples;
+    let poolReport = reportList.poolReportSamples;
     let pathologyReport = reportList.pathologyReportSamples;
     let attachments = reportList.attachments;
 
@@ -19,6 +20,10 @@ export const fillReportTables = reportList => {
     if (libraryReport && libraryReport.data) {
         libraryReport.data = sortBySampleId(libraryReport.data);
         tables["Library Report"] = libraryReport;
+    }
+    if (poolReport && poolReport.data) {
+        poolReport.data = sortBySampleId(poolReport.data);
+        tables["Pool Report"] = poolReport;
     }
     if (pathologyReport && pathologyReport.data) {
         pathologyReport.data = sortBySampleId(pathologyReport.data);

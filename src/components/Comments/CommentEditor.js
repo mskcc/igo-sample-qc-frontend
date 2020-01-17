@@ -400,6 +400,8 @@ export default function CommentEditor(props) {
           disabled={
             ((values["DNA Report"] ||
               values["RNA Report"] ||
+              values["Pathology Report"] ||
+              values["Pool Report"] ||
               values["Library Report"]) &&
               values.salutation !== "" &&
               values.addressee !== "" &&
