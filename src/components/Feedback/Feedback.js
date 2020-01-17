@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import MuiButton from "@material-ui/core/Button/Button";
 import {
-  Button,
   FormControlLabel,
-  Typography,
   TextField,
   Paper,
   Checkbox,
   FormLabel,
-  FormControl,
-  MenuItem,
-  Select,
-  InputLabel
+  FormControl
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,6 +19,7 @@ export const MODAL_SUCCESS = "MODAL_SUCCESS";
 
 const useStyles = makeStyles(theme => ({
   container: {
+    zIndex: "99999",
     width: "30vw",
     padding: "1em",
     display: "grid",
@@ -56,9 +52,9 @@ const Feedback = props => {
   const [feedbackSubject, setFeedbackSubject] = useState("");
 
   const sendEmail = () => {
-    console.log(props)
+    console.log(props);
     props.submitFeedback(feedbackBody, feedbackSubject, feedbackType);
-    props.handleShow()
+    props.handleShow();
   };
 
   const getHelpText = () => {

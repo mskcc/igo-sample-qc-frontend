@@ -9,7 +9,9 @@ import { TableArea } from "../../components/Table";
 
 export class TableContainer extends Component {
   componentDidMount() {
-    if (this.props.report.request.samples && !this.props.report.tables) {
+    if (this.props.requestIdParam) {
+      this.props.getQcReports(this.props.requestIdParam);
+    } else if (this.props.report.request.samples && !this.props.report.tables) {
       this.props.getQcReports(this.props.report.request.requestId);
     }
   }
@@ -79,6 +81,7 @@ export class TableContainer extends Component {
         {this.props.report.tables && (
           <TableArea
             report={report}
+            role={this.props.user.role}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleInvestigatorSubmit}
             handleSave={this.handlePartialDecision}
@@ -94,7 +97,7 @@ export class TableContainer extends Component {
 
 TableContainer.defaultProps = {};
 
-const mapStateToProps = state => ({ report: state.report });
+const mapStateToProps = state => ({ report: state.report, user: state.user });
 
 export default withLocalize(
   connect(

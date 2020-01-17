@@ -152,7 +152,7 @@ export default function TableArea(props) {
                     Submit to IGO
                   </Button>
                   <Tooltip
-                    arrow
+                    arrow="true"
                     TransitionComponent={Zoom}
                     title="Save decisions to submit at a later date"
                     aria-label="add"
@@ -198,6 +198,7 @@ export default function TableArea(props) {
               <Table
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}
+                role={props.role}
                 data={props.report.tables[report]}
               />
             )}

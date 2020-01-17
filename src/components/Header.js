@@ -54,6 +54,18 @@ const Header = ({ classes, loggedIn, role, submitFeedback }) => {
                 </Typography>
               </NavLink>
             </Button>
+
+            <Button>
+              <NavLink
+                to="/instructions"
+                activeClassName={classes.active}
+                className={classes.navlink}
+              >
+                <Typography color="inherit" variant="h6">
+                  Instructions
+                </Typography>
+              </NavLink>
+            </Button>
             <Button>
               <NavLink
                 to="/logout"
@@ -65,6 +77,7 @@ const Header = ({ classes, loggedIn, role, submitFeedback }) => {
                 </Typography>
               </NavLink>
             </Button>
+
             <Typography
               color="inherit"
               variant="h6"

@@ -15,7 +15,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import LoadingOverlay from "react-loading-overlay";
 
-import { Header, SnackMessage } from "../components";
+import { Header, SnackMessage, Instructions } from "../components";
 
 import PendingContainer from "./Report/PendingContainer";
 import ReportContainer from "./Report/ReportContainer";
@@ -26,13 +26,13 @@ import ErrorPage from "./ErrorPage";
 
 import { Config } from "../secret_config.js";
 
-function PrivateRoute({ component: Component, loggedIn, ...rest }) {
+function PrivateRoute({ component: Component, loggedIn, data, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
         loggedIn === true ? (
-          <Component {...props} />
+          <Component {...data} {...props} />
         ) : (
           <Redirect to={{ pathname: "/login" }} />
         )
@@ -114,14 +114,26 @@ class Root extends Component {
 
                     <PrivateRoute
                       loggedIn={this.props.user.loggedIn}
+                      // exact
+                      path="/request/:requestId?"
+                      component={ReportContainer}
+                    />
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
                       exact
                       path="/"
                       component={ReportContainer}
                     />
 
-                    <Route path="/login" component={Login} />
+                    <PrivateRoute
+                      loggedIn={this.props.user.loggedIn}
+                      data={{role:this.props.user.role}}
+                      exact
+                      path="/instructions"
+                      component={Instructions}
+                    />
 
-                    
+                    <Route path="/login" component={Login} />
                   </React.Fragment>
                 ) : (
                   <Login />

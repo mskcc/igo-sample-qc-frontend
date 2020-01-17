@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
@@ -15,7 +14,7 @@ axios.interceptors.request.use(
     config => {
         let token = sessionStorage.getItem("access_token");
         if (token && !config.headers["Authorization"]) {
-            console.log("token attached");
+            // console.log("token attached");
             config.headers["Authorization"] = `Bearer ${token}`;
         }
 
@@ -30,17 +29,18 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     function(response) {
         // Do something with response data
-        console.log(response);
+        // console.log(response);
         return response;
     },
     function(error) {
         // Do something with response error
-        console.log(error);
+        // console.log(error);
         return Promise.reject(error);
     }
 );
 
 export const GET_REQUEST_REQUEST = "GET_REQUEST_REQUEST";
+
 export const EXPIRED = "EXPIRED";
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const GET_REQUEST_SUCCESS = "GET_REQUEST_SUCCESS";
@@ -82,6 +82,17 @@ export function getRequest(requestId) {
                     });
                 }
             });
+    };
+}
+export const CLEAR_REQUEST = "CLEAR_REQUEST";
+// export const SET_REQUEST = "SET_REQUEST";
+export function clearRequest() {
+    return dispatch => {
+        dispatch({
+            type: CLEAR_REQUEST,
+            requestId: undefined,
+            loading: false
+        });
     };
 }
 
@@ -144,7 +155,7 @@ export function getPending() {
             loadingMessage: "Submitting..."
         });
         let endpoint;
-        if (getState().user.role == "lab_member") {
+        if (getState().user.role === "lab_member") {
             endpoint = "/getPending";
         } else {
             endpoint = "/getUserPending";

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Button, ButtonGroup, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -12,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: "end"
   },
   textField: {
-    width: "100%",
     width: "100%",
     margin: 0,
     backgroundColor: "white"

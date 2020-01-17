@@ -14,30 +14,31 @@ import { CommentArea, CommentEditorArea } from "../../components/Comments";
 
 export class CommentContainer extends Component {
   componentDidMount() {
-    console.log(this.props.history);
     this.props.getComments();
   }
 
-  // addInitialComment = (comment, reports) => {
-  //   console.log(reports);
-  //   var keys = Object.keys(reports);
-
-  //   var filteredReports = keys.filter(function(key) {
-  //     return reports[key];
-  //   });
-  //   this.props.addInitialComment(comment, filteredReports);
-  // };
-
-  handleInitialComment = (comment, reports) => {
-    var keys = Object.keys(reports);
+  handleInitialComment = (comment, values) => {
+    var keys = Object.keys(values);
 
     // array of all selected reports
     var filteredReports = keys.filter(function(key) {
-      return reports[key];
+      return values[key] && key.includes("Report");
     });
     let recipients = cleanAndFilterRecipients(this.props.recipients);
 
     let recipientString = recipients.join();
+    if (recipientString.includes("FIELD NOT")) {
+      Swal.fire({
+        title: "Invalid email addresses",
+        text: "Please check the recipient email addresses for validity.",
+        type: "warning",
+        loading: false,
+        animation: false,
+        confirmButtonColor: "#df4602",
+        confirmButtonText: "Go back to edit"
+      });
+      return;
+    }
 
     let reportString = Object.values(filteredReports).join(", ");
 
@@ -51,7 +52,7 @@ export class CommentContainer extends Component {
     Swal.fire({
       title: "Review",
       html:
-        "<div class='swal-comment-review'> For testing, this notification will be sent to you, Anna and Lisa. <br><br> <strong>Add to:</strong>" +
+        "<div class='swal-comment-review'> <strong>Add to:</strong>" +
         reportString +
         "<br><strong>Send to:</strong><br>" +
         recipientString +
@@ -107,7 +108,10 @@ export class CommentContainer extends Component {
 
   addComment = comment => {
     if (this.isValid(comment)) {
-      this.props.addComment(comment.replace(/\n/gi, "<br>"), this.props.report.reportShown);
+      this.props.addComment(
+        comment.replace(/\n/gi, "<br>"),
+        this.props.report.reportShown
+      );
     } else {
       this.showMrnError();
     }
