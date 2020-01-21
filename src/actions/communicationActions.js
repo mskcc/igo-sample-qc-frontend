@@ -125,7 +125,8 @@ export function addComment(comment, report) {
           .catch(error => {
             return dispatch({
               type: ADD_COMMENT_FAIL,
-              error: error
+              error:error,
+              message: "Sending comment failed."
             });
           });
       }
