@@ -66,6 +66,7 @@ export const allDecisionsMade = (tables, currentReport) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (var j = 0; j < tables[currentReport].data.length; j++) {
@@ -91,6 +92,7 @@ export const allDecisionsMadeInBackend = (columnFeatures, currentReport) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (let index in columnFeatures) {
@@ -131,7 +133,6 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
         }
     }
     // }
-    // console.log(submitData);
     return submitData;
 };
 
