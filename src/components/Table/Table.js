@@ -17,7 +17,7 @@ class Table extends React.Component {
     this.hotTableComponent = React.createRef();
   }
   componentDidMount = () => {
-    let isLabMember = this.props.role === "lab_member"
+    let isLabMember = this.props.role === "lab_member";
     if (
       this.hotTableComponent !== undefined &&
       this.hotTableComponent.current !== undefined &&
@@ -29,9 +29,10 @@ class Table extends React.Component {
           var cellProperties = {};
 
           if (
+            // lab members never get to make decisions
             isLabMember ||
             data[row][col] === "Submit new iLab request" ||
-            data[row][col] === "Already moved forward by IGO" 
+            data[row][col] === "Already moved forward by IGO"
           ) {
             cellProperties.readOnly = true;
           }
@@ -80,6 +81,12 @@ class Table extends React.Component {
           // }
           columnSorting="true"
           height="500"
+          manualColumnResize={true}
+          modifyColWidth={function(width, col) {
+            if (width > 500) {
+              return 500;
+            }
+          }}
           rowHeights="35"
           afterOnCellMouseDown={(event, coords, TD) => {
             if (isAttachmentTable && event.button === 0 && coords.row > -1) {

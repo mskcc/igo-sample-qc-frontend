@@ -174,7 +174,8 @@ export function getPending() {
                 return dispatch({
                     type: GET_PENDING_FAIL,
                     error: error,
-                    message: "Fetching pending requests failed."
+                    message:
+                        "Fetching pending requests failed due to an application error."
                 });
             });
     };
@@ -202,17 +203,20 @@ export function submitInvestigatorDecision() {
 
         return axios
             .post(Config.API_ROOT + "/setQCInvestigatorDecision", {
-                decisions,
-                username,
-                request_id,
-                report
+                data: {
+                    decisions,
+                    username,
+                    request_id,
+                    report
+                }
             })
             .then(response => {
                 dispatch({
                     type: POST_INVESTIGATOR_DECISION_SUCCESS,
                     payload: setTableReadOnlyAfterDecisions(
                         getState().report.tables,
-                        getState().report.reportShown
+                        getState().report.reportShown,
+                        true
                     ),
                     message: "Submitted!"
                 });
@@ -222,8 +226,11 @@ export function submitInvestigatorDecision() {
                     type: POST_INVESTIGATOR_DECISION_FAIL,
                     payload: setTableReadOnlyAfterDecisions(
                         getState().report.tables,
-                        getState().report.reportShown
+                        getState().report.reportShown,
+                        false
                     ),
+                    message:
+                        "Decisions could not be submitted due to an application error. Please reach out to IGO.",
                     error: error
                 });
             });
@@ -266,7 +273,8 @@ export function savePartialDecision() {
             .catch(error => {
                 return dispatch({
                     type: POST_PARTIAL_DECISION_FAIL,
-
+                    message:
+                        "Decisions could not be saved due to an application error. Please reach out to IGO.",
                     error: error
                 });
             });

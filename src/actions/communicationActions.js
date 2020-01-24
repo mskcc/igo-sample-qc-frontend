@@ -60,7 +60,6 @@ export function addInitialComment(comment, reports, recipients) {
       recipients: recipients.join(),
       decisions_made: decisionsMade
     };
-    console.log(commentToSave);
     dispatch({ type: ADD_INITIAL_COMMENT });
     return axios
       .post(Config.API_ROOT + "/addAndNotifyInitial", { data: commentToSave })
@@ -86,16 +85,14 @@ export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addComment(comment, report) {
+
   return (dispatch, getState) => {
+    console.log(getState().communication.comments[report].recipients)
     Swal.fire({
       title: "Are you sure?",
       html:
-        "<div class='swal-comment-review'>In production, this comment will trigger an email notification to the following recipients:<br> <br>" +
-        getState().communication.comments[report].recipients.replace(
-          /,/gi,
-          "<br>"
-        ) +
-        "<br> During testing, it will be sent to you, Anna and Lisa.</div>",
+        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br> " +
+        getState().communication.comments[report].recipients.replace(/,/g,', '),
       footer:
         "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
       type: "warning",
@@ -130,7 +127,8 @@ export function addComment(comment, report) {
           .catch(error => {
             return dispatch({
               type: ADD_COMMENT_FAIL,
-              error: error
+              error:error,
+              message: "Sending comment failed."
             });
           });
       }

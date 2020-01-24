@@ -21,21 +21,15 @@ const useStyles = makeStyles(theme => ({
     paddingTop: "2em",
     paddingLeft: "2em",
     textAlign: "left",
-    // marginRight: theme.spacing(3),
     gridArea: "table",
     display: "grid",
     gridTemplateAreas: "'toolbar' 'reports'",
     gridRowGap: "1em",
     gridColumnGap: "2em",
-    // gridArea: "comments",
-    // width: "85vw",
     overflow: "scroll",
     paddingBottom: theme.spacing(2),
     backgroundColor: "rgba(0, 148, 144, .08)",
     borderTop: "2px solid darkgray"
-    // display: "grid"
-    // gridTemplateAreas: "'table NewCommentArea'",
-    // gridTemplateColumns: "70% 30%"
   },
 
   table: {

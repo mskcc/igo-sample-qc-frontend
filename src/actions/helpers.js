@@ -5,6 +5,7 @@ export const fillReportTables = reportList => {
     let dnaReport = reportList.dnaReportSamples;
     let rnaReport = reportList.rnaReportSamples;
     let libraryReport = reportList.libraryReportSamples;
+    let poolReport = reportList.poolReportSamples;
     let pathologyReport = reportList.pathologyReportSamples;
     let attachments = reportList.attachments;
 
@@ -20,6 +21,10 @@ export const fillReportTables = reportList => {
         libraryReport.data = sortBySampleId(libraryReport.data);
         tables["Library Report"] = libraryReport;
     }
+    if (poolReport && poolReport.data) {
+        poolReport.data = sortBySampleId(poolReport.data);
+        tables["Pool Report"] = poolReport;
+    }
     if (pathologyReport && pathologyReport.data) {
         pathologyReport.data = sortBySampleId(pathologyReport.data);
         tables["Pathology Report"] = pathologyReport;
@@ -32,10 +37,11 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
-export const setTableReadOnlyAfterDecisions = (tables, currentReport) => {
+export const setTableReadOnlyAfterDecisions = (tables, currentReport, state) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (let feature in tables[currentReport].columnFeatures) {
@@ -43,7 +49,8 @@ export const setTableReadOnlyAfterDecisions = (tables, currentReport) => {
                 tables[currentReport].columnFeatures[feature].limsField ===
                 "InvestigatorDecision"
             ) {
-                tables[currentReport].columnFeatures[feature].readOnly = true;
+                tables[currentReport].columnFeatures[feature].readOnly = state;
+                tables[currentReport].readOnly = state;
                 break;
             }
         }
@@ -61,6 +68,7 @@ export const allDecisionsMade = (tables, currentReport) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (var j = 0; j < tables[currentReport].data.length; j++) {
@@ -86,6 +94,7 @@ export const allDecisionsMadeInBackend = (columnFeatures, currentReport) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (let index in columnFeatures) {
@@ -126,7 +135,6 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
         }
     }
     // }
-    // console.log(submitData);
     return submitData;
 };
 

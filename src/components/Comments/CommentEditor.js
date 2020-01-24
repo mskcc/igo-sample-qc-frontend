@@ -82,9 +82,10 @@ export default function CommentEditor(props) {
     fail: false,
     rnaChecked: false,
     valid: false,
+    movingForward: false,
     confirmationRequested: false,
     sequencingRequested: false,
-    tumorNormalMatchNote: false,
+    tumorNormalMatchNote: false
   });
 
   const handleChange = name => event => {
@@ -176,7 +177,9 @@ export default function CommentEditor(props) {
                     id: "servicePerformed-simple"
                   }}
                 >
-                  <MenuItem value="10x cDNA preparation">10x cDNA preparation</MenuItem>
+                  <MenuItem value="10x cDNA preparation">
+                    10x cDNA preparation
+                  </MenuItem>
                   <MenuItem value="Extraction">Extraction</MenuItem>
                   <MenuItem value="DNA QC">DNA QC</MenuItem>
                   <MenuItem value="Library Prep">Library Prep</MenuItem>
@@ -248,6 +251,14 @@ export default function CommentEditor(props) {
                 additional Instructions:
               </div>
               <div className={classes.section}>
+                {values.pass && !values.try && !values.fail && (
+                  <FormControlLabel
+                    control={
+                      <Checkbox onChange={handleCheckbox("movingForward")} />
+                    }
+                    label='Add: "All samples pass for XYZ and are moving forward."'
+                  />
+                )}
                 <FormControlLabel
                   control={<Checkbox onChange={handleCheckbox("onHold")} />}
                   label="IGO will put this project on hold until you let us know how you
@@ -277,7 +288,9 @@ export default function CommentEditor(props) {
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox onChange={handleCheckbox("tumorNormalMatchNote")} />
+                    <Checkbox
+                      onChange={handleCheckbox("tumorNormalMatchNote")}
+                    />
                   }
                   label={
                     "Please note: If a Tumor or Normal fails, its matched T/N should be eliminated."
@@ -308,13 +321,23 @@ export default function CommentEditor(props) {
           Please see the reports and documents below for the results.
           <br />
           <br />
-          {values.pass && !values.try && !values.fail && (
-            <span>
-              All of the samples in this project{" "}
-              <span className={classes.green}>pass</span> IGO’s QC
-              specifications for {values.downstreamProcess}.
-            </span>
-          )}
+          {values.pass &&
+            !values.try &&
+            !values.fail &&
+            (values.movingForward ? (
+              <span>
+                All of the samples in this project{" "}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess} and are moving
+                forward.
+              </span>
+            ) : (
+              <span>
+                All of the samples in this project{" "}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess}.
+              </span>
+            ))}
           {values.pass && (values.try || values.fail) && (
             <span>
               Some of the samples in this project{" "}
@@ -400,6 +423,8 @@ export default function CommentEditor(props) {
           disabled={
             ((values["DNA Report"] ||
               values["RNA Report"] ||
+              values["Pathology Report"] ||
+              values["Pool Report"] ||
               values["Library Report"]) &&
               values.salutation !== "" &&
               values.addressee !== "" &&
