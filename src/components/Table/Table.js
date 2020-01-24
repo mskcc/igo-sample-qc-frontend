@@ -29,6 +29,7 @@ class Table extends React.Component {
           var cellProperties = {};
 
           if (
+            // lab members never get to make decisions
             isLabMember ||
             data[row][col] === "Submit new iLab request" ||
             data[row][col] === "Already moved forward by IGO"

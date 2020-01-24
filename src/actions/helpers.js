@@ -37,10 +37,11 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
-export const setTableReadOnlyAfterDecisions = (tables, currentReport) => {
+export const setTableReadOnlyAfterDecisions = (tables, currentReport, state) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
+        currentReport === "Pool Report" ||
         currentReport === "Library Report"
     ) {
         for (let feature in tables[currentReport].columnFeatures) {
@@ -48,7 +49,8 @@ export const setTableReadOnlyAfterDecisions = (tables, currentReport) => {
                 tables[currentReport].columnFeatures[feature].limsField ===
                 "InvestigatorDecision"
             ) {
-                tables[currentReport].columnFeatures[feature].readOnly = true;
+                tables[currentReport].columnFeatures[feature].readOnly = state;
+                tables[currentReport].readOnly = state;
                 break;
             }
         }

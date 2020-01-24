@@ -85,12 +85,14 @@ export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAIL = "ADD_COMMENT_FAIL";
 
 export function addComment(comment, report) {
+
   return (dispatch, getState) => {
+    console.log(getState().communication.comments[report].recipients)
     Swal.fire({
       title: "Are you sure?",
       html:
         "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br> " +
-        getState().communication.comments[report].recipients.replace(/,/gi),
+        getState().communication.comments[report].recipients.replace(/,/g,', '),
       footer:
         "Please make sure that this comment contains no PHI. This webapp is not PHI secure and submitting PHI would violate MSK policy.",
       type: "warning",
