@@ -115,6 +115,17 @@ export default function TableArea(props) {
         <RequestInfo request={props.report.request} />
         {props.report.reportShown.includes("Report") && (
           <React.Fragment>
+            {(props.username === "patrunoa" ||
+              props.username === "wagnerl") && (
+              <Button
+                onClick={props.manuallyAddDecision}
+                variant="contained"
+                color="primary"
+                className={classes.submitBtn}
+              >
+                Manually Add Decision
+              </Button>
+            )}
             {props.report.tables[props.report.reportShown].readOnly ? (
               <Card>
                 <CardContent className={classes.decisions}>

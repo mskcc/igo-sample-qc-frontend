@@ -258,10 +258,12 @@ export function savePartialDecision() {
 
         return axios
             .post(Config.API_ROOT + "/savePartialSubmission", {
-                decisions,
-                username,
-                request_id,
-                report
+                data: {
+                    decisions,
+                    username,
+                    request_id,
+                    report
+                }
             })
             .then(response => {
                 dispatch({
@@ -273,6 +275,51 @@ export function savePartialDecision() {
             .catch(error => {
                 return dispatch({
                     type: POST_PARTIAL_DECISION_FAIL,
+                    message:
+                        "Decisions could not be saved due to an application error. Please reach out to IGO.",
+                    error: error
+                });
+            });
+    };
+}
+export const MANUALLY_ADD_DECISION_REQUEST = "MANUALLY_ADD_DECISION_REQUEST";
+export const MANUALLY_ADD_DECISION_FAIL = "MANUALLY_ADD_DECISION_FAIL";
+export const MANUALLY_ADD_DECISION_SUCCESS = "MANUALLY_ADD_DECISION_SUCCESS";
+export function manuallyAddDecision() {
+    return (dispatch, getState) => {
+        dispatch({
+            type: MANUALLY_ADD_DECISION_REQUEST,
+            loading: true,
+            loadingMessage: "Submitting..."
+        });
+        let decisions = generateDecisionSubmitData(
+            getState().report.tables,
+
+            getState().report.reportShown
+        );
+        let request_id = getState().report.request.requestId;
+        let username = getState().user.username;
+        let report = getState().report.reportShown;
+
+        return axios
+            .post(Config.API_ROOT + "/manuallyAddDecision", {
+                data: {
+                    decisions,
+                    username,
+                    request_id,
+                    report
+                }
+            })
+            .then(response => {
+                dispatch({
+                    type: MANUALLY_ADD_DECISION_SUCCESS,
+
+                    message: "Saved!"
+                });
+            })
+            .catch(error => {
+                return dispatch({
+                    type: MANUALLY_ADD_DECISION_FAIL,
                     message:
                         "Decisions could not be saved due to an application error. Please reach out to IGO.",
                     error: error
