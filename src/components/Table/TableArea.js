@@ -126,8 +126,21 @@ export default function TableArea(props) {
                 Manually Add Decision
               </Button>
             )}
-            {props.report.tables[props.report.reportShown].readOnly ? (
+            {props.role == "lab_member" ? (
               <Card>
+                {" "}
+                <CardContent className={classes.decisions}>
+                  <Typography
+                    color="textSecondary"
+                    // gutterBottom
+                  >
+                    Lab members must submit decisions in LIMS.
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : props.report.tables[props.report.reportShown].readOnly ? (
+              <Card>
+                {" "}
                 <CardContent className={classes.decisions}>
                   <Typography
                     color="textSecondary"
