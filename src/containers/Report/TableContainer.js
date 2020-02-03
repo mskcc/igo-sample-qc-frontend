@@ -60,6 +60,9 @@ export class TableContainer extends Component {
   };
   handlePartialDecision = () => {
     this.props.savePartialDecision();
+  }; 
+  manuallyAddDecision = () => {
+    this.props.manuallyAddDecision();
   };
 
   registerChange = () => {
@@ -82,8 +85,10 @@ export class TableContainer extends Component {
           <TableArea
             report={report}
             role={this.props.user.role}
+            username={this.props.user.username}
             updateReportShown={this.updateReportShown}
             handleSubmit={this.handleInvestigatorSubmit}
+            manuallyAddDecision={this.manuallyAddDecision}
             handleSave={this.handlePartialDecision}
             registerChange={this.registerChange}
             handleAttachmentDownload={this.handleAttachmentDownload}

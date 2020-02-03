@@ -11,6 +11,7 @@ export const fillReportTables = reportList => {
 
     if (dnaReport && dnaReport.data) {
         dnaReport.data = sortBySampleId(dnaReport.data);
+
         tables["DNA Report"] = dnaReport;
     }
     if (rnaReport && rnaReport.data) {
@@ -37,7 +38,11 @@ export const fillReportTables = reportList => {
     return tables;
 };
 
-export const setTableReadOnlyAfterDecisions = (tables, currentReport, state) => {
+export const setTableReadOnlyAfterDecisions = (
+    tables,
+    currentReport,
+    state
+) => {
     if (
         currentReport === "DNA Report" ||
         currentReport === "RNA Report" ||
@@ -117,7 +122,7 @@ export const generateDecisionSubmitData = (tables, currentReport) => {
     if (currentReport === "RNA Report") {
         dataType = "qcReportRna";
     }
-    if (currentReport === "Library Report") {
+    if (currentReport === "Library Report" || currentReport === "Pool Report") {
         dataType = "qcReportLibrary";
     }
     // LIMS expects a JSON array because it is able to do multiple reports' decisions at once
