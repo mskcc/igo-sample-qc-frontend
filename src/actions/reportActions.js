@@ -379,7 +379,7 @@ export function downloadReport(reportShown, request) {
         // deep copy and rename the data column names with the actual column headers
         // remove all html code
         let clonedReport = JSON.parse(
-            JSON.stringify(tableToExport.data).replace(/<\/?[^>]+>/gi, "")
+            JSON.stringify(tableToExport.data).replace(/<\/?[^>]+>/gi, "").replace(/&#8209;/gi, "")
         );
         for (let row in clonedReport) {
             for (let field in clonedReport[row]) {
