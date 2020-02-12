@@ -68,14 +68,16 @@ const useStyles = makeStyles(theme => ({
 export default function CommentEditor(props) {
   const classes = useStyles();
   const commentEl = useRef(null);
-
   const [values, setValues] = React.useState({
     "DNA Report": false,
     "RNA Report": false,
     "Library Report": false,
     salutation: "",
     addressee: "",
-    downstreamProcess: props.recipe,
+    downstreamProcess:
+      props.currentReportShown === "Library Report"
+        ? "sequencing"
+        : props.recipe,
     service: "",
     pass: false,
     try: false,
@@ -182,6 +184,7 @@ export default function CommentEditor(props) {
                   </MenuItem>
                   <MenuItem value="Extraction">Extraction</MenuItem>
                   <MenuItem value="DNA QC">DNA QC</MenuItem>
+                  <MenuItem value="cDNA QC">cDNA QC</MenuItem>
                   <MenuItem value="Library Prep">Library Prep</MenuItem>
                   <MenuItem value="Library QC">Library QC</MenuItem>
                   <MenuItem value="Pool QC">Pool QC</MenuItem>
@@ -296,6 +299,16 @@ export default function CommentEditor(props) {
                     "Please note: If a Tumor or Normal fails, its matched T/N should be eliminated."
                   }
                 />
+                {values["Library Report"] && (
+                  <FormControlLabel
+                    control={
+                      <Checkbox onChange={handleCheckbox("unevenLibrary")} />
+                    }
+                    label={
+                      " Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together."
+                    }
+                  />
+                )}
               </div>
             </React.Fragment>
           </form>
@@ -345,24 +358,36 @@ export default function CommentEditor(props) {
               specifications for {values.downstreamProcess}.
             </span>
           )}
-          {values.try && (
-            <span>
-              <br />
-              Samples highlighted in{" "}
-              <span className={classes.yellow}>yellow</span> fall just below our
-              quantitative and/or qualitative standards for{" "}
-              {values.downstreamProcess}; however, we can still try to prepare
-              libraries.
-              {values.rnaChecked && (
-                <span>
-                  <br />
-                  Please note that if you decide to move forward with samples
-                  containing suboptimal quantities, we will need to normalize
-                  ALL samples to the lowest starting amount.
-                </span>
-              )}
-            </span>
-          )}
+          {values.try &&
+            (values["Library Report"] &&
+            !values["DNA Report"] &&
+            !values["RNA Report"] ? (
+              <span>
+                <br />
+                Samples highlighted in{" "}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards; however, we can
+                still move forward and see how the samples perform at the
+                sequencing level.
+              </span>
+            ) : (
+              <span>
+                <br />
+                Samples highlighted in{" "}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards for{" "}
+                {values.downstreamProcess}; however, we can still try to prepare
+                libraries.
+                {values.rnaChecked && (
+                  <span>
+                    <br />
+                    Please note that if you decide to move forward with samples
+                    containing suboptimal quantities, we will need to normalize
+                    ALL samples to the lowest starting amount.
+                  </span>
+                )}
+              </span>
+            ))}
           {values.fail && (
             <span>
               <br />
@@ -405,6 +430,14 @@ export default function CommentEditor(props) {
               <br />
               Please note: If a Tumor or Normal fails, its matched T/N should be
               eliminated.
+            </span>
+          )}
+          {values.unevenLibrary && (
+            <span>
+              {" "}
+              <br />
+              Please note that because the library profiles are not even, the sequencing
+              results may be unbalanced when sequenced together.
             </span>
           )}
           <br />

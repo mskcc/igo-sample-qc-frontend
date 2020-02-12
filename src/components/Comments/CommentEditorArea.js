@@ -52,7 +52,7 @@ export default function CommentEditorArea(props) {
       </div>
       <CommentEditor
         recipe={props.recipe}
-        currentReportShown={props.reportShown}
+        currentReportShown={props.currentReportShown}
         request={props.request}
         tables={props.tables}
         comments={props.comments}

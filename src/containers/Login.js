@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
@@ -59,6 +60,12 @@ class Login extends React.Component {
                   {submitting ? "Logging in..." : "Submit"}
                 </Button>
               </div>
+              <br />
+              <br />
+              <br />
+              <Typography variant="h7" align="center">
+                We highly recommend using Chrome for IGO web applications.
+              </Typography>
             </form>
           </Paper>
         )}
