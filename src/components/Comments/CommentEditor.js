@@ -264,7 +264,7 @@ export default function CommentEditor(props) {
                 )}
                 <FormControlLabel
                   control={<Checkbox onChange={handleCheckbox("onHold")} />}
-                  label="IGO will put this project on hold until you you submit your decisions on the QC website."
+                  label="IGO will put this project on hold until decisions are submitted in the grid below."
                 />
                 <FormControlLabel
                   control={
@@ -402,7 +402,8 @@ export default function CommentEditor(props) {
           {values.onHold && (
             <span>
               <br />
-              IGO will put this project on hold until you submit your decisions on the QC website.
+              IGO will put this project on hold until decisions are submitted in
+              the grid below.
             </span>
           )}
           {values.confirmationRequested && (
