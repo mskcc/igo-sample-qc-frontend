@@ -70,7 +70,11 @@ export default function Sidebar(props) {
         </IconButton>
       </Paper>
       {showInfoPanel && (
-        <InfoPanel reportClick={props.reportClick} report={props.report} />
+        <InfoPanel
+          reportClick={props.reportClick}
+          report={props.report}
+          comments={props.comments}
+        />
       )}
     </div>
   );

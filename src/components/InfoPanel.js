@@ -45,7 +45,9 @@ export default function InfoPanel(props) {
         <br />
         <br />
         {Object.keys(props.report.tables)
-          .filter(e => e.includes("Report"))
+          .filter(e => {
+            return e.includes("Report") && props.comments[e];
+          })
           .map(e => (
             <div
               className={classes.report}

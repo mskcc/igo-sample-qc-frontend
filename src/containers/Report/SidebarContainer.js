@@ -19,9 +19,11 @@ export class SidebarContainer extends Component {
           handleSubmit={this.handleSearch}
           showInfoPanel={
             this.props.report.tables &&
-            Object.keys(this.props.report.tables).length > 0
+            Object.keys(this.props.report.tables).length > 0 &&
+            Object.keys(this.props.comments).length > 0
           }
           report={this.props.report}
+          comments={this.props.comments}
           reportClick={this.props.reportClick}
         />
       </React.Fragment>
@@ -31,7 +33,10 @@ export class SidebarContainer extends Component {
 
 SidebarContainer.defaultProps = {};
 
-const mapStateToProps = state => ({ report: state.report });
+const mapStateToProps = state => ({
+  report: state.report,
+  comments: state.communication.comments
+});
 
 export default withLocalize(
   connect(
