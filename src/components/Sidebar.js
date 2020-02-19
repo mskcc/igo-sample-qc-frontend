@@ -74,6 +74,7 @@ export default function Sidebar(props) {
           reportClick={props.reportClick}
           report={props.report}
           comments={props.comments}
+          role={props.role}
         />
       )}
     </div>

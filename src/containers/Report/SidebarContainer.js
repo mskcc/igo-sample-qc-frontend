@@ -20,11 +20,13 @@ export class SidebarContainer extends Component {
           showInfoPanel={
             this.props.report.tables &&
             Object.keys(this.props.report.tables).length > 0 &&
-            Object.keys(this.props.comments).length > 0
+            (this.props.user.role === "lab_member" ||
+              Object.keys(this.props.comments).length > 0)
           }
           report={this.props.report}
           comments={this.props.comments}
           reportClick={this.props.reportClick}
+          role= {this.props.user.role}
         />
       </React.Fragment>
     );
@@ -35,6 +37,7 @@ SidebarContainer.defaultProps = {};
 
 const mapStateToProps = state => ({
   report: state.report,
+  user: state.user,
   comments: state.communication.comments
 });
 

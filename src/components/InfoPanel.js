@@ -46,7 +46,10 @@ export default function InfoPanel(props) {
         <br />
         {Object.keys(props.report.tables)
           .filter(e => {
-            return e.includes("Report") && props.comments[e];
+            return (
+              e.includes("Report") &&
+              (props.comments[e] || props.role === "lab_member")
+            );
           })
           .map(e => (
             <div
@@ -59,6 +62,8 @@ export default function InfoPanel(props) {
                 .filter(e => props.report.tables[e].readOnly)
                 .includes(e) ? (
                 <span className={classes.done}>Decisions Submitted</span>
+              ) : !props.comments[e] ? (
+                <span className={classes.waiting}>Report unset</span>
               ) : (
                 <span className={classes.waiting}>Waiting for decision</span>
               )}
