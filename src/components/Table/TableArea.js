@@ -92,21 +92,22 @@ function a11yProps(index) {
 export default function TableArea(props) {
   const classes = useStyles();
   // make sure active tab is on currentReport after page refresh
-  let index = 0;
-  if (props.report.reportShown) {
-    index = Object.keys(props.report.tables).indexOf(props.report.reportShown);
-  }
+  // let index = 0;
 
-  const [value, setValue] = React.useState(index);
+  let index = Object.keys(props.report.tables).indexOf(
+    props.report.reportShown
+  );
+
+  // const [value, setValue] = React.useState(index);
 
   function handleChange(event, newValue) {
-    setValue(newValue);
+    // setValue(newValue);
     // console.log(newValue)
     props.updateReportShown(Object.keys(props.report.tables)[newValue]);
   }
 
   function handleReportDownload(index) {
-    props.handleReportDownload(Object.keys(props.report.tables)[value]);
+    props.handleReportDownload(Object.keys(props.report.tables)[index]);
   }
 
   return (
@@ -126,7 +127,7 @@ export default function TableArea(props) {
                 Manually Add Decision
               </Button>
             )}
-            {props.role == "lab_member" ? (
+            {props.role === "lab_member" ? (
               <Card>
                 {" "}
                 <CardContent className={classes.decisions}>
@@ -194,14 +195,14 @@ export default function TableArea(props) {
               className={classes.downloadtBtn}
               startIcon={<CloudDownloadIcon />}
             >
-              {Object.keys(props.report.tables)[value]}
+              {Object.keys(props.report.tables)[index]}
             </Button>
           </React.Fragment>
         )}
       </div>
       <div className={classes.report}>
         <Tabs
-          value={value}
+          value={index}
           onChange={handleChange}
           aria-label="simple tabs example"
         >
@@ -210,9 +211,9 @@ export default function TableArea(props) {
           ))}
         </Tabs>
 
-        {Object.keys(props.report.tables).map((report, index) => (
-          <TabPanel key={report} value={value} index={index}>
-            {value === index && (
+        {Object.keys(props.report.tables).map((report, mapIndex) => (
+          <TabPanel key={report} value={index} index={index}>
+            {index === mapIndex && (
               <Table
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}

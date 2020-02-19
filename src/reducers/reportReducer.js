@@ -18,6 +18,11 @@ function reportReducer(state = initialState, action) {
         request: { request_id: action.requestId },
         loaded: false
       };
+    case ActionTypes.REPORT_CLICK:
+      return {
+        ...state,
+        reportShown: action.payload
+      };
     case ActionTypes.GET_REQUEST_REQUEST:
       return {
         ...initialState,

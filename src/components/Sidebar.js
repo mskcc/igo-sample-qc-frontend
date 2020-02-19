@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-
+import InfoPanel from "./InfoPanel";
 const useStyles = makeStyles(theme => ({
   container: {
     textAlign: "center",
@@ -12,9 +12,11 @@ const useStyles = makeStyles(theme => ({
     minHeight: "92vh",
     backgroundColor: "#eceff1",
     display: "grid",
-    gridTemplate: "'search' 'tree'",
+    gridTemplate: "'search' 'infoPanel'",
     justifyItems: "center",
-    borderRight: "2px solid darkgray"
+    borderRight: "2px solid darkgray",
+    gridTemplateRows: ".1fr .9fr",
+    alignItems: "flex-start"
   },
   search: {
     padding: "2px 4px",
@@ -42,7 +44,7 @@ export default function Sidebar(props) {
   const handleSubmit = () => {
     props.handleSubmit(values.requestId);
   };
-
+  const { showInfoPanel } = props;
   return (
     <div className={classes.container}>
       <Paper className={classes.search}>
@@ -67,6 +69,9 @@ export default function Sidebar(props) {
           <SearchIcon />
         </IconButton>
       </Paper>
+      {showInfoPanel && (
+        <InfoPanel reportClick={props.reportClick} report={props.report} />
+      )}
     </div>
   );
 }

@@ -14,12 +14,12 @@ export class ReportContainer extends Component {
     // let requestIdParam = requestId
     if (requestId) {
       this.props.getRequest(requestId.toUpperCase());
-    }else {
+    } else {
       this.props.clearRequest();
     }
   }
   handleSearch = requestId => {
-    this.props.history.push('/request/'+requestId)
+    this.props.history.push("/request/" + requestId);
     this.props.getRequest(requestId);
   };
   render() {

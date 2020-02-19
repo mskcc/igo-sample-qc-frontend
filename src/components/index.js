@@ -3,6 +3,7 @@ import Instructions from "./Instructions.js";
 import Message from "./Message.js";
 import SnackMessage from "./SnackMessage.js";
 import Sidebar from "./Sidebar.js";
+import InfoPanel from "./InfoPanel.js";
 import PendingTable from "./Pending/PendingTable.js";
 
-export { Header, Instructions, Message, PendingTable, SnackMessage, Sidebar };
+export { Header, InfoPanel, Instructions, Message, PendingTable, SnackMessage, Sidebar };

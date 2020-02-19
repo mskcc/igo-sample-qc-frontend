@@ -85,13 +85,21 @@ export function getRequest(requestId) {
     };
 }
 export const CLEAR_REQUEST = "CLEAR_REQUEST";
-// export const SET_REQUEST = "SET_REQUEST";
 export function clearRequest() {
     return dispatch => {
         dispatch({
             type: CLEAR_REQUEST,
             requestId: undefined,
             loading: false
+        });
+    };
+}
+export const REPORT_CLICK = "REPORT_CLICK";
+export function reportClick(report) {
+    return dispatch => {
+        dispatch({
+            type: REPORT_CLICK,
+            payload: report
         });
     };
 }
@@ -379,7 +387,9 @@ export function downloadReport(reportShown, request) {
         // deep copy and rename the data column names with the actual column headers
         // remove all html code
         let clonedReport = JSON.parse(
-            JSON.stringify(tableToExport.data).replace(/<\/?[^>]+>/gi, "").replace(/&#8209;/gi, "")
+            JSON.stringify(tableToExport.data)
+                .replace(/<\/?[^>]+>/gi, "")
+                .replace(/&#8209;/gi, "")
         );
         for (let row in clonedReport) {
             for (let field in clonedReport[row]) {
