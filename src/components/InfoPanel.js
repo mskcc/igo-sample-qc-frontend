@@ -63,7 +63,7 @@ export default function InfoPanel(props) {
                 .includes(e) ? (
                 <span className={classes.done}>Decisions Submitted</span>
               ) : !props.comments[e] ? (
-                <span className={classes.waiting}>Report unset</span>
+                <span className={classes.waiting}>Report not sent</span>
               ) : (
                 <span className={classes.waiting}>Waiting for decision</span>
               )}
