@@ -264,8 +264,7 @@ export default function CommentEditor(props) {
                 )}
                 <FormControlLabel
                   control={<Checkbox onChange={handleCheckbox("onHold")} />}
-                  label="IGO will put this project on hold until you let us know how you
-                would like to proceed."
+                  label="IGO will put this project on hold until you you submit your decisions on the QC website."
                 />
                 <FormControlLabel
                   control={
@@ -403,8 +402,7 @@ export default function CommentEditor(props) {
           {values.onHold && (
             <span>
               <br />
-              IGO will put this project on hold until you let us know how you
-              would like to proceed.
+              IGO will put this project on hold until you submit your decisions on the QC website.
             </span>
           )}
           {values.confirmationRequested && (
@@ -436,8 +434,8 @@ export default function CommentEditor(props) {
             <span>
               {" "}
               <br />
-              Please note that because the library profiles are not even, the sequencing
-              results may be unbalanced when sequenced together.
+              Please note that because the library profiles are not even, the
+              sequencing results may be unbalanced when sequenced together.
             </span>
           )}
           <br />
