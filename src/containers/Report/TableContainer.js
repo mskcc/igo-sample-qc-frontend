@@ -73,7 +73,7 @@ export class TableContainer extends Component {
   };
 
   handleReportDownload = report => {
-    this.props.downloadReport(report, this.props.report.request);
+    this.props.downloadReport(this.props.report.reportShown, this.props.report.request);
   };
 
   render() {
