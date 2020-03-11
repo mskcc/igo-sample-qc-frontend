@@ -31,40 +31,12 @@ class Login extends React.Component {
               id="login"
               className={classes.container}
             >
-              <TextField
-                id="username"
-                name="username"
-                required
-                label="MSK Username"
-                margin="normal"
-                inputProps={{ autoFocus: true }}
-              />
-              <TextField
-                id="password"
-                name="password"
-                required
-                label="MSK Password"
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-              />
-
-              <div className="row">
-                <Button
-                  type="submit"
-                  form="login"
-                  variant="contained"
-                  color="secondary"
-                  disabled={pristine || submitting}
-                >
-                  {submitting ? "Logging in..." : "Submit"}
-                </Button>
-              </div>
+             
               <br />
               <br />
               <br />
               <Typography variant="h7" align="center">
-                We highly recommend using Chrome for IGO web applications.
+             We are experiencing some backend issues and are working on a solution right now. We will try to be back up and running as soon as possible.
               </Typography>
             </form>
           </Paper>
