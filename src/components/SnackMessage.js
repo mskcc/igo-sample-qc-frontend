@@ -3,52 +3,52 @@
 // - single validation error
 // - expired token error
 
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
+import { withStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 
-const styles = theme => ({
+const styles = (theme) => ({
   close: {
     padding: 0,
     top: 0,
     right: 0,
-    position: "absolute"
+    position: 'absolute',
   },
   success: {
     backgroundColor: theme.palette.primary.light,
-    fontSize: "1em",
-    fontWeight: "bold"
+    fontSize: '1em',
+    fontWeight: 'bold',
   },
   error: {
     backgroundColor: theme.palette.error.dark,
-    fontSize: "1em",
+    fontSize: '1em',
 
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   info: {
     backgroundColor: theme.palette.primary.dark,
-    fontSize: "1em",
-    fontWeight: "bold"
+    fontSize: '1em',
+    fontWeight: 'bold',
   },
   warning: {
-    fontSize: "1em",
-    fontWeight: "bold",
-    backgroundColor: theme.palette.secondary.dark
-  }
+    fontSize: '1em',
+    fontWeight: 'bold',
+    backgroundColor: theme.palette.secondary.dark,
+  },
 });
 
 class SnackMessage extends React.Component {
   state = {
-    open: true
+    open: true,
   };
 
   handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     this.setState({ open: false });
@@ -66,8 +66,8 @@ class SnackMessage extends React.Component {
         // autoHideDuration={6000}
         onClose={this.handleClose}
         ContentProps={{
-          "aria-describedby": "message-id",
-          className: variant ? classes[variant] : classes.info
+          'aria-describedby': 'message-id',
+          className: variant ? classes[variant] : classes.info,
         }}
         message={<span id="message-id">{message}</span>}
         action={[
@@ -79,7 +79,7 @@ class SnackMessage extends React.Component {
             onClick={this.handleClose}
           >
             <Icon>close</Icon>
-          </IconButton>
+          </IconButton>,
         ]}
       />
     );
@@ -87,7 +87,7 @@ class SnackMessage extends React.Component {
 }
 
 SnackMessage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(SnackMessage);

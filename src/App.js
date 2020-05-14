@@ -1,17 +1,17 @@
-import React from "react";
-import "react-app-polyfill/ie9";
-import "react-app-polyfill/ie11";
+import React from 'react';
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 
-import { LocalizeProvider } from "react-localize-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import { store, persistor } from "./store/configureStore";
+import { LocalizeProvider } from 'react-localize-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { store, persistor } from './store/configureStore';
 
-import Root from "./containers/Root";
+import Root from './containers/Root';
 
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from './serviceWorker';
 
-import "./App.scss";
+import './App.scss';
 
 function App() {
   return (

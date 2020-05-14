@@ -1,3 +1,3 @@
-import TableArea from "./TableArea.js";
+import TableArea from './TableArea.js';
 
 export { TableArea };

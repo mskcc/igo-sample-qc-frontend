@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   Button,
@@ -10,75 +10,75 @@ import {
   FormControl,
   MenuItem,
   Select,
-  InputLabel
-} from "@material-ui/core";
+  InputLabel,
+} from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    display: "grid",
-    width: "95%",
-    gridArea: "editor",
-    gridTemplateColumns: "50% 50%",
-    gridTemplateAreas: "'editorForm preview''button button'",
-    alignItems: "start",
-    justifyItems: "start",
-    paddingBottom: theme.spacing(2)
+    display: 'grid',
+    width: '95%',
+    gridArea: 'editor',
+    gridTemplateColumns: '50% 50%',
+    gridTemplateAreas: '\'editorForm preview\'\'button button\'',
+    alignItems: 'start',
+    justifyItems: 'start',
+    paddingBottom: theme.spacing(2),
   },
   editorForm: {
-    height: "100%",
-    borderRight: "2px solid lightgray",
-    gridArea: "editorForm"
+    height: '100%',
+    borderRight: '2px solid lightgray',
+    gridArea: 'editorForm',
   },
-  materialInput: { minWidth: "170px" },
+  materialInput: { minWidth: '170px' },
   preview: {
-    gridArea: "preview",
-    marginLeft: theme.spacing(3)
+    gridArea: 'preview',
+    marginLeft: theme.spacing(3),
   },
-  highlight: { backgroundColor: "#8fc7e8" },
+  highlight: { backgroundColor: '#8fc7e8' },
   green: {
-    backgroundColor: "#a6ce39"
+    backgroundColor: '#a6ce39',
   },
   yellow: {
-    backgroundColor: "#ffc20e"
+    backgroundColor: '#ffc20e',
   },
   red: {
-    backgroundColor: "#b1132d",
-    color: "white"
+    backgroundColor: '#b1132d',
+    color: 'white',
   },
-  formControl: { margin: theme.spacing(2), marginLeft: 0, minWidth: "170px" },
-  input: { float: "right" },
-  select: { float: "right" },
+  formControl: { margin: theme.spacing(2), marginLeft: 0, minWidth: '170px' },
+  input: { float: 'right' },
+  select: { float: 'right' },
   button: {
-    borderTop: "2px solid lightgray",
-    marginTop: "2em",
-    paddingTop: "1em",
-    width: "100%",
-    textAlign: "center",
-    gridArea: "button"
+    borderTop: '2px solid lightgray',
+    marginTop: '2em',
+    paddingTop: '1em',
+    width: '100%',
+    textAlign: 'center',
+    gridArea: 'button',
   },
-  section: { marginLeft: "2em", maxWidth: "80%" },
+  section: { marginLeft: '2em', maxWidth: '80%' },
   sectionHeader: {
     fontWeight: 700,
-    fontSize: "1.1em",
-    display: "flex",
-    alignItems: "center"
-  }
+    fontSize: '1.1em',
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export default function CommentEditor(props) {
   const classes = useStyles();
   const commentEl = useRef(null);
   const [values, setValues] = React.useState({
-    "DNA Report": false,
-    "RNA Report": false,
-    "Library Report": false,
-    salutation: "",
-    addressee: "",
+    'DNA Report': false,
+    'RNA Report': false,
+    'Library Report': false,
+    salutation: '',
+    addressee: '',
     downstreamProcess:
-      props.currentReportShown === "Library Report"
-        ? "sequencing"
+      props.currentReportShown === 'Library Report'
+        ? 'sequencing'
         : props.recipe,
-    service: "",
+    service: '',
     pass: false,
     try: false,
     fail: false,
@@ -87,19 +87,19 @@ export default function CommentEditor(props) {
     movingForward: false,
     confirmationRequested: false,
     sequencingRequested: false,
-    tumorNormalMatchNote: false
+    tumorNormalMatchNote: false,
   });
 
-  const handleChange = name => event => {
-    if (event.target.value !== "default") {
+  const handleChange = (name) => (event) => {
+    if (event.target.value !== 'default') {
       setValues({
         ...values,
-        [name]: event.target.value
+        [name]: event.target.value,
       });
     }
   };
 
-  const handleCheckbox = name => event => {
+  const handleCheckbox = (name) => (event) => {
     setValues({ ...values, [name]: !values[name] });
   };
 
@@ -119,7 +119,7 @@ export default function CommentEditor(props) {
               </div>
               <div className={classes.section}>
                 {Object.keys(props.tables).map((report, index) => {
-                  if (report.includes("Report") && !props.comments[report]) {
+                  if (report.includes('Report') && !props.comments[report]) {
                     return (
                       <span key={report}>
                         <FormControlLabel
@@ -142,17 +142,17 @@ export default function CommentEditor(props) {
           <form>
             <div className={classes.sectionHeader}>
               <i className="material-icons">keyboard_arrow_right</i> Fill in the
-              blanks:{" "}
+              blanks:{' '}
             </div>
             <div className={classes.section}>
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="salutation-simple">Salutation</InputLabel>
                 <Select
                   value={values.salutation}
-                  onChange={handleChange("salutation")}
+                  onChange={handleChange('salutation')}
                   inputProps={{
-                    name: "salutation",
-                    id: "salutation-simple"
+                    name: 'salutation',
+                    id: 'salutation-simple',
                   }}
                 >
                   <MenuItem value="Morning">Morning</MenuItem>
@@ -164,7 +164,7 @@ export default function CommentEditor(props) {
                 id="addressee-simple"
                 label="Addressee"
                 className={classes.formControl}
-                onChange={handleChange("addressee")}
+                onChange={handleChange('addressee')}
                 margin="normal"
               />
               <FormControl className={classes.formControl}>
@@ -173,10 +173,10 @@ export default function CommentEditor(props) {
                 </InputLabel>
                 <Select
                   value={values.service}
-                  onChange={handleChange("service")}
+                  onChange={handleChange('service')}
                   inputProps={{
-                    name: "servicePerformed",
-                    id: "servicePerformed-simple"
+                    name: 'servicePerformed',
+                    id: 'servicePerformed-simple',
                   }}
                 >
                   <MenuItem value="10x cDNA preparation">
@@ -195,7 +195,7 @@ export default function CommentEditor(props) {
                 id="downstreamProcess-simple"
                 label="Downstream Process"
                 className={classes.formControl}
-                onChange={handleChange("downstreamProcess")}
+                onChange={handleChange('downstreamProcess')}
                 margin="normal"
                 value={values.downstreamProcess}
               />
@@ -208,21 +208,21 @@ export default function CommentEditor(props) {
             <div className={classes.section}>
               <FormControlLabel
                 control={
-                  <Checkbox onChange={handleCheckbox("pass")} value="pass" />
+                  <Checkbox onChange={handleCheckbox('pass')} value="pass" />
                 }
-                label={"pass"}
+                label={'pass'}
               />
               <FormControlLabel
                 control={
-                  <Checkbox onChange={handleCheckbox("try")} value="try" />
+                  <Checkbox onChange={handleCheckbox('try')} value="try" />
                 }
-                label={"try"}
+                label={'try'}
               />
               <FormControlLabel
                 control={
-                  <Checkbox onChange={handleCheckbox("fail")} value="fail" />
+                  <Checkbox onChange={handleCheckbox('fail')} value="fail" />
                 }
-                label={"fail"}
+                label={'fail'}
               />
             </div>
             {values.try && (
@@ -233,10 +233,10 @@ export default function CommentEditor(props) {
                   </InputLabel>
                   <Select
                     value={values.rnaChecked}
-                    onChange={handleCheckbox("rnaChecked")}
+                    onChange={handleCheckbox('rnaChecked')}
                     inputProps={{
-                      name: "rnaChecked",
-                      id: "rnaChecked-simple"
+                      name: 'rnaChecked',
+                      id: 'rnaChecked-simple',
                     }}
                   >
                     <MenuItem value="default" />
@@ -257,54 +257,54 @@ export default function CommentEditor(props) {
                 {values.pass && !values.try && !values.fail && (
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckbox("movingForward")} />
+                      <Checkbox onChange={handleCheckbox('movingForward')} />
                     }
                     label='Add: "All samples pass for XYZ and are moving forward."'
                   />
                 )}
                 <FormControlLabel
-                  control={<Checkbox onChange={handleCheckbox("onHold")} />}
+                  control={<Checkbox onChange={handleCheckbox('onHold')} />}
                   label="IGO will put this project on hold until decisions are submitted in the grid below."
                 />
                 <FormControlLabel
                   control={
                     <Checkbox
-                      onChange={handleCheckbox("confirmationRequested")}
+                      onChange={handleCheckbox('confirmationRequested')}
                     />
                   }
                   label={
-                    "Please confirm that the samples look as expected in order to continue to sequencing."
+                    'Please confirm that the samples look as expected in order to continue to sequencing.'
                   }
                 />
 
                 <FormControlLabel
                   control={
                     <Checkbox
-                      onChange={handleCheckbox("sequencingRequested")}
+                      onChange={handleCheckbox('sequencingRequested')}
                     />
                   }
                   label={
-                    "If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample " +
-                    "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org."
+                    'If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample ' +
+                    'Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.'
                   }
                 />
                 <FormControlLabel
                   control={
                     <Checkbox
-                      onChange={handleCheckbox("tumorNormalMatchNote")}
+                      onChange={handleCheckbox('tumorNormalMatchNote')}
                     />
                   }
                   label={
-                    "Please note: If a Tumor or Normal fails, its matched T/N should be eliminated."
+                    'Please note: If a Tumor or Normal fails, its matched T/N should be eliminated.'
                   }
                 />
-                {values["Library Report"] && (
+                {values['Library Report'] && (
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckbox("unevenLibrary")} />
+                      <Checkbox onChange={handleCheckbox('unevenLibrary')} />
                     }
                     label={
-                      " Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together."
+                      ' Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together.'
                     }
                   />
                 )}
@@ -319,14 +319,14 @@ export default function CommentEditor(props) {
         </Typography>
         <div ref={commentEl}>
           <br />
-          Good{" "}
+          Good{' '}
           {values.salutation || (
             <span className={classes.highlight}>...</span>
-          )}{" "}
+          )}{' '}
           {values.addressee || <span className={classes.highlight}>...</span>}
           ,
           <br />
-          IGO has completed{" "}
+          IGO has completed{' '}
           {values.service || <span className={classes.highlight}>...</span>} on
           Project {props.request.requestId}.
           <br />
@@ -338,32 +338,32 @@ export default function CommentEditor(props) {
             !values.fail &&
             (values.movingForward ? (
               <span>
-                All of the samples in this project{" "}
+                All of the samples in this project{' '}
                 <span className={classes.green}>pass</span> IGO’s QC
                 specifications for {values.downstreamProcess} and are moving
                 forward.
               </span>
             ) : (
               <span>
-                All of the samples in this project{" "}
+                All of the samples in this project{' '}
                 <span className={classes.green}>pass</span> IGO’s QC
                 specifications for {values.downstreamProcess}.
               </span>
             ))}
           {values.pass && (values.try || values.fail) && (
             <span>
-              Some of the samples in this project{" "}
+              Some of the samples in this project{' '}
               <span className={classes.green}>pass</span> IGO’s QC
               specifications for {values.downstreamProcess}.
             </span>
           )}
           {values.try &&
-            (values["Library Report"] &&
-            !values["DNA Report"] &&
-            !values["RNA Report"] ? (
+            (values['Library Report'] &&
+            !values['DNA Report'] &&
+            !values['RNA Report'] ? (
               <span>
                 <br />
-                Samples highlighted in{" "}
+                Samples highlighted in{' '}
                 <span className={classes.yellow}>yellow</span> fall just below
                 our quantitative and/or qualitative standards; however, we can
                 still move forward and see how the samples perform at the
@@ -372,9 +372,9 @@ export default function CommentEditor(props) {
             ) : (
               <span>
                 <br />
-                Samples highlighted in{" "}
+                Samples highlighted in{' '}
                 <span className={classes.yellow}>yellow</span> fall just below
-                our quantitative and/or qualitative standards for{" "}
+                our quantitative and/or qualitative standards for{' '}
                 {values.downstreamProcess}; however, we can still try to prepare
                 libraries.
                 {values.rnaChecked && (
@@ -392,8 +392,8 @@ export default function CommentEditor(props) {
               <br />
               Samples highlighted in <span className={classes.red}>
                 red
-              </span>{" "}
-              fail our quantitative and/or qualitative standards for{" "}
+              </span>{' '}
+              fail our quantitative and/or qualitative standards for{' '}
               {values.downstreamProcess}. IGO recommends these samples be
               removed from processing.
             </span>
@@ -408,15 +408,15 @@ export default function CommentEditor(props) {
           )}
           {values.confirmationRequested && (
             <span>
-              {" "}
+              {' '}
               <br />
               Please confirm that the samples look as expected in order to
               continue to sequencing.
             </span>
-          )}{" "}
+          )}{' '}
           {values.sequencingRequested && (
             <span>
-              {" "}
+              {' '}
               <br />
               If you are ready to move forward to sequencing, please fill out an
               iLab request and notify our Sample Receiving team of the IGO ID
@@ -425,7 +425,7 @@ export default function CommentEditor(props) {
           )}
           {values.tumorNormalMatchNote && (
             <span>
-              {" "}
+              {' '}
               <br />
               Please note: If a Tumor or Normal fails, its matched T/N should be
               eliminated.
@@ -433,7 +433,7 @@ export default function CommentEditor(props) {
           )}
           {values.unevenLibrary && (
             <span>
-              {" "}
+              {' '}
               <br />
               Please note that because the library profiles are not even, the
               sequencing results may be unbalanced when sequenced together.
@@ -453,15 +453,15 @@ export default function CommentEditor(props) {
           color="primary"
           onClick={handleInitialComment}
           disabled={
-            ((values["DNA Report"] ||
-              values["RNA Report"] ||
-              values["Pathology Report"] ||
-              values["Pool Report"] ||
-              values["Library Report"]) &&
-              values.salutation !== "" &&
-              values.addressee !== "" &&
-              values.downstreamProcess !== "" &&
-              values.service !== "") === false ||
+            ((values['DNA Report'] ||
+              values['RNA Report'] ||
+              values['Pathology Report'] ||
+              values['Pool Report'] ||
+              values['Library Report']) &&
+              values.salutation !== '' &&
+              values.addressee !== '' &&
+              values.downstreamProcess !== '' &&
+              values.service !== '') === false ||
             props.recipientsBeingEdited === true
           }
         >

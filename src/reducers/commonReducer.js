@@ -1,12 +1,12 @@
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 const initialState = {
-  version: "2.0",
+  version: '2.0',
   error: false,
-  message: "",
+  message: '',
   serverError: false,
   loading: false,
-  loadingMessage: null
+  loadingMessage: null,
 };
 
 // global errors and messages
@@ -16,13 +16,13 @@ function commonReducer(state = initialState, action) {
     return {
       ...state,
       loadingMessage: loadingMessage,
-      loading: loading
+      loading: loading,
     };
   }
   if (loading) {
     return {
       ...state,
-      loading: loading
+      loading: loading,
     };
   }
 
@@ -33,53 +33,55 @@ function commonReducer(state = initialState, action) {
       serverError: true,
       loading: false,
       message:
-        "Our backend is experiencing some downtime. Please refresh, check back later or message an admin."
+        'Our backend is experiencing some downtime. Please refresh, check back later or message an admin.',
     };
   }
   if (error && !message) {
-    if (error.response && !error.response.data.message && error.response.status === 401) {
+    if (
+      error.response &&
+      !error.response.data.message &&
+      error.response.status === 401
+    ) {
       return {
         ...state,
         error: true,
-        message: "Your session expired. Please log back in.",
-        loading: false
+        message: 'Your session expired. Please log back in.',
+        loading: false,
       };
-    }
-    else if (error.response && error.response.status === 403) {
+    } else if (error.response && error.response.status === 403) {
       Swal.fire({
-        title: "Not authorized",
+        title: 'Not authorized',
         html:
           'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:someone@yoursite.com?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
-        type: "info",
+        type: 'info',
         loading: false,
         animation: false,
-        confirmButtonColor: "#007cba",
-        confirmButtonText: "Dismiss"
+        confirmButtonColor: '#007cba',
+        confirmButtonText: 'Dismiss',
       });
       return {
-        ...state
+        ...state,
       };
-    }
-    else if (error.response) {
+    } else if (error.response) {
       return {
         ...state,
         // error: true,
         message: error.response.data.message,
-        loading: false
+        loading: false,
       };
     }
   } else if (message) {
-    if (message === "reset") {
+    if (message === 'reset') {
       return {
         ...state,
-        message: "",
-        loading: false
+        message: '',
+        loading: false,
       };
     } else {
       return {
         ...state,
         message: action.message,
-        loading: false
+        loading: false,
       };
     }
   }

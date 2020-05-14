@@ -1,17 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    gridArea: "request"
+    gridArea: 'request',
   },
   details: {
     width: 450,
     lineHeight: 2,
-    display: "grid",
-    gridTemplateAreas: "'a' "
-  }
+    display: 'grid',
+    gridTemplateAreas: '\'a\' ',
+  },
 }));
 
 export default function RequestInfo(props) {

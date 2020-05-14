@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { withLocalize } from "react-localize-redux";
-import { connect } from "react-redux";
-import { reportActions } from "../../actions";
+import { withLocalize } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { reportActions } from '../../actions';
 
-import { PendingTable } from "../../components";
+import { PendingTable } from '../../components';
 
 export class PendingContainer extends Component {
   componentDidMount() {
@@ -12,8 +12,8 @@ export class PendingContainer extends Component {
       this.props.getPending();
     }
   }
-  showPending = request => {
-    this.props.history.push("/request/" + request);
+  showPending = (request) => {
+    this.props.history.push('/request/' + request);
     this.props.getRequest(request);
   };
   render() {
@@ -32,13 +32,10 @@ export class PendingContainer extends Component {
 
 PendingContainer.defaultProps = {};
 
-const mapStateToProps = state => ({ report: state.report });
+const mapStateToProps = (state) => ({ report: state.report });
 
 export default withLocalize(
-  connect(
-    mapStateToProps,
-    {
-      ...reportActions
-    }
-  )(PendingContainer)
+  connect(mapStateToProps, {
+    ...reportActions,
+  })(PendingContainer)
 );

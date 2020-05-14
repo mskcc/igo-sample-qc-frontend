@@ -1,44 +1,44 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import ReactPlayer from "react-player";
-import mov from "./Sample-qc.mov";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import ReactPlayer from 'react-player';
+import mov from './Sample-qc.mov';
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    width: "80vw",
-    height: "80vh",
-    margin: "5% auto"
+    width: '80vw',
+    height: '80vh',
+    margin: '5% auto',
   },
   iframe: {
-    width: "80%",
-    height: "100%",
-    position: "relative",
-    left: "10%"
+    width: '80%',
+    height: '100%',
+    position: 'relative',
+    left: '10%',
   },
-  "instructional-video-container": {
-    "margin-bottom": "20px",
-    position: "relative",
-    width: "100%",
-    height: "80vh"
+  'instructional-video-container': {
+    'margin-bottom': '20px',
+    position: 'relative',
+    width: '100%',
+    height: '80vh',
   },
-  "instructional-video": {
-    margin: "auto",
-    width: "80%",
-    height: "80%"
+  'instructional-video': {
+    margin: 'auto',
+    width: '80%',
+    height: '80%',
   },
-  "instructions-header": {
-    "font-size": "1.65rem",
-    "padding-bottom": ".3rem",
-    "border-bottom": "1px solid #eaecef"
-  }
+  'instructions-header': {
+    'font-size': '1.65rem',
+    'padding-bottom': '.3rem',
+    'border-bottom': '1px solid #eaecef',
+  },
 });
 
 const Instructions = ({ role, classes }) => (
   <div className={classes.container}>
-    <h1 className={classes["instructions-header"]}>Sample QC Instructions</h1>
+    <h1 className={classes['instructions-header']}>Sample QC Instructions</h1>
 
-    {role === "lab_member" ? (
+    {role === 'lab_member' ? (
       <iframe
         title="IGO-Member-CheatSheet"
         className={classes.iframe}
@@ -49,13 +49,13 @@ const Instructions = ({ role, classes }) => (
       />
     ) : (
       <React.Fragment>
-        <div className={classes["instructional-video-container"]}>
+        <div className={classes['instructional-video-container']}>
           <h2>Instructional Video</h2>
           <p>
             Please watch the video below to introduce yourself to the Sample QC
             Site
           </p>
-          <div className={classes["instructional-video"]}>
+          <div className={classes['instructional-video']}>
             <ReactPlayer url={mov} width="100%" height="100%" controls={true} />
           </div>
         </div>
@@ -78,7 +78,7 @@ const Instructions = ({ role, classes }) => (
 
 Instructions.propTypes = {
   classes: PropTypes.object.isRequired,
-  role: PropTypes.string.isRequired
+  role: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Instructions);
