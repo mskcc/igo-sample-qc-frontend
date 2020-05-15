@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Config } from '../../secret_config.js';
 
 import Swal from 'sweetalert2';
 
@@ -19,13 +20,21 @@ export class CommentContainer extends Component {
 
   handleInitialComment = (comment, values) => {
     var keys = Object.keys(values);
-
+    var isCmoPmProject = false;
     // array of all selected reports
     var filteredReports = keys.filter(function (key) {
       return values[key] && key.includes('Report');
     });
     let recipients = cleanAndFilterRecipients(this.props.recipients);
-
+    if ('QcAccessEmails' in this.props.recipients) {
+      if (
+        this.props.recipients.QcAccessEmails.toLowerCase() ==
+        Config.CMO_PM_EMAIL
+      ) {
+        console.log('cmo pm only project!');
+        isCmoPmProject = true;
+      }
+    }
     let recipientString = recipients.join();
     if (recipientString.includes('FIELD NOT')) {
       Swal.fire({
@@ -52,12 +61,15 @@ export class CommentContainer extends Component {
     Swal.fire({
       title: 'Review',
       html:
-        '<div class=\'swal-comment-review\'> <strong>Add to:</strong>' +
+        "<div class='swal-comment-review'> <strong>Add to:</strong>" +
         reportString +
         '<br><strong>Send to:</strong><br>' +
         recipientString +
         '<br><strong>Content:</strong><br>' +
         ' </div>',
+      footer: isCmoPmProject
+        ? 'Since the only QcAccessEmail found is "skicmopm@mskcc.org", this QC decision will be editable by admins and CMO PMs only. Lab Head and PI will still receive all communication.'
+        : '',
       input: 'textarea',
       inputValue: commentString.replace(/<br>/gi, '\n'),
       type: 'warning',
@@ -72,7 +84,8 @@ export class CommentContainer extends Component {
         return this.props.addInitialComment(
           result.value.replace(/\n/gi, '<br>'),
           filteredReports,
-          recipients
+          recipients,
+          isCmoPmProject
         );
       } else {
         return true;

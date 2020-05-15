@@ -33,7 +33,7 @@ export const ADD_INITIAL_COMMENT = 'ADD_INITIAL_COMMENT';
 export const ADD_INITIAL_COMMENT_SUCCESS = 'ADD_INITIAL_COMMENT_SUCCESS';
 export const ADD_INITIAL_COMMENT_FAIL = 'ADD_INITIAL_COMMENT_FAIL';
 
-export function addInitialComment(comment, reports, recipients) {
+export function addInitialComment(comment, reports, recipients, isCmoPmProject) {
   return (dispatch, getState) => {
     let decisionsMade = {};
     for (let report in reports) {
@@ -59,6 +59,7 @@ export function addInitialComment(comment, reports, recipients) {
       reports: reports,
       recipients: recipients.join(),
       decisions_made: decisionsMade,
+      is_cmo_pm_project: isCmoPmProject,
     };
     dispatch({ type: ADD_INITIAL_COMMENT });
     return axios
