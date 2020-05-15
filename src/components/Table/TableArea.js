@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     gridArea: 'table',
     display: 'grid',
-    gridTemplateAreas: '\'toolbar\' \'reports\'',
+    gridTemplateAreas: "'toolbar' 'reports'",
     gridRowGap: '1em',
     gridColumnGap: '2em',
     overflow: 'scroll',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     display: 'grid',
-    gridTemplateAreas: '\'request submit-btn save-btn download-btn\'',
+    gridTemplateAreas: "'request submit-btn save-btn download-btn'",
     width: 'fit-content',
     gridColumnGap: '1em',
   },
@@ -136,6 +136,20 @@ export default function TableArea(props) {
                     // gutterBottom
                   >
                     Lab members must submit decisions in LIMS.
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : props.report.tables[props.report.reportShown].isCmoPmProject &&
+              props.role != 'cmo_pm' ? (
+              <Card>
+                {' '}
+                <CardContent className={classes.decisions}>
+                  <Typography
+                    color="textSecondary"
+                    // gutterBottom
+                  >
+                    Only CMO Project Managers can submit decisions for this
+                    report.
                   </Typography>
                 </CardContent>
               </Card>
