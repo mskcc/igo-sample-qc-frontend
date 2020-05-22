@@ -49,7 +49,7 @@ function commonReducer(state = initialState, action) {
       Swal.fire({
         title: "Not authorized",
         html:
-          'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:someone@yoursite.com?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
+          'You are not in the group of authorized users for this page. If you would like to request access, please email <a href="mailto:zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org?subject=Sample Receiving Site Access Request">the Sample Receiving Team.</a>',
         type: "info",
         loading: false,
         animation: false,
