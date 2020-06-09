@@ -284,8 +284,8 @@ export default function CommentEditor(props) {
                     />
                   }
                   label={
-                    'If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample ' +
-                    'Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.'
+                    "If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample " +
+                    "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org."
                   }
                 />
                 <FormControlLabel
@@ -419,8 +419,8 @@ export default function CommentEditor(props) {
               {' '}
               <br />
               If you are ready to move forward to sequencing, please fill out an
-              iLab request and notify our Sample Receiving team of the IGO ID
-              number by emailing zzPDL_SKI_IGO_SampleReceiving@mskcc.org.
+              iLab request and notify our Sample and Project Management Team of the IGO ID
+              number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
             </span>
           )}
           {values.tumorNormalMatchNote && (
