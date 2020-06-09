@@ -1,19 +1,20 @@
-import React from "react";
-import { connect } from "react-redux";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
-import { Translate } from "react-localize-redux";
-import { Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import { Translate } from 'react-localize-redux';
+import { Redirect } from 'react-router-dom';
 
-import { userActions } from "../actions";
+import { userActions } from '../actions';
 
 class Login extends React.Component {
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    this.props.login(data.get("username"), data.get("password"));
+    this.props.login(data.get('username'), data.get('password'));
   };
 
   render() {
@@ -56,9 +57,16 @@ class Login extends React.Component {
                   color="secondary"
                   disabled={pristine || submitting}
                 >
-                  {submitting ? "Logging in..." : "Submit"}
+                  {submitting ? 'Logging in...' : 'Submit'}
                 </Button>
               </div>
+
+              <br />
+              <br />
+              <br />
+              <Typography variant="h7" align="center">
+                We highly recommend using Chrome for IGO web applications.
+              </Typography>
             </form>
           </Paper>
         )}
@@ -67,27 +75,24 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loggedIn: state.user.loggedIn,
-  loading: state.common.loading
+  loading: state.common.loading,
 });
 const mapDispatchToProps = {
-  ...userActions
+  ...userActions,
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    padding: "2em 5em",
+    padding: '2em 5em',
 
-    display: "grid",
-    justifyItems: "center",
-    gridRowGap: "1em"
-  }
+    display: 'grid',
+    justifyItems: 'center',
+    gridRowGap: '1em',
+  },
 });
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Login)
+  connect(mapStateToProps, mapDispatchToProps)(Login)
 );

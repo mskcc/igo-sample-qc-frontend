@@ -1,24 +1,24 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Avatar,
   AppBar,
   Toolbar,
   Button,
   Typography,
-  withStyles
-} from "@material-ui/core";
-import Feedback from "./Feedback/Feedback";
-import image from "./igo.png";
+  withStyles,
+} from '@material-ui/core';
+import Feedback from './Feedback/Feedback';
+import image from './igo.png';
 
 const Header = ({ classes, loggedIn, role, submitFeedback }) => {
   const [values, setValues] = React.useState({
-    show: false
+    show: false,
   });
 
   const handleShow = () => {
     setValues({
-      show: !values.show
+      show: !values.show,
     });
   };
   // <div className={classes.mskccHeader}>
@@ -111,37 +111,37 @@ const Header = ({ classes, loggedIn, role, submitFeedback }) => {
   // </div>
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   header: {
     backgroundColor: theme.palette.primary.logo,
-    color: "white",
-    textAlign: "center",
-    gridArea: "header"
+    color: 'white',
+    textAlign: 'center',
+    gridArea: 'header',
   },
   avatar: {
-    width: "26px",
-    height: "30px",
-    padding: "10px"
+    width: '26px',
+    height: '30px',
+    padding: '10px',
   },
   title: {
-    marginRight: theme.spacing(3)
+    marginRight: theme.spacing(3),
   },
 
   navlink: {
     color: theme.palette.textSecondary,
-    textDecoration: "none",
-    marginRight: theme.spacing(1)
+    textDecoration: 'none',
+    marginRight: theme.spacing(1),
   },
   active: {
-    color: "white",
-    fontSize: "1em"
+    color: 'white',
+    fontSize: '1em',
   },
   feedback: {
     flex: 1,
-    color: "white",
-    textAlign: "right",
-    justifyContent: "flex-end"
-  }
+    color: 'white',
+    textAlign: 'right',
+    justifyContent: 'flex-end',
+  },
 });
 
 export default withStyles(styles)(Header);

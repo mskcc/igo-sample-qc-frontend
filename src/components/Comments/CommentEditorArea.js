@@ -1,31 +1,31 @@
-import React from "react";
+import React from 'react';
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
-import CommentEditor from "./CommentEditor";
-import RecipientList from "./RecipientList";
+import CommentEditor from './CommentEditor';
+import RecipientList from './RecipientList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    display: "grid",
-    width: "100%",
-    gridTemplateAreas: "'recipients' 'editor' ",
-    gridRowGap: "2em",
-    alignItems: "center",
-    justifyItems: "center",
-    margin: theme.spacing(3, 4)
+    display: 'grid',
+    width: '100%',
+    gridTemplateAreas: '\'recipients\' \'editor\' ',
+    gridRowGap: '2em',
+    alignItems: 'center',
+    justifyItems: 'center',
+    margin: theme.spacing(3, 4),
   },
   editor: {
-    gridArea: "editor"
+    gridArea: 'editor',
   },
   recipients: {
-    width: "100%",
-    gridArea: "recipients",
-    display: "grid",
-    alignItems: "start",
-    justifyItems: "start",
-    borderBottom: "2px solid lightgray"
-  }
+    width: '100%',
+    gridArea: 'recipients',
+    display: 'grid',
+    alignItems: 'start',
+    justifyItems: 'start',
+    borderBottom: '2px solid lightgray',
+  },
 }));
 
 export default function CommentEditorArea(props) {
@@ -37,9 +37,11 @@ export default function CommentEditorArea(props) {
   };
 
   const handleEdit = () => {
-    setValues({...values, recipientsBeingEdited: !values.recipientsBeingEdited})
-    
-  }
+    setValues({
+      ...values,
+      recipientsBeingEdited: !values.recipientsBeingEdited,
+    });
+  };
 
   return (
     <div className={classes.container}>
@@ -52,7 +54,7 @@ export default function CommentEditorArea(props) {
       </div>
       <CommentEditor
         recipe={props.recipe}
-        currentReportShown={props.reportShown}
+        currentReportShown={props.currentReportShown}
         request={props.request}
         tables={props.tables}
         comments={props.comments}

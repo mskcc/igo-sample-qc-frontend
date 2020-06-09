@@ -1,9 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
-import { commonActions } from "../actions";
-import { Redirect } from "react-router-dom";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Message } from "../components";
+import React from 'react';
+import { connect } from 'react-redux';
+import { commonActions } from '../actions';
+import { Redirect } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Message } from '../components';
 
 class ErrorPage extends React.Component {
   render() {
@@ -19,14 +19,11 @@ class ErrorPage extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  ...state.common
+const mapStateToProps = (state) => ({
+  ...state.common,
 });
 const mapDispatchToProps = {
-  ...commonActions
+  ...commonActions,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ErrorPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorPage);

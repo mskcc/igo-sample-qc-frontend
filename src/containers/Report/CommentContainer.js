@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { Config } from '../../secret_config.js';
 
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-import { withLocalize } from "react-localize-redux";
-import { connect } from "react-redux";
-import { communicationActions } from "../../actions";
+import { withLocalize } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { communicationActions } from '../../actions';
 import {
   cleanAndFilterRecipients,
-  allIntialCommentsSent
-} from "../../actions/helpers";
+  allIntialCommentsSent,
+} from '../../actions/helpers';
 
-import { CommentArea, CommentEditorArea } from "../../components/Comments";
+import { CommentArea, CommentEditorArea } from '../../components/Comments';
 
 export class CommentContainer extends Component {
   componentDidMount() {
@@ -19,60 +20,72 @@ export class CommentContainer extends Component {
 
   handleInitialComment = (comment, values) => {
     var keys = Object.keys(values);
-
+    var isCmoPmProject = false;
     // array of all selected reports
-    var filteredReports = keys.filter(function(key) {
-      return values[key] && key.includes("Report");
+    var filteredReports = keys.filter(function (key) {
+      return values[key] && key.includes('Report');
     });
     let recipients = cleanAndFilterRecipients(this.props.recipients);
-
+    if ('QcAccessEmails' in this.props.recipients) {
+      if (
+        this.props.recipients.QcAccessEmails.toLowerCase() ==
+        Config.CMO_PM_EMAIL
+      ) {
+        console.log('cmo pm only project!');
+        isCmoPmProject = true;
+      }
+    }
     let recipientString = recipients.join();
-    if (recipientString.includes("FIELD NOT")) {
+    if (recipientString.includes('FIELD NOT')) {
       Swal.fire({
-        title: "Invalid email addresses",
-        text: "Please check the recipient email addresses for validity.",
-        type: "warning",
+        title: 'Invalid email addresses',
+        text: 'Please check the recipient email addresses for validity.',
+        type: 'warning',
         loading: false,
         animation: false,
-        confirmButtonColor: "#df4602",
-        confirmButtonText: "Go back to edit"
+        confirmButtonColor: '#df4602',
+        confirmButtonText: 'Go back to edit',
       });
       return;
     }
 
-    let reportString = Object.values(filteredReports).join(", ");
+    let reportString = Object.values(filteredReports).join(', ');
 
-    let commentString = comment.replace(/\./gi, ".<br> ");
-    commentString = commentString.replace(/,IGO/gi, ",<br>IGO");
+    let commentString = comment.replace(/\./gi, '.<br> ');
+    commentString = commentString.replace(/,IGO/gi, ',<br>IGO');
     // commentString = commentString.replace(
     //   /Please reply here if you have any questions or comments./gi,
     //   "Please visit https://igo.mskcc.org/sample-qc to ask any questions or submit your decisions.  "
     // );
 
     Swal.fire({
-      title: "Review",
+      title: 'Review',
       html:
         "<div class='swal-comment-review'> <strong>Add to:</strong>" +
         reportString +
-        "<br><strong>Send to:</strong><br>" +
+        '<br><strong>Send to:</strong><br>' +
         recipientString +
-        "<br><strong>Content:</strong><br>" +
-        " </div>",
-      input: "textarea",
-      inputValue: commentString.replace(/<br>/gi, "\n"),
-      type: "warning",
+        '<br><strong>Content:</strong><br>' +
+        ' </div>',
+      footer: isCmoPmProject
+        ? 'Since the only QcAccessEmail found is "skicmopm@mskcc.org", this QC decision will be editable by admins and CMO PMs only. Lab Head and PI will still receive all communication.'
+        : '',
+      input: 'textarea',
+      inputValue: commentString.replace(/<br>/gi, '\n'),
+      type: 'warning',
       showCancelButton: true,
       animation: false,
-      confirmButtonColor: "#007cba",
-      cancelButtonColor: "#df4602",
-      confirmButtonText: "Send Notification",
-      cancelButtonText: "Back to Edit"
-    }).then(result => {
+      confirmButtonColor: '#007cba',
+      cancelButtonColor: '#df4602',
+      confirmButtonText: 'Send Notification',
+      cancelButtonText: 'Back to Edit',
+    }).then((result) => {
       if (result.value) {
         return this.props.addInitialComment(
-          result.value.replace(/\n/gi, "<br>"),
+          result.value.replace(/\n/gi, '<br>'),
           filteredReports,
-          recipients
+          recipients,
+          isCmoPmProject
         );
       } else {
         return true;
@@ -80,25 +93,25 @@ export class CommentContainer extends Component {
     });
   };
 
-  addCommentToAllReports = comment => {
+  addCommentToAllReports = (comment) => {
     if (this.isValid(comment)) {
       let reportsWithComments = Object.keys(this.props.comments);
       let reportsPresent = Object.keys(this.props.report.tables);
       if (allIntialCommentsSent(reportsWithComments, reportsPresent)) {
         this.props.addCommentToAllReports(
-          comment.replace(/\n/gi, "<br>"),
+          comment.replace(/\n/gi, '<br>'),
           Object.keys(this.props.report.tables)
         );
       } else {
         Swal.fire({
-          title: "Not all intial comments sent.",
+          title: 'Not all intial comments sent.',
           text:
-            "You can only comment on all reports at once if IGO has sent out " +
-            "intial notifications for every report present in this request.",
-          type: "info",
+            'You can only comment on all reports at once if IGO has sent out ' +
+            'intial notifications for every report present in this request.',
+          type: 'info',
           animation: false,
-          confirmButtonColor: "#007cba",
-          confirmButtonText: "Dismiss"
+          confirmButtonColor: '#007cba',
+          confirmButtonText: 'Dismiss',
         });
       }
     } else {
@@ -106,10 +119,10 @@ export class CommentContainer extends Component {
     }
   };
 
-  addComment = comment => {
+  addComment = (comment) => {
     if (this.isValid(comment)) {
       this.props.addComment(
-        comment.replace(/\n/gi, "<br>"),
+        comment.replace(/\n/gi, '<br>'),
         this.props.report.reportShown
       );
     } else {
@@ -117,7 +130,7 @@ export class CommentContainer extends Component {
     }
   };
 
-  isValid = comment => {
+  isValid = (comment) => {
     var r = /(\s[1-9]{8}\s|.*[1-9]{8}$|^[1-9]{8}\s.*)/g;
 
     var matches = comment.match(r);
@@ -135,19 +148,19 @@ export class CommentContainer extends Component {
 
   showMrnError = () => {
     Swal.fire({
-      title: "Comment Invalid",
+      title: 'Comment Invalid',
       text:
-        "We detected an 8 digit number in your comment. Please delete any MRNs or other PHI and re-submit." +
-        "This webapp is not PHI secure and submitting PHI would violate MSK policy.",
+        'We detected an 8 digit number in your comment. Please delete any MRNs or other PHI and re-submit.' +
+        'This webapp is not PHI secure and submitting PHI would violate MSK policy.',
 
-      type: "warning",
+      type: 'warning',
       animation: false,
-      confirmButtonColor: "#007cba",
-      confirmButtonText: "Dismiss"
+      confirmButtonColor: '#007cba',
+      confirmButtonText: 'Dismiss',
     });
   };
 
-  handleRecipientSubmit = recipients => {
+  handleRecipientSubmit = (recipients) => {
     this.props.setRecipients(recipients);
   };
 
@@ -156,15 +169,15 @@ export class CommentContainer extends Component {
       <React.Fragment>
         {this.props.report.reportShown &&
         this.props.comments &&
-        this.props.report.reportShown.includes("Report") &&
+        this.props.report.reportShown.includes('Report') &&
         this.props.comments[this.props.report.reportShown] &&
         this.props.comments[this.props.report.reportShown].comments.length >
           0 ? (
           <CommentArea
             currentReportShown={this.props.report.reportShown}
             numOfReports={
-              Object.keys(this.props.report.tables).filter(commentReport =>
-                commentReport.includes("Report")
+              Object.keys(this.props.report.tables).filter((commentReport) =>
+                commentReport.includes('Report')
               ).length
             }
             comments={
@@ -176,7 +189,7 @@ export class CommentContainer extends Component {
           />
         ) : (
           this.props.report.reportShown &&
-          this.props.report.reportShown.includes("Report") &&
+          this.props.report.reportShown.includes('Report') &&
           this.props.report.tables && (
             <CommentEditorArea
               recipe={
@@ -201,23 +214,20 @@ export class CommentContainer extends Component {
 
 CommentContainer.defaultProps = {
   comments: {},
-  recipients: {}
+  recipients: {},
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   comments: state.communication.comments,
   communication: state.communication,
   report: state.report,
   recipients: state.communication.recipients,
-  user: state.user
+  user: state.user,
 });
 
 export default withLocalize(
-  connect(
-    mapStateToProps,
-    {
-      // ...uploadGridActions,
-      ...communicationActions
-    }
-  )(CommentContainer)
+  connect(mapStateToProps, {
+    // ...uploadGridActions,
+    ...communicationActions,
+  })(CommentContainer)
 );

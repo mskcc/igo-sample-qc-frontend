@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Swal from "sweetalert2";
-import { withLocalize } from "react-localize-redux";
-import { connect } from "react-redux";
-import { reportActions } from "../../actions";
-import { allDecisionsMade } from "../../actions/helpers";
+import React, { Component } from 'react';
+import Swal from 'sweetalert2';
+import { withLocalize } from 'react-localize-redux';
+import { connect } from 'react-redux';
+import { reportActions } from '../../actions';
+import { allDecisionsMade } from '../../actions/helpers';
 
-import { TableArea } from "../../components/Table";
+import { TableArea } from '../../components/Table';
 
 export class TableContainer extends Component {
   componentDidMount() {
@@ -15,7 +15,7 @@ export class TableContainer extends Component {
       this.props.getQcReports(this.props.report.request.requestId);
     }
   }
-  updateReportShown = report => {
+  updateReportShown = (report) => {
     if (this.props.report.request.samples) {
       this.props.updateReportShown(report);
     }
@@ -26,30 +26,30 @@ export class TableContainer extends Component {
       !allDecisionsMade(this.props.report.tables, this.props.report.reportShown)
     ) {
       Swal.fire({
-        title: "Not all Decisions made.",
+        title: 'Not all Decisions made.',
         text:
-          "Please make a decision for each sample in this report before you submit to IGO.",
+          'Please make a decision for each sample in this report before you submit to IGO.',
 
-        type: "info",
+        type: 'info',
         animation: false,
-        confirmButtonColor: "#007cba",
-        confirmButtonText: "Dismiss"
+        confirmButtonColor: '#007cba',
+        confirmButtonText: 'Dismiss',
       });
     } else {
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text:
-          "These decisions are considered final and cannot be changed on this website after you submit." +
-          " If you need to change them later on, please send an email to zzPDL_CMO_IGO@mskcc.org.",
+          'These decisions are considered final and cannot be changed on this website after you submit.' +
+          ' If you need to change them later on, please send an email to zzPDL_CMO_IGO@mskcc.org.',
 
-        type: "warning",
+        type: 'warning',
         showCancelButton: true,
         animation: false,
-        confirmButtonColor: "#007cba",
-        cancelButtonColor: "#df4602",
-        confirmButtonText: "Submit Decisions",
-        cancelButtonText: "Back to Edit"
-      }).then(result => {
+        confirmButtonColor: '#007cba',
+        cancelButtonColor: '#df4602',
+        confirmButtonText: 'Submit Decisions',
+        cancelButtonText: 'Back to Edit',
+      }).then((result) => {
         if (result.value) {
           return this.props.submitInvestigatorDecision();
         } else {
@@ -60,7 +60,7 @@ export class TableContainer extends Component {
   };
   handlePartialDecision = () => {
     this.props.savePartialDecision();
-  }; 
+  };
   manuallyAddDecision = () => {
     this.props.manuallyAddDecision();
   };
@@ -73,7 +73,7 @@ export class TableContainer extends Component {
   };
 
   handleReportDownload = report => {
-    this.props.downloadReport(report, this.props.report.request);
+    this.props.downloadReport(this.props.report.reportShown, this.props.report.request);
   };
 
   render() {
@@ -102,13 +102,10 @@ export class TableContainer extends Component {
 
 TableContainer.defaultProps = {};
 
-const mapStateToProps = state => ({ report: state.report, user: state.user });
+const mapStateToProps = (state) => ({ report: state.report, user: state.user });
 
 export default withLocalize(
-  connect(
-    mapStateToProps,
-    {
-      ...reportActions
-    }
-  )(TableContainer)
+  connect(mapStateToProps, {
+    ...reportActions,
+  })(TableContainer)
 );

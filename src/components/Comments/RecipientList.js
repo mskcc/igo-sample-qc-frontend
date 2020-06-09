@@ -1,50 +1,50 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import TextField from "@material-ui/core/TextField";
-import EditIcon from "@material-ui/icons/Edit";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import EditIcon from '@material-ui/icons/Edit';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    width: "50%"
+    width: '50%',
   },
   list: {
-    display: "grid",
-    gridTemplateColumns: "50% 50%"
+    display: 'grid',
+    gridTemplateColumns: '50% 50%',
   },
 
   button: {
-    height: "40px",
-    width: "30%"
+    height: '40px',
+    width: '30%',
   },
   email: {
-    marginTop: ".5em",
-    fontWeight: "bold"
+    marginTop: '.5em',
+    fontWeight: 'bold',
   },
-  emailChild: { marginLeft: "1em" },
+  emailChild: { marginLeft: '1em' },
   sectionHeader: {
     fontWeight: 700,
-    fontSize: "1.1em",
-    display: "flex",
-    alignItems: "center"
+    fontSize: '1.1em',
+    display: 'flex',
+    alignItems: 'center',
   },
-  section: { marginLeft: "2em", maxWidth: "80%" }
+  section: { marginLeft: '2em', maxWidth: '80%' },
 }));
 
 export default function RecipientList(props) {
   const classes = useStyles();
 
   const [edit, setEdit] = React.useState({
-    editView: false
+    editView: false,
   });
   const [recipients, setRecipients] = React.useState({});
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setRecipients({ ...recipients, [name]: event.target.value });
   };
 
-  const handleEditClick = recipients => event => {
+  const handleEditClick = (recipients) => (event) => {
     setEdit({ editView: true });
     setRecipients({ ...recipients });
     props.handleEdit();
@@ -78,26 +78,26 @@ export default function RecipientList(props) {
             sending the initial comment.
             <div className={classes.list}>
               {Object.keys(props.recipients).map((key, index) =>
-                key.toLowerCase().includes("contact") ? (
-                  <div key={key + "-" + index}>
+                key.toLowerCase().includes('contact') ? (
+                  <div key={key + '-' + index}>
                     <div className={classes.email}>{key}:</div>
                     <div className={classes.emailChild}>
-                      {" "}
+                      {' '}
                       {props.recipients[key]
                         .split(/,|;/)
                         .map((email, index) => (
-                          <div key={key + "-" + index}>{email}</div>
+                          <div key={key + '-' + index}>{email}</div>
                         ))}
                     </div>
                     <br />
                   </div>
                 ) : (
-                  <div key={key + "-" + index}>
+                  <div key={key + '-' + index}>
                     <div className={classes.email}>{key}:</div>
                     <div className={classes.emailChild}>
                       {props.recipients[key]
-                        ? props.recipients[key].replace(/;/gi, "\n")
-                        : ""}
+                        ? props.recipients[key].replace(/;/gi, '\n')
+                        : ''}
                     </div>
                   </div>
                 )
@@ -117,19 +117,19 @@ export default function RecipientList(props) {
             <div>Please separate multiple addresses by comma or semicolon.</div>
             <div className={classes.list}>
               {Object.keys(props.recipients).map((key, index) => (
-                <div key={key + "-" + index}>
+                <div key={key + '-' + index}>
                   <div>
                     <TextField
                       label={key}
                       id={key}
-                      value={recipients[key] || ""}
+                      value={recipients[key] || ''}
                       className={classes.formControl}
                       onChange={handleChange(key)}
                       margin="normal"
                       multiline
                       rowsMax="4"
                       variant="outlined"
-                      disabled={key === "IGOEmail"}
+                      disabled={key === 'IGOEmail'}
                     />
                   </div>
                   <br />

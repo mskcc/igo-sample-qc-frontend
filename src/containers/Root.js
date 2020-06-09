@@ -1,40 +1,40 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { renderToStaticMarkup } from "react-dom/server";
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { renderToStaticMarkup } from 'react-dom/server';
 
-import { connect } from "react-redux";
-import { commonActions, userActions } from "../actions";
-import DevTools from "./DevTools";
+import { connect } from 'react-redux';
+import { commonActions, userActions } from '../actions';
+import DevTools from './DevTools';
 
 // import { LocalizeProvider, withLocalize } from "react-localize-redux";
-import { withLocalize } from "react-localize-redux";
-import enTranslations from "../translations/en.json";
+import { withLocalize } from 'react-localize-redux';
+import enTranslations from '../translations/en.json';
 
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import LoadingOverlay from "react-loading-overlay";
+import LoadingOverlay from 'react-loading-overlay';
 
-import { Header, SnackMessage, Instructions } from "../components";
+import { Header, SnackMessage, Instructions } from '../components';
 
-import PendingContainer from "./Report/PendingContainer";
-import ReportContainer from "./Report/ReportContainer";
+import PendingContainer from './Report/PendingContainer';
+import ReportContainer from './Report/ReportContainer';
 
-import Login from "./Login";
-import Logout from "./Logout";
-import ErrorPage from "./ErrorPage";
+import Login from './Login';
+import Logout from './Logout';
+import ErrorPage from './ErrorPage';
 
-import { Config } from "../secret_config.js";
+import { Config } from '../secret_config.js';
 
 function PrivateRoute({ component: Component, loggedIn, data, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         loggedIn === true ? (
           <Component {...data} {...props} />
         ) : (
-          <Redirect to={{ pathname: "/login" }} />
+          <Redirect to={{ pathname: '/login' }} />
         )
       }
     />
@@ -47,30 +47,30 @@ class Root extends Component {
 
     // basic init of localization component
     this.props.initialize({
-      languages: [{ name: "English", code: "en" }],
+      languages: [{ name: 'English', code: 'en' }],
       translation: enTranslations,
       options: {
         renderToStaticMarkup,
         renderInnerHtml: false,
-        defaultLanguage: "en"
-      }
+        defaultLanguage: 'en',
+      },
     });
   }
 
   componentDidMount() {
     //   // making sure BE and FE versions match - shows info message if not
     // this.props.checkVersion();
-    document.addEventListener("keydown", this.escFunction, false);
+    document.addEventListener('keydown', this.escFunction, false);
   }
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.escFunction, false);
+    document.removeEventListener('keydown', this.escFunction, false);
   }
 
   handleMsgClose = () => {
     this.props.resetMessage();
   };
 
-  escFunction = event => {
+  escFunction = (event) => {
     if (event.keyCode === 27) {
       this.props.resetMessage();
     }
@@ -85,7 +85,7 @@ class Root extends Component {
               active={this.props.common.loading}
               spinner
               text={
-                this.props.common.loadingMessage || "Loading your content..."
+                this.props.common.loadingMessage || 'Loading your content...'
               }
             >
               <div className="app">
@@ -95,7 +95,7 @@ class Root extends Component {
                   role={this.props.user.role}
                   submitFeedback={this.props.submitFeedback}
                 />
-                {Config.ENV !== "production" ? <DevTools /> : <div />}
+                {Config.ENV !== 'production' ? <DevTools /> : <div />}
                 {this.props.common.serverError ? (
                   <ErrorPage />
                 ) : this.props.user.loggedIn ? (
@@ -127,7 +127,7 @@ class Root extends Component {
 
                     <PrivateRoute
                       loggedIn={this.props.user.loggedIn}
-                      data={{role:this.props.user.role}}
+                      data={{ role: this.props.user.role }}
                       exact
                       path="/instructions"
                       component={Instructions}
@@ -143,7 +143,7 @@ class Root extends Component {
                   <span>
                     <SnackMessage
                       open
-                      type={this.props.error ? "error" : "info"}
+                      type={this.props.error ? 'error' : 'info'}
                       message={this.props.common.message}
                       handleClose={this.handleMsgClose}
                     />
@@ -158,40 +158,35 @@ class Root extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   common: state.common,
   user: state.user,
-  report: state.report
+  report: state.report,
 });
 const mapDispatchToProps = {
   ...commonActions,
-  ...userActions
+  ...userActions,
 };
 
-export default withLocalize(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Root)
-);
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Root));
 
 const theme = createMuiTheme({
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
   },
   palette: {
     primary: {
-      logo: "#319ae8",
-      light: "#8FC7E8",
-      main: "#007CBA",
-      dark: "#006098"
+      logo: '#319ae8',
+      light: '#8FC7E8',
+      main: '#007CBA',
+      dark: '#006098',
     },
     secondary: {
-      light: "#F6C65B",
-      main: "#DF4602",
-      dark: "#C24D00"
+      light: '#F6C65B',
+      main: '#DF4602',
+      dark: '#C24D00',
     },
 
-    textSecondary: "#e0e0e0"
-  }
+    textSecondary: '#e0e0e0',
+  },
 });

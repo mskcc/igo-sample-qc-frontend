@@ -1,17 +1,17 @@
-import React from "react";
-import { HotTable } from "@handsontable/react";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { HotTable } from '@handsontable/react';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 // import Checkbox from "@material-ui/core/Checkbox";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    width: "90vw",
-    overflowX: "auto",
-    margin: "3em auto"
-  }
+    width: '90vw',
+    overflowX: 'auto',
+    margin: '3em auto',
+  },
 });
 
 class Table extends React.Component {
@@ -20,14 +20,12 @@ class Table extends React.Component {
     this.hotTableComponent = React.createRef();
   }
 
-  showError = error => {
+  showError = (error) => {
     Swal.fire(error);
   };
 
   render() {
-    const {
-      classes
-    } = this.props;
+    const { classes } = this.props;
     // last column is always RecordId. Needed to set investigator decision efficiently
     return (
       <div className={classes.container}>
@@ -52,7 +50,7 @@ class Table extends React.Component {
             if (event.button === 0 && coords.row > -1) {
               if (coords.col === this.props.data.columnHeaders.length - 1) {
                 this.props.showPending(
-                  TD.firstElementChild.getAttribute("pending-id")
+                  TD.firstElementChild.getAttribute('pending-id')
                 );
               }
             }

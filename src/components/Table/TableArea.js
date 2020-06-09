@@ -1,5 +1,5 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   Card,
@@ -9,60 +9,60 @@ import {
   Tooltip,
   Box,
   Typography,
-  Zoom
-} from "@material-ui/core";
-import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import Table from "./Table";
-import RequestInfo from "./RequestInfo";
-import "handsontable/dist/handsontable.full.css";
+  Zoom,
+} from '@material-ui/core';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import Table from './Table';
+import RequestInfo from './RequestInfo';
+import 'handsontable/dist/handsontable.full.css';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    paddingTop: "2em",
-    paddingLeft: "2em",
-    textAlign: "left",
-    gridArea: "table",
-    display: "grid",
+    paddingTop: '2em',
+    paddingLeft: '2em',
+    textAlign: 'left',
+    gridArea: 'table',
+    display: 'grid',
     gridTemplateAreas: "'toolbar' 'reports'",
-    gridRowGap: "1em",
-    gridColumnGap: "2em",
-    overflow: "scroll",
+    gridRowGap: '1em',
+    gridColumnGap: '2em',
+    overflow: 'scroll',
     paddingBottom: theme.spacing(2),
-    backgroundColor: "rgba(0, 148, 144, .08)",
-    borderTop: "2px solid darkgray"
+    backgroundColor: 'rgba(0, 148, 144, .08)',
+    borderTop: '2px solid darkgray',
   },
 
   table: {
-    gridArea: "table"
+    gridArea: 'table',
   },
   toolbar: {
-    display: "grid",
+    display: 'grid',
     gridTemplateAreas: "'request submit-btn save-btn download-btn'",
-    width: "fit-content",
-    gridColumnGap: "1em"
+    width: 'fit-content',
+    gridColumnGap: '1em',
   },
   submitBtn: {
-    gridArea: "submit-btn",
-    width: "fit-content",
-    height: "4em",
-    alignSelf: "center"
+    gridArea: 'submit-btn',
+    width: 'fit-content',
+    height: '4em',
+    alignSelf: 'center',
   },
   saveBtn: {
-    gridArea: "save-btn",
-    width: "fit-content",
-    height: "4em",
-    alignSelf: "center",
-    backgroundColor: "#8fc7e8"
+    gridArea: 'save-btn',
+    width: 'fit-content',
+    height: '4em',
+    alignSelf: 'center',
+    backgroundColor: '#8fc7e8',
   },
   downloadtBtn: {
-    gridArea: "download-btn",
-    width: "fit-content",
-    height: "4em",
-    alignSelf: "center"
+    gridArea: 'download-btn',
+    width: 'fit-content',
+    height: '4em',
+    alignSelf: 'center',
   },
   decisions: {
-    paddingBottom: "11px"
-  }
+    paddingBottom: '11px',
+  },
 }));
 
 function TabPanel(props) {
@@ -85,38 +85,39 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
 export default function TableArea(props) {
   const classes = useStyles();
   // make sure active tab is on currentReport after page refresh
-  let index = 0;
-  if (props.report.reportShown) {
-    index = Object.keys(props.report.tables).indexOf(props.report.reportShown);
-  }
+  // let index = 0;
 
-  const [value, setValue] = React.useState(index);
+  let index = Object.keys(props.report.tables).indexOf(
+    props.report.reportShown
+  );
+
+  // const [value, setValue] = React.useState(index);
 
   function handleChange(event, newValue) {
-    setValue(newValue);
+    // setValue(newValue);
     // console.log(newValue)
     props.updateReportShown(Object.keys(props.report.tables)[newValue]);
   }
 
   function handleReportDownload(index) {
-    props.handleReportDownload(Object.keys(props.report.tables)[value]);
+    props.handleReportDownload(Object.keys(props.report.tables)[index]);
   }
 
   return (
     <div className={classes.container}>
       <div className={classes.toolbar}>
         <RequestInfo request={props.report.request} />
-        {props.report.reportShown.includes("Report") && (
+        {props.report.reportShown.includes('Report') && (
           <React.Fragment>
-            {(props.username === "patrunoa" ||
-              props.username === "wagnerl") && (
+            {(props.username === 'patrunoa' ||
+              props.username === 'wagnerl') && (
               <Button
                 onClick={props.manuallyAddDecision}
                 variant="contained"
@@ -126,9 +127,9 @@ export default function TableArea(props) {
                 Manually Add Decision
               </Button>
             )}
-            {props.role == "lab_member" ? (
+            {props.role === 'lab_member' ? (
               <Card>
-                {" "}
+                {' '}
                 <CardContent className={classes.decisions}>
                   <Typography
                     color="textSecondary"
@@ -138,9 +139,23 @@ export default function TableArea(props) {
                   </Typography>
                 </CardContent>
               </Card>
+            ) : props.report.tables[props.report.reportShown].isCmoPmProject &&
+              props.role != 'cmo_pm' ? (
+              <Card>
+                {' '}
+                <CardContent className={classes.decisions}>
+                  <Typography
+                    color="textSecondary"
+                    // gutterBottom
+                  >
+                    Only CMO Project Managers can submit decisions for this
+                    report.
+                  </Typography>
+                </CardContent>
+              </Card>
             ) : props.report.tables[props.report.reportShown].readOnly ? (
               <Card>
-                {" "}
+                {' '}
                 <CardContent className={classes.decisions}>
                   <Typography
                     color="textSecondary"
@@ -151,7 +166,7 @@ export default function TableArea(props) {
                   <Typography variant="body1">
                     To make any changes, please reach out <br /> to IGO at
                     <a href="mailto:zzPDL_CMO_IGO@mskcc.org">
-                      {" "}
+                      {' '}
                       zzPDL_CMO_IGO@mskcc.org
                     </a>
                     .
@@ -159,7 +174,7 @@ export default function TableArea(props) {
                 </CardContent>
               </Card>
             ) : (
-              !props.report.reportShown.includes("Pathology") && (
+              !props.report.reportShown.includes('Pathology') && (
                 <React.Fragment>
                   <Button
                     onClick={props.handleSubmit}
@@ -194,14 +209,14 @@ export default function TableArea(props) {
               className={classes.downloadtBtn}
               startIcon={<CloudDownloadIcon />}
             >
-              {Object.keys(props.report.tables)[value]}
+              {Object.keys(props.report.tables)[index]}
             </Button>
           </React.Fragment>
         )}
       </div>
       <div className={classes.report}>
         <Tabs
-          value={value}
+          value={index}
           onChange={handleChange}
           aria-label="simple tabs example"
         >
@@ -210,9 +225,9 @@ export default function TableArea(props) {
           ))}
         </Tabs>
 
-        {Object.keys(props.report.tables).map((report, index) => (
-          <TabPanel key={report} value={value} index={index}>
-            {value === index && (
+        {Object.keys(props.report.tables).map((report, mapIndex) => (
+          <TabPanel key={report} value={index} index={index}>
+            {index === mapIndex && (
               <Table
                 handleAttachmentDownload={props.handleAttachmentDownload}
                 registerChange={props.registerChange}

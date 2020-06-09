@@ -34,7 +34,7 @@ body {
 }
 .content {
     display: grid;
-    grid-template-areas: "sidebar comments" "sidebar table ";
+    grid-template-areas: "sidebar comments" "sidebar comments" "sidebar table ";
     // grid-template-rows: 30vh 65vh;
     grid-template-columns: 15% 85%;
     // grid-row-gap: 1em;

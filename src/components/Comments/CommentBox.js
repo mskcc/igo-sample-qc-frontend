@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Comment from "./Comment";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Comment from './Comment';
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    textAlign: "center",
-    gridArea: "history",
-    width: "100%",
-    overflowX: "auto",
-    
-  }
+    textAlign: 'center',
+    gridArea: 'history',
+    width: '100%',
+    overflowX: 'auto',
+  },
 });
 
 const CommentBox = ({ comments, currentUser, classes }) => {
   useEffect(() => {
-    var box = document.getElementById("comment-box");
+    var box = document.getElementById('comment-box');
     box.scrollTop = box.scrollHeight;
   });
   return (
@@ -28,7 +27,7 @@ const CommentBox = ({ comments, currentUser, classes }) => {
           fullName={comment.full_name}
           comment={comment.comment}
           date={comment.date_created}
-          alignment={currentUser === comment.username ? "right" : "left"}
+          alignment={currentUser === comment.username ? 'right' : 'left'}
           id={`item_${i + 1}`}
           key={i}
         />
@@ -38,7 +37,7 @@ const CommentBox = ({ comments, currentUser, classes }) => {
 };
 
 CommentBox.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(CommentBox);
