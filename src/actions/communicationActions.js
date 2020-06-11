@@ -33,12 +33,18 @@ export const ADD_INITIAL_COMMENT = 'ADD_INITIAL_COMMENT';
 export const ADD_INITIAL_COMMENT_SUCCESS = 'ADD_INITIAL_COMMENT_SUCCESS';
 export const ADD_INITIAL_COMMENT_FAIL = 'ADD_INITIAL_COMMENT_FAIL';
 
-export function addInitialComment(comment, reports, recipients, isCmoPmProject) {
+export function addInitialComment(
+  comment,
+  reports,
+  recipients,
+  isCmoPmProject
+) {
   return (dispatch, getState) => {
     let decisionsMade = {};
     for (let report in reports) {
       // determines wether creating an initial comment also triggers an entry to the decisions table
       if (
+        reports[report] == 'COVID19 Report' ||
         allDecisionsMadeInBackend(
           getState().report.tables[reports[report]].columnFeatures,
           reports[report]
@@ -91,7 +97,7 @@ export function addComment(comment, report) {
     Swal.fire({
       title: 'Are you sure?',
       html:
-        '<div class=\'swal-comment-review\'>This comment will trigger an email notification to the following recipients:<br> <br> ' +
+        "<div class='swal-comment-review'>This comment will trigger an email notification to the following recipients:<br> <br> " +
         getState().communication.comments[report].recipients.replace(
           /,/g,
           ', '
@@ -151,7 +157,7 @@ export function addCommentToAllReports(comment, reports) {
     Swal.fire({
       title: 'Are you sure?',
       html:
-        '<div class=\'swal-comment-review\'>In production, this comment will trigger an email notification to the following recipients:<br> <br>' +
+        "<div class='swal-comment-review'>In production, this comment will trigger an email notification to the following recipients:<br> <br>" +
         recipientsSet.join('<br>') +
         '<br> During testing, it will be sent to you, Anna and Lisa.</div>',
       footer:

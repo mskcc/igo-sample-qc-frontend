@@ -19,12 +19,21 @@ export class CommentContainer extends Component {
   }
 
   handleInitialComment = (comment, values) => {
-    var keys = Object.keys(values);
+    let reportString = '';
+    var filteredReports = [];
     var isCmoPmProject = false;
-    // array of all selected reports
-    var filteredReports = keys.filter(function (key) {
-      return values[key] && key.includes('Report');
-    });
+
+    if (values) {
+      var keys = Object.keys(values);
+      // array of all selected reports
+      filteredReports = keys.filter(function (key) {
+        return values[key] && key.includes('Report');
+      });
+      reportString = Object.values(filteredReports).join(', ');
+    } else {
+      reportString = 'COVID19 Report';
+      filteredReports = ['COVID19 Report'];
+    }
     let recipients = cleanAndFilterRecipients(this.props.recipients);
     if ('QcAccessEmails' in this.props.recipients) {
       if (
@@ -48,8 +57,6 @@ export class CommentContainer extends Component {
       });
       return;
     }
-
-    let reportString = Object.values(filteredReports).join(', ');
 
     let commentString = comment.replace(/\./gi, '.<br> ');
     commentString = commentString.replace(/,IGO/gi, ',<br>IGO');
