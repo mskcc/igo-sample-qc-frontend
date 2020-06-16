@@ -61,7 +61,9 @@ export default function InfoPanel(props) {
               {Object.keys(props.report.tables)
                 .filter((e) => props.report.tables[e].readOnly)
                 .includes(e) ? (
-                <span className={classes.done}>Decisions submitted or not needed</span>
+                <span className={classes.done}>
+                  Decisions submitted or not needed
+                </span>
               ) : !props.comments[e] ? (
                 <span className={classes.waiting}>Report not sent</span>
               ) : (
@@ -69,6 +71,13 @@ export default function InfoPanel(props) {
               )}
             </div>
           ))}
+        <br />
+        <br />
+        <div className={classes.link}>
+          <a href="http://genomics.mskcc.org/pass-fail/">
+            Click here for details of IGO's pass/fail criteria.{' '}
+          </a>
+        </div>
       </Typography>
     </Paper>
   );
