@@ -119,7 +119,7 @@ export default function CommentEditor(props) {
               </div>
               <div className={classes.section}>
                 {Object.keys(props.tables).map((report, index) => {
-                  if (report.includes('Report') && !props.comments[report]) {
+                  if (report.includes('Report') && !props.comments[report] && !report.includes('Covid') ) {
                     return (
                       <span key={report}>
                         <FormControlLabel

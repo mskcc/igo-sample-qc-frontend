@@ -61,7 +61,7 @@ export default function InfoPanel(props) {
               {Object.keys(props.report.tables)
                 .filter((e) => props.report.tables[e].readOnly)
                 .includes(e) ? (
-                <span className={classes.done}>Decisions Submitted</span>
+                <span className={classes.done}>Decisions submitted or not needed</span>
               ) : !props.comments[e] ? (
                 <span className={classes.waiting}>Report not sent</span>
               ) : (

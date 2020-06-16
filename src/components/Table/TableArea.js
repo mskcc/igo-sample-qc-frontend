@@ -114,104 +114,117 @@ export default function TableArea(props) {
     <div className={classes.container}>
       <div className={classes.toolbar}>
         <RequestInfo request={props.report.request} />
-        {props.report.reportShown.includes('Report') && (
-          <React.Fragment>
-            {(props.username === 'patrunoa' ||
-              props.username === 'wagnerl') && (
-              <Button
-                onClick={props.manuallyAddDecision}
-                variant="contained"
-                color="primary"
-                className={classes.submitBtn}
-              >
-                Manually Add Decision
-              </Button>
-            )}
-            {props.role === 'lab_member' ? (
-              <Card>
-                {' '}
-                <CardContent className={classes.decisions}>
-                  <Typography
-                    color="textSecondary"
-                    // gutterBottom
-                  >
-                    Lab members must submit decisions in LIMS.
-                  </Typography>
-                </CardContent>
-              </Card>
-            ) : props.report.tables[props.report.reportShown].isCmoPmProject &&
-              props.role != 'cmo_pm' ? (
-              <Card>
-                {' '}
-                <CardContent className={classes.decisions}>
-                  <Typography
-                    color="textSecondary"
-                    // gutterBottom
-                  >
-                    Only CMO Project Managers can submit decisions for this
-                    report.
-                  </Typography>
-                </CardContent>
-              </Card>
-            ) : props.report.tables[props.report.reportShown].readOnly ? (
-              <Card>
-                {' '}
-                <CardContent className={classes.decisions}>
-                  <Typography
-                    color="textSecondary"
-                    // gutterBottom
-                  >
-                    Decisions have been submitted.
-                  </Typography>
-                  <Typography variant="body1">
-                    To make any changes, please reach out <br /> to IGO at
-                    <a href="mailto:zzPDL_CMO_IGO@mskcc.org">
-                      {' '}
-                      zzPDL_CMO_IGO@mskcc.org
-                    </a>
-                    .
-                  </Typography>
-                </CardContent>
-              </Card>
-            ) : (
-              !props.report.reportShown.includes('Pathology') && (
-                <React.Fragment>
-                  <Button
-                    onClick={props.handleSubmit}
-                    variant="contained"
-                    color="primary"
-                    className={classes.submitBtn}
-                  >
-                    Submit to IGO
-                  </Button>
-                  <Tooltip
-                    arrow="true"
-                    TransitionComponent={Zoom}
-                    title="Save decisions to submit at a later date"
-                    aria-label="add"
-                  >
+        {props.report.reportShown.includes('Report') &&
+          !props.report.reportShown.includes('COVID') && (
+            <React.Fragment>
+              {(props.username === 'patrunoa' ||
+                props.username === 'wagnerl') && (
+                <Button
+                  onClick={props.manuallyAddDecision}
+                  variant="contained"
+                  color="primary"
+                  className={classes.submitBtn}
+                >
+                  Manually Add Decision
+                </Button>
+              )}
+              {props.role === 'lab_member' ? (
+                <Card>
+                  {' '}
+                  <CardContent className={classes.decisions}>
+                    <Typography
+                      color="textSecondary"
+                      // gutterBottom
+                    >
+                      Lab members must submit decisions in LIMS.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ) : props.report.tables[props.report.reportShown]
+                  .isCmoPmProject && props.role != 'cmo_pm' ? (
+                <Card>
+                  {' '}
+                  <CardContent className={classes.decisions}>
+                    <Typography
+                      color="textSecondary"
+                      // gutterBottom
+                    >
+                      Only CMO Project Managers can submit decisions for this
+                      report.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ) : props.report.tables[props.report.reportShown].readOnly ? (
+                <Card>
+                  {' '}
+                  <CardContent className={classes.decisions}>
+                    <Typography
+                      color="textSecondary"
+                      // gutterBottom
+                    >
+                      Decisions have been submitted.
+                    </Typography>
+                    <Typography variant="body1">
+                      To make any changes, please reach out <br /> to IGO at
+                      <a href="mailto:zzPDL_CMO_IGO@mskcc.org">
+                        {' '}
+                        zzPDL_CMO_IGO@mskcc.org
+                      </a>
+                      .
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ) : (
+                !props.report.reportShown.includes('Pathology') &&
+                !props.report.reportShown.includes('COVID')(
+                  <React.Fragment>
                     <Button
-                      onClick={props.handleSave}
+                      onClick={props.handleSubmit}
                       variant="contained"
                       color="primary"
-                      className={classes.saveBtn}
+                      className={classes.submitBtn}
                     >
-                      Save
+                      Submit to IGO
                     </Button>
-                  </Tooltip>
-                </React.Fragment>
-              )
-            )}
-            <Button
-              onClick={handleReportDownload}
-              variant="contained"
-              color="secondary"
-              className={classes.downloadtBtn}
-              startIcon={<CloudDownloadIcon />}
-            >
-              {Object.keys(props.report.tables)[index]}
-            </Button>
-          </React.Fragment>
+                    <Tooltip
+                      arrow="true"
+                      TransitionComponent={Zoom}
+                      title="Save decisions to submit at a later date"
+                      aria-label="add"
+                    >
+                      <Button
+                        onClick={props.handleSave}
+                        variant="contained"
+                        color="primary"
+                        className={classes.saveBtn}
+                      >
+                        Save
+                      </Button>
+                    </Tooltip>
+                  </React.Fragment>
+                )
+              )}
+              <Button
+                onClick={handleReportDownload}
+                variant="contained"
+                color="secondary"
+                className={classes.downloadtBtn}
+                startIcon={<CloudDownloadIcon />}
+              >
+                {Object.keys(props.report.tables)[index]}
+              </Button>
+            </React.Fragment>
+          )}{' '}
+        {props.report.reportShown.includes('COVID') && (
+          <Button
+            onClick={handleReportDownload}
+            variant="contained"
+            color="secondary"
+            className={classes.downloadtBtn}
+            startIcon={<CloudDownloadIcon />}
+          >
+            {Object.keys(props.report.tables)[index]}
+          </Button>
         )}
       </div>
       <div className={classes.report}>

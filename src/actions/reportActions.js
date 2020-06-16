@@ -14,7 +14,6 @@ axios.interceptors.request.use(
   (config) => {
     let token = sessionStorage.getItem('access_token');
     if (token && !config.headers['Authorization']) {
-      // console.log("token attached");
       config.headers['Authorization'] = `Bearer ${token}`;
     }
 
@@ -29,12 +28,10 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     // Do something with response data
-    // console.log(response);
     return response;
   },
   function (error) {
     // Do something with response error
-    // console.log(error);
     return Promise.reject(error);
   }
 );
@@ -63,7 +60,6 @@ export function getRequest(requestId) {
         },
       })
       .then((response) => {
-        console.log(response);
         return dispatch({
           type: GET_REQUEST_SUCCESS,
           payload: response.data,

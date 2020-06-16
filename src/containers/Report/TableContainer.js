@@ -72,13 +72,15 @@ export class TableContainer extends Component {
     this.props.downloadAttachment(recordId, fileName);
   };
 
-  handleReportDownload = report => {
-    this.props.downloadReport(this.props.report.reportShown, this.props.report.request);
+  handleReportDownload = (report) => {
+    this.props.downloadReport(
+      this.props.report.reportShown,
+      this.props.report.request
+    );
   };
 
   render() {
     const { report } = this.props;
-
     return (
       <React.Fragment>
         {this.props.report.tables && (
