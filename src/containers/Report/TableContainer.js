@@ -81,11 +81,25 @@ export class TableContainer extends Component {
 
   render() {
     const { report } = this.props;
+    const isReport = report.reportShown
+      ? report.reportShown.includes('Report')
+      : false;
+    const isCovidReport = report.reportShown
+      ? report.reportShown.includes('COVID')
+      : false;
+      const isPathologyReport = report.reportShown
+      ? report.reportShown.includes('Pathology')
+      : false;
+    const isNormalReport = isReport && !isCovidReport && !isPathologyReport;
+
     return (
       <React.Fragment>
         {this.props.report.tables && (
           <TableArea
             report={report}
+            isReport={isReport}
+            isNormalReport={isNormalReport}
+            isCovidReport={isCovidReport}
             role={this.props.user.role}
             username={this.props.user.username}
             updateReportShown={this.updateReportShown}
