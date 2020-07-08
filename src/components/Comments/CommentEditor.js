@@ -88,6 +88,8 @@ export default function CommentEditor(props) {
     confirmationRequested: false,
     sequencingRequested: false,
     tumorNormalMatchNote: false,
+    suboptimalQuantity: false,
+    sizeSelection: false,
   });
 
   const handleChange = (name) => (event) => {
@@ -323,7 +325,7 @@ export default function CommentEditor(props) {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          onChange={handleCheckbox('suboptimalQuality')}
+                          onChange={handleCheckbox('suboptimalQuantity')}
                         />
                       }
                       label={
@@ -462,6 +464,23 @@ export default function CommentEditor(props) {
               <br />
               Please note that because the library profiles are not even, the
               sequencing results may be unbalanced when sequenced together.
+            </span>
+          )}{' '}
+          {values.suboptimalQuantity && (
+            <span>
+              {' '}
+              <br />
+              However, the quantity is only sufficient for one attempt so we
+              cannot guarantee the requested reads.
+            </span>
+          )}
+          {values.sizeSelection && (
+            <span>
+              {' '}
+              <br />
+              These samples have adapters and/or fragments over 1kb that could
+              affect the sequencing balance across the project. We recommend for
+              you to do size selection.
             </span>
           )}
           <br />
