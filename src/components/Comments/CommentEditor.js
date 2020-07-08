@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: '95%',
     gridArea: 'editor',
     gridTemplateColumns: '50% 50%',
-    gridTemplateAreas: '\'editorForm preview\'\'button button\'',
+    gridTemplateAreas: "'editorForm preview''button button'",
     alignItems: 'start',
     justifyItems: 'start',
     paddingBottom: theme.spacing(2),
@@ -119,7 +119,11 @@ export default function CommentEditor(props) {
               </div>
               <div className={classes.section}>
                 {Object.keys(props.tables).map((report, index) => {
-                  if (report.includes('Report') && !props.comments[report] && !report.includes('Covid') ) {
+                  if (
+                    report.includes('Report') &&
+                    !props.comments[report] &&
+                    !report.includes('Covid')
+                  ) {
                     return (
                       <span key={report}>
                         <FormControlLabel
@@ -284,8 +288,8 @@ export default function CommentEditor(props) {
                     />
                   }
                   label={
-                    "If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample " +
-                    "Receiving team of the IGO ID number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org."
+                    'If you are ready to move forward to sequencing, please fill out an iLab request and notify our Sample ' +
+                    'and Project Management team of the IGO ID number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.'
                   }
                 />
                 <FormControlLabel
@@ -298,15 +302,35 @@ export default function CommentEditor(props) {
                     'Please note: If a Tumor or Normal fails, its matched T/N should be eliminated.'
                   }
                 />
-                {values['Library Report'] && (
-                  <FormControlLabel
-                    control={
-                      <Checkbox onChange={handleCheckbox('unevenLibrary')} />
-                    }
-                    label={
-                      ' Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together.'
-                    }
-                  />
+                {(values['Library Report'] || values['Pool Report']) && (
+                  <React.Fragment>
+                    <FormControlLabel
+                      control={
+                        <Checkbox onChange={handleCheckbox('unevenLibrary')} />
+                      }
+                      label={
+                        ' Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together.'
+                      }
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox onChange={handleCheckbox('sizeSelection')} />
+                      }
+                      label={
+                        ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. We recommend for you to do size selection.'
+                      }
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={handleCheckbox('suboptimalQuality')}
+                        />
+                      }
+                      label={
+                        ' However, the quantity is only sufficient for one attempt so we cannot guarantee the requested reads.'
+                      }
+                    />
+                  </React.Fragment>
                 )}
               </div>
             </React.Fragment>
@@ -358,7 +382,7 @@ export default function CommentEditor(props) {
             </span>
           )}
           {values.try &&
-            (values['Library Report'] &&
+            ((values['Library Report'] || values['Pool Report']) &&
             !values['DNA Report'] &&
             !values['RNA Report'] ? (
               <span>
@@ -419,8 +443,9 @@ export default function CommentEditor(props) {
               {' '}
               <br />
               If you are ready to move forward to sequencing, please fill out an
-              iLab request and notify our Sample and Project Management Team of the IGO ID
-              number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
+              iLab request and notify our Sample and Project Management Team of
+              the IGO ID number by emailing
+              zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
             </span>
           )}
           {values.tumorNormalMatchNote && (
