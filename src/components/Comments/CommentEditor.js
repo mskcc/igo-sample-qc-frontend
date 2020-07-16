@@ -75,7 +75,8 @@ export default function CommentEditor(props) {
     salutation: '',
     addressee: '',
     downstreamProcess:
-      props.currentReportShown === 'Library Report'
+      props.currentReportShown === 'Library Report' ||
+      props.currentReportShown === 'Pool Report'
         ? 'sequencing'
         : props.recipe,
     service: '',
