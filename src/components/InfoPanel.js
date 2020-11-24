@@ -74,7 +74,7 @@ export default function InfoPanel(props) {
         <br />
         <br />
         <div className={classes.link}>
-          <a href="http://genomics.mskcc.org/pass-fail/">
+          <a target="_blank" href="http://genomics.mskcc.org/pass-fail/">
             Click here for details of IGO's pass/fail criteria.{' '}
           </a>
         </div>

@@ -64,40 +64,97 @@ export class CommentContainer extends Component {
     //   /Please reply here if you have any questions or comments./gi,
     //   "Please visit https://igo.mskcc.org/sample-qc to ask any questions or submit your decisions.  "
     // );
-
-    Swal.fire({
-      title: 'Review',
-      html:
-        "<div class='swal-comment-review'> <strong>Add to:</strong>" +
-        reportString +
-        '<br><strong>Send to:</strong><br>' +
-        recipientString +
-        '<br><strong>Content:</strong><br>' +
-        ' </div>',
-      footer: isCmoPmProject
-        ? 'Since the only QcAccessEmail found is "skicmopm@mskcc.org", this QC decision will be editable by admins and CMO PMs only. Lab Head and PI will still receive all communication.'
-        : '',
-      input: 'textarea',
-      inputValue: commentString.replace(/<br>/gi, '\n'),
-      type: 'warning',
-      showCancelButton: true,
-      animation: false,
-      confirmButtonColor: '#007cba',
-      cancelButtonColor: '#df4602',
-      confirmButtonText: 'Send Notification',
-      cancelButtonText: 'Back to Edit',
-    }).then((result) => {
-      if (result.value) {
-        return this.props.addInitialComment(
-          result.value.replace(/\n/gi, '<br>'),
-          filteredReports,
-          recipients,
-          isCmoPmProject
-        );
-      } else {
-        return true;
-      }
-    });
+    if (
+      recipientString.includes('.edu') ||
+      recipientString.includes('@gmail') ||
+      recipientString.includes('.com') ||
+      (recipients.length === 1 && recipients[0] === "zzPDL_IGO_Staff@mskcc.org")
+    ) {
+      Swal.fire({
+        title: 'Email Address Review',
+        html:
+          'It looks like the recipients contain non-MSK email addresses or IGO_Staff is listed as the only recipient. Please make sure at least on investigator or lab member has a valid address. If not, please send a report email rather than using the QC website as none of the recipients will be able to access this site.',
+        type: 'warning',
+        showCancelButton: true,
+        animation: false,
+        confirmButtonColor: '#007cba',
+        cancelButtonColor: '#df4602',
+        confirmButtonText: 'Continue to Review',
+        cancelButtonText: 'Back to Edit',
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            title: 'Review',
+            html:
+              "<div class='swal-comment-review'> <strong>Add to:</strong>" +
+              reportString +
+              '<br><strong>Send to:</strong><br>' +
+              recipientString +
+              '<br><strong>Content:</strong><br>' +
+              ' </div>',
+            footer: isCmoPmProject
+              ? 'Since the only QcAccessEmail found is "skicmopm@mskcc.org", this QC decision will be editable by admins and CMO PMs only. Lab Head and PI will still receive all communication.'
+              : '',
+            input: 'textarea',
+            inputValue: commentString.replace(/<br>/gi, '\n'),
+            type: 'warning',
+            showCancelButton: true,
+            animation: false,
+            confirmButtonColor: '#007cba',
+            cancelButtonColor: '#df4602',
+            confirmButtonText: 'Send Notification',
+            cancelButtonText: 'Back to Edit',
+          }).then((result) => {
+            if (result.value) {
+              return this.props.addInitialComment(
+                result.value.replace(/\n/gi, '<br>'),
+                filteredReports,
+                recipients,
+                isCmoPmProject
+              );
+            } else {
+              return true;
+            }
+          });
+        } else {
+          return true;
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'Review',
+        html:
+          "<div class='swal-comment-review'> <strong>Add to:</strong>" +
+          reportString +
+          '<br><strong>Send to:</strong><br>' +
+          recipientString +
+          '<br><strong>Content:</strong><br>' +
+          ' </div>',
+        footer: isCmoPmProject
+          ? 'Since the only QcAccessEmail found is "skicmopm@mskcc.org", this QC decision will be editable by admins and CMO PMs only. Lab Head and PI will still receive all communication.'
+          : '',
+        input: 'textarea',
+        inputValue: commentString.replace(/<br>/gi, '\n'),
+        type: 'warning',
+        showCancelButton: true,
+        animation: false,
+        confirmButtonColor: '#007cba',
+        cancelButtonColor: '#df4602',
+        confirmButtonText: 'Send Notification',
+        cancelButtonText: 'Back to Edit',
+      }).then((result) => {
+        if (result.value) {
+          return this.props.addInitialComment(
+            result.value.replace(/\n/gi, '<br>'),
+            filteredReports,
+            recipients,
+            isCmoPmProject
+          );
+        } else {
+          return true;
+        }
+      });
+    }
   };
 
   addCommentToAllReports = (comment) => {

@@ -40,7 +40,7 @@ export class TableContainer extends Component {
         title: 'Are you sure?',
         text:
           'These decisions are considered final and cannot be changed on this website after you submit.' +
-          ' If you need to change them later on, please send an email to zzPDL_CMO_IGO@mskcc.org.',
+          ' If you need to change them later on, please send an email to zzPDL_IGO_Staff@mskcc.org.',
 
         type: 'warning',
         showCancelButton: true,

@@ -165,9 +165,9 @@ export default function TableArea(props) {
                   </Typography>
                   <Typography variant="body1">
                     To make any changes, please reach out <br /> to IGO at
-                    <a href="mailto:zzPDL_CMO_IGO@mskcc.org">
+                    <a href="mailto:zzPDL_IGO_Staff@mskcc.org">
                       {' '}
-                      zzPDL_CMO_IGO@mskcc.org
+                      zzPDL_IGO_Staff@mskcc.org
                     </a>
                     .
                   </Typography>
