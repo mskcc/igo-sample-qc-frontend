@@ -196,6 +196,7 @@ export default function CommentEditor(props) {
                   <MenuItem value="Library QC">Library QC</MenuItem>
                   <MenuItem value="Pool QC">Pool QC</MenuItem>
                   <MenuItem value="RNA QC">RNA QC</MenuItem>
+                  <MenuItem value="Pathology">Pathology</MenuItem>
                 </Select>
               </FormControl>
               <TextField
