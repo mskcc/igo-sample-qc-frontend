@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "file-saver": "^2.0.5",
-    "handsontable": "^7.4.2",
+    "handsontable": "^10.0.0",
     "node-sass": "^4.14.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
