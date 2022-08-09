@@ -117,7 +117,7 @@ export default function TableArea(props) {
         {props.isNormalReport && (
           <React.Fragment>
             {(props.username === 'patrunoa' ||
-              props.username === 'mirhajf' ||
+              props.username === 'MirhajF' ||
               props.username === 'delbels') && (
               <Button
                 onClick={props.manuallyAddDecision}
