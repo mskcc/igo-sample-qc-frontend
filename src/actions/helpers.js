@@ -97,6 +97,30 @@ export const allDecisionsMade = (tables, currentReport) => {
   return result;
 };
 
+// checks to make sure Investigator decision is only one of two options in the dropdown - NOT manually typed in
+export const validateDecisions = (tables, currentReport) => {
+  let result = true;
+  if (
+    currentReport === 'DNA Report' ||
+    currentReport === 'RNA Report' ||
+    currentReport === 'Pool Report' ||
+    currentReport === 'Library Report'
+  ) {
+    for (var j = 0; j < tables[currentReport].data.length; j++) {
+      if (
+        tables[currentReport].data[j].investigatorDecision === 'Continue processing' ||
+        tables[currentReport].data[j].investigatorDecision === 'Stop processing at this time'
+      ) {
+        result = true;
+        continue;
+      } else {
+        return false;
+      }
+    }
+  }
+  return result;
+};
+
 //  checks if data was delivered with readonly set for invDec
 // determines wether creating an initial comment also triggers an entry to the decisions table
 export const allDecisionsMadeInBackend = (columnFeatures, currentReport) => {
