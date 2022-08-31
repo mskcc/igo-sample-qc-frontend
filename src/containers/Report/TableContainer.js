@@ -4,6 +4,7 @@ import { withLocalize } from 'react-localize-redux';
 import { connect } from 'react-redux';
 import { reportActions } from '../../actions';
 import { allDecisionsMade } from '../../actions/helpers';
+import { validateDecisions } from '../../actions/helpers';
 
 import { TableArea } from '../../components/Table';
 
@@ -29,6 +30,19 @@ export class TableContainer extends Component {
         title: 'Not all Decisions made.',
         text:
           'Please make a decision for each sample in this report before you submit to IGO.',
+
+        type: 'info',
+        animation: false,
+        confirmButtonColor: '#007cba',
+        confirmButtonText: 'Dismiss',
+      });
+    } else if (
+      !validateDecisions(this.props.report.tables, this.props.report.reportShown)
+    ) {
+      Swal.fire({
+        title: 'Decisions are not valid.',
+        text:
+          'Please make a decision from the pre-selected dropdown list for each sample. Do not manually type your decision into the table.',
 
         type: 'info',
         animation: false,
