@@ -109,7 +109,14 @@ export const validateDecisions = (tables, currentReport) => {
     for (var j = 0; j < tables[currentReport].data.length; j++) {
       if (
         tables[currentReport].data[j].investigatorDecision === 'Continue processing' ||
-        tables[currentReport].data[j].investigatorDecision === 'Stop processing at this time'
+        tables[currentReport].data[j].investigatorDecision === 'Stop processing at this time' ||
+        tables[currentReport].data[j].investigatorDecision === 'Already moved forward by IGO' ||
+        tables[currentReport].data[j].investigatorDecision === 'Discarded' ||
+        tables[currentReport].data[j].investigatorDecision === 'N/A- QC only request' ||
+        tables[currentReport].data[j].investigatorDecision === 'Request closed by IGO' ||
+        tables[currentReport].data[j].investigatorDecision === 'Submit new iLab request' ||
+        tables[currentReport].data[j].investigatorDecision === 'Pending Fingerprinting' ||
+        tables[currentReport].data[j].investigatorDecision === 'Pending Human Content Assay'
       ) {
         result = true;
         continue;
