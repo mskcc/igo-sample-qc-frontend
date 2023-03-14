@@ -277,6 +277,7 @@ export default function CommentEditor(props) {
                   label="IGO will put this project on hold until decisions are submitted in the grid below."
                 />
                 <br/>
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -287,6 +288,7 @@ export default function CommentEditor(props) {
                     'Please confirm that the samples look as expected in order to continue to sequencing.'
                   }
                 />
+                <br/>
                 <br/>
                 <FormControlLabel
                   control={
@@ -322,6 +324,7 @@ export default function CommentEditor(props) {
                   }
                 />
                 <br/>
+                <br/>
                 {(values['Library Report'] || values['Pool Report']) && (
                   <React.Fragment>
                     <FormControlLabel
@@ -333,6 +336,7 @@ export default function CommentEditor(props) {
                       }
                     />
                     <br/>
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox onChange={handleCheckbox('sizeSelection')} />
@@ -341,6 +345,7 @@ export default function CommentEditor(props) {
                         ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. We recommend for you to do size selection.'
                       }
                     />
+                    <br/>
                     <br/>
                     <FormControlLabel
                       control={
@@ -352,6 +357,7 @@ export default function CommentEditor(props) {
                         ' However, the quantity is only sufficient for one attempt so we cannot guarantee the requested reads.'
                       }
                     />
+                    <br/>
                     <br/>
                     <FormControlLabel
                       control={
