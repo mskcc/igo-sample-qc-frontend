@@ -91,6 +91,8 @@ export default function CommentEditor(props) {
     tumorNormalMatchNote: false,
     suboptimalQuantity: false,
     sizeSelection: false,
+    additionalQC: false,
+    suggestSizeSelection: false
   });
 
   const handleChange = (name) => (event) => {
@@ -274,6 +276,7 @@ export default function CommentEditor(props) {
                   control={<Checkbox onChange={handleCheckbox('onHold')} />}
                   label="IGO will put this project on hold until decisions are submitted in the grid below."
                 />
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -284,7 +287,7 @@ export default function CommentEditor(props) {
                     'Please confirm that the samples look as expected in order to continue to sequencing.'
                   }
                 />
-
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -296,6 +299,18 @@ export default function CommentEditor(props) {
                     'and Project Management team of the IGO ID number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.'
                   }
                 />
+                <br/>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox('additionalQC')}
+                    />
+                  }
+                  label={
+                    'These samples are now in queue for additional QC.'
+                  }
+                />
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -306,6 +321,7 @@ export default function CommentEditor(props) {
                     'Please note: If a Tumor or Normal fails, its matched T/N should be eliminated.'
                   }
                 />
+                <br/>
                 {(values['Library Report'] || values['Pool Report']) && (
                   <React.Fragment>
                     <FormControlLabel
@@ -316,6 +332,7 @@ export default function CommentEditor(props) {
                         ' Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together.'
                       }
                     />
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox onChange={handleCheckbox('sizeSelection')} />
@@ -324,6 +341,7 @@ export default function CommentEditor(props) {
                         ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. We recommend for you to do size selection.'
                       }
                     />
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -332,6 +350,17 @@ export default function CommentEditor(props) {
                       }
                       label={
                         ' However, the quantity is only sufficient for one attempt so we cannot guarantee the requested reads.'
+                      }
+                    />
+                    <br/>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={handleCheckbox('suggestSizeSelection')}
+                        />
+                      }
+                      label={
+                        ' We suggest these samples undergo a size selection. If you would like to pick up the samples for size selection, please reply below and we will provide additional instructions.'
                       }
                     />
                   </React.Fragment>
@@ -452,6 +481,13 @@ export default function CommentEditor(props) {
               zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
             </span>
           )}
+          {values.additionalQC && (
+            <span>
+              {' '}
+              <br />
+              These samples are now in queue for additional QC.
+            </span>
+          )}
           {values.tumorNormalMatchNote && (
             <span>
               {' '}
@@ -483,6 +519,15 @@ export default function CommentEditor(props) {
               These samples have adapters and/or fragments over 1kb that could
               affect the sequencing balance across the project. We recommend for
               you to do size selection.
+            </span>
+          )}
+          {values.suggestSizeSelection && (
+            <span>
+              {' '}
+              <br />
+              We suggest these samples undergo a size selection. If you would like 
+              to pick up the samples for size selection, please reply below and we 
+              will provide additional instructions.
             </span>
           )}
           <br />
