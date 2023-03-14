@@ -5,7 +5,6 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import { connect } from 'react-redux';
 import { commonActions, userActions } from '../actions';
-import DevTools from './DevTools';
 
 // import { LocalizeProvider, withLocalize } from "react-localize-redux";
 import { withLocalize } from 'react-localize-redux';
@@ -95,7 +94,6 @@ class Root extends Component {
                   role={this.props.user.role}
                   submitFeedback={this.props.submitFeedback}
                 />
-                {Config.ENV !== 'production' ? <DevTools /> : <div />}
                 {this.props.common.serverError ? (
                   <ErrorPage />
                 ) : this.props.user.loggedIn ? (
