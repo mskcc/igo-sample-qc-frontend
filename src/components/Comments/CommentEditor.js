@@ -102,22 +102,22 @@ export default function CommentEditor(props) {
         ...values,
         [name]: event.target.value,
       });
-      
-      // array to order text by order options are clicked
-      if (commentArray.includes(name)) {
-        const index = commentArray.indexOf(name);
-        const newOrder = commentArray.splice(index, 1);
-        setCommentArray(newOrder);
-      } else {
-        const newOrder = commentArray.push(name);
-        setCommentArray(newOrder);
-      }
-      console.log(commentArray);
     }
   };
 
   const handleCheckbox = (name) => (event) => {
     setValues({ ...values, [name]: !values[name] });
+
+    // array to order text by order options are clicked
+    if (commentArray.includes(name)) {
+      const index = commentArray.indexOf(name);
+      const newOrder = commentArray.splice(index, 1);
+      setCommentArray(newOrder);
+    } else {
+      const newOrder = commentArray.push(name);
+      setCommentArray(newOrder);
+    }
+    console.log(commentArray);
   };
 
   const handleInitialComment = () => {
