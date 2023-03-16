@@ -125,6 +125,7 @@ export default function CommentEditor(props) {
   };
 
   const renderPreviewText = (chosenOptionsArray = []) => {
+    console.log(chosenOptionsArray);
     return chosenOptionsArray.map(checkedValue => (
       <div>
         {checkedValue === 'onHold' && (
