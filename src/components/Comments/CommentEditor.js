@@ -342,7 +342,7 @@ export default function CommentEditor(props) {
                         <Checkbox onChange={handleCheckbox('sizeSelection')} />
                       }
                       label={
-                        ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. We recommend for you to do size selection.'
+                        ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. '
                       }
                     />
                     <br/>
@@ -510,21 +510,21 @@ export default function CommentEditor(props) {
               sequencing results may be unbalanced when sequenced together.
             </span>
           )}{' '}
+          
+          {values.sizeSelection && (
+            <span>
+              {' '}
+              <br />
+              These samples have adapters and/or fragments over 1kb that could
+              affect the sequencing balance across the project. 
+            </span>
+          )}
           {values.suboptimalQuantity && (
             <span>
               {' '}
               <br />
               However, the quantity is only sufficient for one attempt so we
               cannot guarantee the requested reads.
-            </span>
-          )}
-          {values.sizeSelection && (
-            <span>
-              {' '}
-              <br />
-              These samples have adapters and/or fragments over 1kb that could
-              affect the sequencing balance across the project. We recommend for
-              you to do size selection.
             </span>
           )}
           {values.suggestSizeSelection && (
