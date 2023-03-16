@@ -112,6 +112,7 @@ export default function CommentEditor(props) {
         const newOrder = commentArray.push(name);
         setCommentArray(newOrder);
       }
+      console.log(commentArray);
     }
   };
 
