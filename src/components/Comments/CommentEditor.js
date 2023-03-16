@@ -474,7 +474,7 @@ export default function CommentEditor(props) {
             </span>
           )}
           <br />
-          {commentArray.map(checkedValue => (
+          {commentArray && commentArray.map(checkedValue => (
             <div>
               {checkedValue === 'onHold' && (
                 <span>
