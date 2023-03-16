@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -94,6 +94,7 @@ export default function CommentEditor(props) {
     additionalQC: false,
     suggestSizeSelection: false
   });
+  const [commentArray, setCommentArray] = useState([]);
 
   const handleChange = (name) => (event) => {
     if (event.target.value !== 'default') {
@@ -101,6 +102,16 @@ export default function CommentEditor(props) {
         ...values,
         [name]: event.target.value,
       });
+      
+      // array to order text by order options are clicked
+      if (commentArray.includes(name)) {
+        const index = commentArray.indexOf(name);
+        const newOrder = commentArray.splice(index, 1);
+        setCommentArray(newOrder);
+      } else {
+        const newOrder = commentArray.push(name);
+        setCommentArray(newOrder);
+      }
     }
   };
 
@@ -462,80 +473,84 @@ export default function CommentEditor(props) {
             </span>
           )}
           <br />
-          {values.onHold && (
-            <span>
-              <br />
-              IGO will put this project on hold until decisions are submitted in
-              the grid below.
-            </span>
-          )}
-          {values.confirmationRequested && (
-            <span>
-              {' '}
-              <br />
-              Please confirm that the samples look as expected in order to
-              continue to sequencing.
-            </span>
-          )}{' '}
-          {values.sequencingRequested && (
-            <span>
-              {' '}
-              <br />
-              If you are ready to move forward to sequencing, please fill out an
-              iLab request and notify our Sample and Project Management Team of
-              the IGO ID number by emailing
-              zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
-            </span>
-          )}
-          {values.additionalQC && (
-            <span>
-              {' '}
-              <br />
-              These samples are now in queue for additional QC.
-            </span>
-          )}
-          {values.tumorNormalMatchNote && (
-            <span>
-              {' '}
-              <br />
-              Please note: If a Tumor or Normal fails, its matched T/N should be
-              eliminated.
-            </span>
-          )}
-          {values.unevenLibrary && (
-            <span>
-              {' '}
-              <br />
-              Please note that because the library profiles are not even, the
-              sequencing results may be unbalanced when sequenced together.
-            </span>
-          )}{' '}
+          {commentArray.map(checkedValue => (
+            <div>
+              {checkedValue === 'onHold' && (
+                <span>
+                  <br />
+                  IGO will put this project on hold until decisions are submitted in
+                  the grid below.
+                </span>
+              )}
+              {checkedValue === 'confirmationRequested' && (
+                <span>
+                  {' '}
+                  <br />
+                  Please confirm that the samples look as expected in order to
+                  continue to sequencing.
+                </span>
+              )}{' '}
+              {checkedValue === 'sequencingRequested' && (
+                <span>
+                  {' '}
+                  <br />
+                  If you are ready to move forward to sequencing, please fill out an
+                  iLab request and notify our Sample and Project Management Team of
+                  the IGO ID number by emailing
+                  zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
+                </span>
+              )}
+              {checkedValue === 'additionalQC' && (
+                <span>
+                  {' '}
+                  <br />
+                  These samples are now in queue for additional QC.
+                </span>
+              )}
+              {checkedValue === 'tumorNormalMatchNote' && (
+                <span>
+                  {' '}
+                  <br />
+                  Please note: If a Tumor or Normal fails, its matched T/N should be
+                  eliminated.
+                </span>
+              )}
+              {checkedValue === 'unevenLibrary' && (
+                <span>
+                  {' '}
+                  <br />
+                  Please note that because the library profiles are not even, the
+                  sequencing results may be unbalanced when sequenced together.
+                </span>
+              )}{' '}
+              {checkedValue === 'sizeSelection' && (
+                <span>
+                  {' '}
+                  <br />
+                  These samples have adapters and/or fragments over 1kb that could
+                  affect the sequencing balance across the project. 
+                </span>
+              )}
+              {checkedValue === 'suboptimalQuantity' && (
+                <span>
+                  {' '}
+                  <br />
+                  However, the quantity is only sufficient for one attempt so we
+                  cannot guarantee the requested reads.
+                </span>
+              )}
+              {checkedValue === 'suggestSizeSelection' && (
+                <span>
+                  {' '}
+                  <br />
+                  We suggest these samples undergo a size selection. If you would like 
+                  to pick up the samples for size selection, please reply below and we 
+                  will provide additional instructions.
+                </span>
+              )}
+            </div>
+          ))}
           
-          {values.sizeSelection && (
-            <span>
-              {' '}
-              <br />
-              These samples have adapters and/or fragments over 1kb that could
-              affect the sequencing balance across the project. 
-            </span>
-          )}
-          {values.suboptimalQuantity && (
-            <span>
-              {' '}
-              <br />
-              However, the quantity is only sufficient for one attempt so we
-              cannot guarantee the requested reads.
-            </span>
-          )}
-          {values.suggestSizeSelection && (
-            <span>
-              {' '}
-              <br />
-              We suggest these samples undergo a size selection. If you would like 
-              to pick up the samples for size selection, please reply below and we 
-              will provide additional instructions.
-            </span>
-          )}
           <br />
           <br />
           Please reply here if you have any questions or comments.
