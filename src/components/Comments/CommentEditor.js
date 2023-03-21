@@ -129,6 +129,72 @@ export default function CommentEditor(props) {
   const renderPreviewText = (chosenOptionsArray = []) => {
     return chosenOptionsArray.map(checkedValue => (
       <div>
+        {checkedValue === 'pass' &&
+            !values.try &&
+            !values.fail &&
+            (values.movingForward ? (
+              <span>
+                All of the samples in this project{' '}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess} and are moving
+                forward.
+              </span>
+            ) : (
+              <span>
+                All of the samples in this project{' '}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess}.
+              </span>
+            ))}
+          {checkedValue === 'pass' && (values.try || values.fail) && (
+            <span>
+              Some of the samples in this project{' '}
+              <span className={classes.green}>pass</span> IGO’s QC
+              specifications for {values.downstreamProcess}.
+            </span>
+          )}
+          {checkedValue === 'try' &&
+            ((values['Library Report'] || values['Pool Report']) &&
+            !values['DNA Report'] &&
+            !values['RNA Report'] ? (
+              <span>
+                <br />
+                Samples highlighted in{' '}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards; however, we can
+                still move forward and see how the samples perform at the
+                sequencing level.
+              </span>
+            ) : (
+              <span>
+                <br />
+                Samples highlighted in{' '}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards for{' '}
+                {values.downstreamProcess}; however, we can still try to prepare
+                libraries.
+                {values.rnaChecked && (
+                  <span>
+                    <br />
+                    Please note that if you decide to move forward with samples
+                    containing suboptimal quantities, we will need to normalize
+                    ALL samples to the lowest starting amount.
+                  </span>
+                )}
+              </span>
+            ))}
+          {checkedValue === 'fail' && (
+            <span>
+              <br />
+              Samples highlighted in <span className={classes.red}>
+                red
+              </span>{' '}
+              fail our quantitative and/or qualitative standards for{' '}
+              {values.downstreamProcess}. IGO recommends these samples be
+              removed from processing.
+            </span>
+          )}
+          <br />
         {checkedValue === 'onHold' && (
           <span>
             <br />
@@ -490,72 +556,7 @@ export default function CommentEditor(props) {
           Please see the reports and documents below for the results.
           <br />
           <br />
-          {values.pass &&
-            !values.try &&
-            !values.fail &&
-            (values.movingForward ? (
-              <span>
-                All of the samples in this project{' '}
-                <span className={classes.green}>pass</span> IGO’s QC
-                specifications for {values.downstreamProcess} and are moving
-                forward.
-              </span>
-            ) : (
-              <span>
-                All of the samples in this project{' '}
-                <span className={classes.green}>pass</span> IGO’s QC
-                specifications for {values.downstreamProcess}.
-              </span>
-            ))}
-          {values.pass && (values.try || values.fail) && (
-            <span>
-              Some of the samples in this project{' '}
-              <span className={classes.green}>pass</span> IGO’s QC
-              specifications for {values.downstreamProcess}.
-            </span>
-          )}
-          {values.try &&
-            ((values['Library Report'] || values['Pool Report']) &&
-            !values['DNA Report'] &&
-            !values['RNA Report'] ? (
-              <span>
-                <br />
-                Samples highlighted in{' '}
-                <span className={classes.yellow}>yellow</span> fall just below
-                our quantitative and/or qualitative standards; however, we can
-                still move forward and see how the samples perform at the
-                sequencing level.
-              </span>
-            ) : (
-              <span>
-                <br />
-                Samples highlighted in{' '}
-                <span className={classes.yellow}>yellow</span> fall just below
-                our quantitative and/or qualitative standards for{' '}
-                {values.downstreamProcess}; however, we can still try to prepare
-                libraries.
-                {values.rnaChecked && (
-                  <span>
-                    <br />
-                    Please note that if you decide to move forward with samples
-                    containing suboptimal quantities, we will need to normalize
-                    ALL samples to the lowest starting amount.
-                  </span>
-                )}
-              </span>
-            ))}
-          {values.fail && (
-            <span>
-              <br />
-              Samples highlighted in <span className={classes.red}>
-                red
-              </span>{' '}
-              fail our quantitative and/or qualitative standards for{' '}
-              {values.downstreamProcess}. IGO recommends these samples be
-              removed from processing.
-            </span>
-          )}
-          <br />
+          
           {renderPreviewText(commentArray)}
           
           <br />
