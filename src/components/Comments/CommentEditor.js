@@ -263,9 +263,10 @@ export default function CommentEditor(props) {
           <span>
             {' '}
             <br />
-            We suggest these samples undergo a size selection. If you would like 
-            to pick up the samples for size selection, please reply below and we 
-            will provide additional instructions.
+            We suggest these samples undergo a size selection, which is not a 
+            service IGO provides. If you would like to pick up the samples for 
+            size selection, please reply below and we will provide additional 
+            instructions.
           </span>
         )}
       </div>
@@ -526,7 +527,7 @@ export default function CommentEditor(props) {
                         />
                       }
                       label={
-                        ' We suggest these samples undergo a size selection. If you would like to pick up the samples for size selection, please reply below and we will provide additional instructions.'
+                        ' We suggest these samples undergo a size selection, which is not a service IGO provides. If you would like to pick up the samples for size selection, please reply below and we will provide additional instructions.'
                       }
                     />
                   </React.Fragment>
