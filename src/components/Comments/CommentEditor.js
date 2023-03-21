@@ -96,6 +96,21 @@ export default function CommentEditor(props) {
   });
   const [commentArray, setCommentArray] = useState([]);
 
+  useEffect(() => {
+    for (const key in values) {
+      if (values[key]) {
+        // array to order text by order options are clicked
+        if (commentArray.includes(key)) {
+          const newOrder = commentArray.filter(item => item !== key);
+          setCommentArray(newOrder);
+        } else {
+          const newOrder = commentArray.push(key);
+          setCommentArray(newOrder);
+        }
+      }
+    }
+  }, [values]);
+
   const handleChange = (name) => (event) => {
     if (event.target.value !== 'default') {
       setValues({
@@ -107,17 +122,6 @@ export default function CommentEditor(props) {
 
   const handleCheckbox = (name) => (event) => {
     setValues({ ...values, [name]: !values[name] });
-
-    // array to order text by order options are clicked
-    if (commentArray.includes(name)) {
-      const index = commentArray.indexOf(name);
-      const newOrder = commentArray.splice(index, 1);
-      setCommentArray(newOrder);
-    } else {
-      const newOrder = commentArray.push(name);
-      setCommentArray(newOrder);
-    }
-    console.log(commentArray);
   };
 
   const handleInitialComment = () => {
