@@ -104,7 +104,7 @@ export default function CommentEditor(props) {
           const newOrder = commentArray.filter(item => item !== key);
           setCommentArray(newOrder);
         } else {
-          const newOrder = commentArray.push(key);
+          const newOrder = commentArray.concat([key]);
           setCommentArray(newOrder);
         }
       }
