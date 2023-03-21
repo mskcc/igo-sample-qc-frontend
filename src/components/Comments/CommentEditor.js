@@ -98,7 +98,6 @@ export default function CommentEditor(props) {
 
   useEffect(() => {
     for (const key in values) {
-      console.log(`${key}: ${values[key]}`);
       // array to order text by order options are clicked
       if (!values[key] && commentArray.includes(key)) {
         const newOrder = commentArray.filter(item => item !== key);
@@ -128,7 +127,6 @@ export default function CommentEditor(props) {
   };
 
   const renderPreviewText = (chosenOptionsArray = []) => {
-    console.log(chosenOptionsArray);
     return chosenOptionsArray.map(checkedValue => (
       <div>
         {checkedValue === 'onHold' && (
