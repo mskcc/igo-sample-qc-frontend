@@ -99,16 +99,13 @@ export default function CommentEditor(props) {
   useEffect(() => {
     for (const key in values) {
       console.log(`${key}: ${values[key]}`);
-      if (values[key]) {
-        console.log(`is truthy ${key}`);
-        // array to order text by order options are clicked
-        if (commentArray.includes(key)) {
-          const newOrder = commentArray.filter(item => item !== key);
-          setCommentArray(newOrder);
-        } else {
-          const newOrder = commentArray.concat([key]);
-          setCommentArray(newOrder);
-        }
+      // array to order text by order options are clicked
+      if (!values[key] && commentArray.includes(key)) {
+        const newOrder = commentArray.filter(item => item !== key);
+        setCommentArray(newOrder);
+      } else if (values[key] && !commentArray.includes(key)) {
+        const newOrder = commentArray.concat([key]);
+        setCommentArray(newOrder);
       }
     }
   }, [values]);
