@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -91,7 +91,23 @@ export default function CommentEditor(props) {
     tumorNormalMatchNote: false,
     suboptimalQuantity: false,
     sizeSelection: false,
+    additionalQC: false,
+    suggestSizeSelection: false
   });
+  const [commentArray, setCommentArray] = useState([]);
+
+  useEffect(() => {
+    for (const key in values) {
+      // array to order text by order options are clicked
+      if (!values[key] && commentArray.includes(key)) {
+        const newOrder = commentArray.filter(item => item !== key);
+        setCommentArray(newOrder);
+      } else if (values[key] && !commentArray.includes(key)) {
+        const newOrder = commentArray.concat([key]);
+        setCommentArray(newOrder);
+      }
+    }
+  }, [values]);
 
   const handleChange = (name) => (event) => {
     if (event.target.value !== 'default') {
@@ -108,6 +124,153 @@ export default function CommentEditor(props) {
 
   const handleInitialComment = () => {
     props.handleInitialComment(commentEl.current.textContent, values);
+  };
+
+  const renderPreviewText = (chosenOptionsArray = []) => {
+    return chosenOptionsArray.map(checkedValue => (
+      <div>
+        {checkedValue === 'pass' &&
+            !values.try &&
+            !values.fail &&
+            (values.movingForward ? (
+              <span>
+                All of the samples in this project{' '}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess} and are moving
+                forward.
+              </span>
+            ) : (
+              <span>
+                All of the samples in this project{' '}
+                <span className={classes.green}>pass</span> IGO’s QC
+                specifications for {values.downstreamProcess}.
+              </span>
+            ))}
+          {checkedValue === 'pass' && (values.try || values.fail) && (
+            <span>
+              Some of the samples in this project{' '}
+              <span className={classes.green}>pass</span> IGO’s QC
+              specifications for {values.downstreamProcess}.
+            </span>
+          )}
+          {checkedValue === 'try' &&
+            ((values['Library Report'] || values['Pool Report']) &&
+            !values['DNA Report'] &&
+            !values['RNA Report'] ? (
+              <span>
+                <br />
+                Samples highlighted in{' '}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards; however, we can
+                still move forward and see how the samples perform at the
+                sequencing level.
+              </span>
+            ) : (
+              <span>
+                <br />
+                Samples highlighted in{' '}
+                <span className={classes.yellow}>yellow</span> fall just below
+                our quantitative and/or qualitative standards for{' '}
+                {values.downstreamProcess}; however, we can still try to prepare
+                libraries.
+                {values.rnaChecked && (
+                  <span>
+                    <br />
+                    Please note that if you decide to move forward with samples
+                    containing suboptimal quantities, we will need to normalize
+                    ALL samples to the lowest starting amount.
+                  </span>
+                )}
+              </span>
+            ))}
+          {checkedValue === 'fail' && (
+            <span>
+              <br />
+              Samples highlighted in <span className={classes.red}>
+                red
+              </span>{' '}
+              fail our quantitative and/or qualitative standards for{' '}
+              {values.downstreamProcess}. IGO recommends these samples be
+              removed from processing.
+            </span>
+          )}
+          <br />
+        {checkedValue === 'onHold' && (
+          <span>
+            <br />
+            IGO will put this project on hold until decisions are submitted in
+            the grid below.
+          </span>
+        )}
+        {checkedValue === 'confirmationRequested' && (
+          <span>
+            {' '}
+            <br />
+            Please confirm that the samples look as expected in order to
+            continue to sequencing.
+          </span>
+        )}{' '}
+        {checkedValue === 'sequencingRequested' && (
+          <span>
+            {' '}
+            <br />
+            If you are ready to move forward to sequencing, please fill out an
+            iLab request and notify our Sample and Project Management Team of
+            the IGO ID number by emailing
+            zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
+          </span>
+        )}
+        {checkedValue === 'additionalQC' && (
+          <span>
+            {' '}
+            <br />
+            These samples are now in queue for additional QC.
+          </span>
+        )}
+        {checkedValue === 'tumorNormalMatchNote' && (
+          <span>
+            {' '}
+            <br />
+            Please note: If a Tumor or Normal fails, its matched T/N should be
+            eliminated.
+          </span>
+        )}
+        {checkedValue === 'unevenLibrary' && (
+          <span>
+            {' '}
+            <br />
+            Please note that because the library profiles are not even, the
+            sequencing results may be unbalanced when sequenced together.
+          </span>
+        )}{' '}
+        {checkedValue === 'sizeSelection' && (
+          <span>
+            {' '}
+            <br />
+            These samples have adapters and/or fragments over 1kb that could
+            affect the sequencing balance across the project. 
+          </span>
+        )}
+        {checkedValue === 'suboptimalQuantity' && (
+          <span>
+            {' '}
+            <br />
+            However, the quantity is only sufficient for one attempt so we
+            cannot guarantee the requested reads.
+          </span>
+        )}
+        {checkedValue === 'suggestSizeSelection' && (
+          <span>
+            {' '}
+            <br />
+            We suggest these samples undergo a size selection, which is not a 
+            service IGO provides. If you would like to pick up the samples for 
+            size selection, please reply below and we will provide additional 
+            instructions.
+          </span>
+        )}
+      </div>
+    ));
   };
 
   return (
@@ -274,6 +437,8 @@ export default function CommentEditor(props) {
                   control={<Checkbox onChange={handleCheckbox('onHold')} />}
                   label="IGO will put this project on hold until decisions are submitted in the grid below."
                 />
+                <br/>
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -284,7 +449,8 @@ export default function CommentEditor(props) {
                     'Please confirm that the samples look as expected in order to continue to sequencing.'
                   }
                 />
-
+                <br/>
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -296,6 +462,18 @@ export default function CommentEditor(props) {
                     'and Project Management team of the IGO ID number by emailing zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.'
                   }
                 />
+                <br/>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox('additionalQC')}
+                    />
+                  }
+                  label={
+                    'These samples are now in queue for additional QC.'
+                  }
+                />
+                <br/>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -306,6 +484,8 @@ export default function CommentEditor(props) {
                     'Please note: If a Tumor or Normal fails, its matched T/N should be eliminated.'
                   }
                 />
+                <br/>
+                <br/>
                 {(values['Library Report'] || values['Pool Report']) && (
                   <React.Fragment>
                     <FormControlLabel
@@ -316,14 +496,18 @@ export default function CommentEditor(props) {
                         ' Please note that because the library profiles are not even, the sequencing results may be unbalanced when sequenced together.'
                       }
                     />
+                    <br/>
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox onChange={handleCheckbox('sizeSelection')} />
                       }
                       label={
-                        ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. We recommend for you to do size selection.'
+                        ' These samples have adapters and/or fragments over 1kb that could affect the sequencing balance across the project. '
                       }
                     />
+                    <br/>
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -332,6 +516,18 @@ export default function CommentEditor(props) {
                       }
                       label={
                         ' However, the quantity is only sufficient for one attempt so we cannot guarantee the requested reads.'
+                      }
+                    />
+                    <br/>
+                    <br/>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={handleCheckbox('suggestSizeSelection')}
+                        />
+                      }
+                      label={
+                        ' We suggest these samples undergo a size selection, which is not a service IGO provides. If you would like to pick up the samples for size selection, please reply below and we will provide additional instructions.'
                       }
                     />
                   </React.Fragment>
@@ -361,130 +557,9 @@ export default function CommentEditor(props) {
           Please see the reports and documents below for the results.
           <br />
           <br />
-          {values.pass &&
-            !values.try &&
-            !values.fail &&
-            (values.movingForward ? (
-              <span>
-                All of the samples in this project{' '}
-                <span className={classes.green}>pass</span> IGO’s QC
-                specifications for {values.downstreamProcess} and are moving
-                forward.
-              </span>
-            ) : (
-              <span>
-                All of the samples in this project{' '}
-                <span className={classes.green}>pass</span> IGO’s QC
-                specifications for {values.downstreamProcess}.
-              </span>
-            ))}
-          {values.pass && (values.try || values.fail) && (
-            <span>
-              Some of the samples in this project{' '}
-              <span className={classes.green}>pass</span> IGO’s QC
-              specifications for {values.downstreamProcess}.
-            </span>
-          )}
-          {values.try &&
-            ((values['Library Report'] || values['Pool Report']) &&
-            !values['DNA Report'] &&
-            !values['RNA Report'] ? (
-              <span>
-                <br />
-                Samples highlighted in{' '}
-                <span className={classes.yellow}>yellow</span> fall just below
-                our quantitative and/or qualitative standards; however, we can
-                still move forward and see how the samples perform at the
-                sequencing level.
-              </span>
-            ) : (
-              <span>
-                <br />
-                Samples highlighted in{' '}
-                <span className={classes.yellow}>yellow</span> fall just below
-                our quantitative and/or qualitative standards for{' '}
-                {values.downstreamProcess}; however, we can still try to prepare
-                libraries.
-                {values.rnaChecked && (
-                  <span>
-                    <br />
-                    Please note that if you decide to move forward with samples
-                    containing suboptimal quantities, we will need to normalize
-                    ALL samples to the lowest starting amount.
-                  </span>
-                )}
-              </span>
-            ))}
-          {values.fail && (
-            <span>
-              <br />
-              Samples highlighted in <span className={classes.red}>
-                red
-              </span>{' '}
-              fail our quantitative and/or qualitative standards for{' '}
-              {values.downstreamProcess}. IGO recommends these samples be
-              removed from processing.
-            </span>
-          )}
-          <br />
-          {values.onHold && (
-            <span>
-              <br />
-              IGO will put this project on hold until decisions are submitted in
-              the grid below.
-            </span>
-          )}
-          {values.confirmationRequested && (
-            <span>
-              {' '}
-              <br />
-              Please confirm that the samples look as expected in order to
-              continue to sequencing.
-            </span>
-          )}{' '}
-          {values.sequencingRequested && (
-            <span>
-              {' '}
-              <br />
-              If you are ready to move forward to sequencing, please fill out an
-              iLab request and notify our Sample and Project Management Team of
-              the IGO ID number by emailing
-              zzPDL_SKI_IGO_Sample_and_Project_Management@mskcc.org.
-            </span>
-          )}
-          {values.tumorNormalMatchNote && (
-            <span>
-              {' '}
-              <br />
-              Please note: If a Tumor or Normal fails, its matched T/N should be
-              eliminated.
-            </span>
-          )}
-          {values.unevenLibrary && (
-            <span>
-              {' '}
-              <br />
-              Please note that because the library profiles are not even, the
-              sequencing results may be unbalanced when sequenced together.
-            </span>
-          )}{' '}
-          {values.suboptimalQuantity && (
-            <span>
-              {' '}
-              <br />
-              However, the quantity is only sufficient for one attempt so we
-              cannot guarantee the requested reads.
-            </span>
-          )}
-          {values.sizeSelection && (
-            <span>
-              {' '}
-              <br />
-              These samples have adapters and/or fragments over 1kb that could
-              affect the sequencing balance across the project. We recommend for
-              you to do size selection.
-            </span>
-          )}
+          
+          {renderPreviewText(commentArray)}
+          
           <br />
           <br />
           Please reply here if you have any questions or comments.
