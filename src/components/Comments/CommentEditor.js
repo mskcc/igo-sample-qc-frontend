@@ -73,7 +73,7 @@ export default function CommentEditor(props) {
     'RNA Report': false,
     'Library Report': false,
     salutation: '',
-    addressee: '',
+    addressee: props.request.investigatorName.split(' ')[0],
     downstreamProcess:
       props.currentReportShown === 'Library Report' ||
       props.currentReportShown === 'Pool Report'
