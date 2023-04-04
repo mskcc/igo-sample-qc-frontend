@@ -333,6 +333,7 @@ export default function CommentEditor(props) {
               <TextField
                 id="addressee-simple"
                 label="Addressee"
+                value={values.addressee}
                 className={classes.formControl}
                 onChange={handleChange('addressee')}
                 margin="normal"
