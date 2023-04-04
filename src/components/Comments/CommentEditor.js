@@ -73,7 +73,7 @@ export default function CommentEditor(props) {
     'RNA Report': false,
     'Library Report': false,
     salutation: '',
-    addressee: '',
+    addressee: props.request.investigatorName.split(' ')[0] || '',
     downstreamProcess:
       props.currentReportShown === 'Library Report' ||
       props.currentReportShown === 'Pool Report'
@@ -333,6 +333,7 @@ export default function CommentEditor(props) {
               <TextField
                 id="addressee-simple"
                 label="Addressee"
+                value={values.addressee}
                 className={classes.formControl}
                 onChange={handleChange('addressee')}
                 margin="normal"
