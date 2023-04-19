@@ -42,7 +42,8 @@ class Table extends React.Component {
           colHeaders={this.props.data.columnHeaders}
           rowHeaders={true}
           className="pending"
-          filters="true"
+          filters={true}
+          dropdownMenu={['filter_by_value', 'filter_action_bar']}
           columnSorting="true"
           stretchH="all"
           height="80vh"
