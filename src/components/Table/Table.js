@@ -48,7 +48,6 @@ class Table extends React.Component {
     const recordIdCol = this.props.data.columnFeatures.length - 1;
     // if not investigator prepped project, hide max number of reads column
     const columnHeader = this.hotTableComponent.current.hotInstance.getColHeader(maxReadsCol);
-    console.log(columnHeader);
     if(!this.props.investigatorPrepped && columnHeader === 'Number of Reads') {
       this.setState({ 
         hiddenColumns: [recordIdCol, maxReadsCol]
