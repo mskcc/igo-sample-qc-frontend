@@ -16,6 +16,9 @@ class Table extends React.Component {
     super(props);
     this.hotTableComponent = React.createRef();
   }
+  state = {
+    hiddenColumns: []
+  };
   componentDidMount = () => {
     let isLabMember = this.props.role === 'lab_member';
     if (
@@ -40,6 +43,20 @@ class Table extends React.Component {
         },
       });
     }
+
+    const maxReadsCol = this.props.data.columnFeatures.length - 2;
+    const recordIdCol = this.props.data.columnFeatures.length - 1;
+    // if not investigator prepped project, hide max number of reads column
+    const columnHeader = this.hotTableComponent.current.hotInstance.getColHeader(maxReadsCol);
+    if(!this.props.investigatorPrepped && columnHeader === 'Number of Reads') {
+      this.setState({ 
+        hiddenColumns: [recordIdCol, maxReadsCol]
+      });
+    } else {
+      this.setState({ 
+        hiddenColumns: [recordIdCol]
+      });
+    }
   };
 
   showError = (error) => {
@@ -49,7 +66,7 @@ class Table extends React.Component {
   render() {
     const { classes } = this.props;
     // last column is always RecordId. Needed to set investigator decision efficiently
-    let lastColumnIndex = this.props.data.columnFeatures.length - 1;
+    // let lastColumnIndex = this.props.data.columnFeatures.length - 1;
     let isAttachmentTable = this.props.data.columnHeaders.length === 3;
     let isPathologyTable =
       (this.props.data.columnHeaders.length > 3) &
@@ -64,7 +81,7 @@ class Table extends React.Component {
           columns={this.props.data.columnFeatures}
           colHeaders={this.props.data.columnHeaders}
           hiddenColumns={{
-            columns: [lastColumnIndex],
+            columns: this.state.hiddenColumns,
             indicators: false,
           }}
           rowHeaders={true}

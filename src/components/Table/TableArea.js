@@ -110,14 +110,16 @@ export default function TableArea(props) {
     props.handleReportDownload(Object.keys(props.report.tables)[index]);
   }
 
+  const isInvestigatorPrepped = props.report.request.requestName === 'Investigator Prepared Libraries' ||
+            props.report.request.requestName === 'Investigator Prepared Pools';
+
   return (
     <div className={classes.container}>
       <div className={classes.toolbar}>
         <RequestInfo request={props.report.request} />
         {props.isNormalReport && (
           <React.Fragment>
-            {(props.username === 'patrunoa' ||
-              props.username === 'MirhajF' ||
+            {(props.username === 'MirhajF' ||
               props.username === 'delbels') && (
               <Button
                 onClick={props.manuallyAddDecision}
@@ -245,6 +247,7 @@ export default function TableArea(props) {
                 registerChange={props.registerChange}
                 role={props.role}
                 data={props.report.tables[report]}
+                investigatorPrepped={isInvestigatorPrepped}
               />
             )}
           </TabPanel>
