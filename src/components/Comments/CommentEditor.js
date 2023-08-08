@@ -131,7 +131,7 @@ export default function CommentEditor(props) {
       props.recipients.InvestigatorEmail.includes('skicmopm@mskcc.org') ||
       props.recipients.LabHeadEmail.includes('skicmopm@mskcc.org') ||
       props.recipients.QcAccessEmails.includes('skicmopm@mskcc.org');
-      return isCMOproject && values.downstreamProcess === 'WholeExomeSequencing';
+      return isCMOproject && props.recipe === 'WholeExomeSequencing';
   };
 
   const renderPreviewText = (chosenOptionsArray = []) => {
