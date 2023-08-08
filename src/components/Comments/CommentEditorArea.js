@@ -68,6 +68,7 @@ export default function CommentEditorArea(props) {
           recipe={props.recipe}
           currentReportShown={props.currentReportShown}
           request={props.request}
+          recipients={props.recipients}
           tables={props.tables}
           comments={props.comments}
           recipientsBeingEdited={values.recipientsBeingEdited}

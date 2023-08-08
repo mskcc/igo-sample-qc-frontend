@@ -126,6 +126,14 @@ export default function CommentEditor(props) {
     props.handleInitialComment(commentEl.current.textContent, values);
   };
 
+  const showCMOCheckbox = () => {
+    const isCMOproject = 
+      props.recipients.InvestigatorEmail.includes('skicmopm@mskcc.org') ||
+      props.recipients.LabHeadEmail.includes('skicmopm@mskcc.org') ||
+      props.recipients.OtherContactEmails.includes('skicmopm@mskcc.org');
+      return isCMOproject && values.downstreamProcess === 'WholeExomeSequencing';
+  };
+
   const renderPreviewText = (chosenOptionsArray = []) => {
     return chosenOptionsArray.map(checkedValue => (
       <div>
@@ -233,6 +241,15 @@ export default function CommentEditor(props) {
             <br />
             Please note: If a Tumor or Normal fails, its matched T/N should be
             eliminated.
+          </span>
+        )}
+        {checkedValue === 'cmoDecisionsNote' && (
+          <span>
+            {' '}
+            <br />
+            Please note, the QC decisions for this project will be made by the 
+            CMO project Management team. Please contact skicmopm@mskcc.org if you 
+            have any questions.
           </span>
         )}
         {checkedValue === 'unevenLibrary' && (
@@ -485,6 +502,17 @@ export default function CommentEditor(props) {
                     'Please note: If a Tumor or Normal fails, its matched T/N should be eliminated.'
                   }
                 />
+                <br/>
+                {(showCMOCheckbox()) && (<FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox('cmoDecisionsNote')}
+                    />
+                  }
+                  label={
+                    'Please note, the QC decisions for this project will be made by the CMO project Management team. Please contact skicmopm@mskcc.org if you have any questions.'
+                  }
+                />)}
                 <br/>
                 <br/>
                 {(values['Library Report'] || values['Pool Report']) && (
