@@ -503,6 +503,7 @@ export default function CommentEditor(props) {
                   }
                 />
                 <br/>
+                <br/>
                 {(showCMOCheckbox()) && (<FormControlLabel
                   control={
                     <Checkbox
@@ -513,10 +514,10 @@ export default function CommentEditor(props) {
                     'Please note, the QC decisions for this project will be made by the CMO project Management team. Please contact skicmopm@mskcc.org if you have any questions.'
                   }
                 />)}
-                <br/>
-                <br/>
                 {(values['Library Report'] || values['Pool Report']) && (
                   <React.Fragment>
+                    <br/>
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox onChange={handleCheckbox('unevenLibrary')} />
