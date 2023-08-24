@@ -127,20 +127,7 @@ export default function CommentEditor(props) {
   };
 
   const showCMOCheckbox = () => {
-    let isCMOproject = 
-      props.recipients.InvestigatorEmail.includes('skicmopm@mskcc.org') ||
-      props.recipients.LabHeadEmail.includes('skicmopm@mskcc.org');
-
-      if (!isCMOproject) {
-        if (props.recipients.QcAccessEmails) {
-          isCMOproject = props.recipients.QcAccessEmails.includes('skicmopm@mskcc.org');
-        } 
-        if (!isCMOproject && props.recipients.OtherContactEmails) {
-          isCMOproject = props.recipients.OtherContactEmails.includes('skicmopm@mskcc.org');
-        }
-      }
-      
-      return isCMOproject && props.recipe === 'WholeExomeSequencing';
+      return props.recipe === 'WholeExomeSequencing' || props.recipe === 'EnhancedWholeExomeSeq';
   };
 
   const renderPreviewText = (chosenOptionsArray = []) => {
