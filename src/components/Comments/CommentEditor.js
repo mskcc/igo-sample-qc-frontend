@@ -126,6 +126,10 @@ export default function CommentEditor(props) {
     props.handleInitialComment(commentEl.current.textContent, values);
   };
 
+  const showCMOCheckbox = () => {
+      return props.recipe === 'WholeExomeSequencing' || props.recipe === 'EnhancedWholeExomeSeq';
+  };
+
   const renderPreviewText = (chosenOptionsArray = []) => {
     return chosenOptionsArray.map(checkedValue => (
       <div>
@@ -233,6 +237,15 @@ export default function CommentEditor(props) {
             <br />
             Please note: If a Tumor or Normal fails, its matched T/N should be
             eliminated.
+          </span>
+        )}
+        {checkedValue === 'cmoDecisionsNote' && (
+          <span>
+            {' '}
+            <br />
+            Please note, the QC decisions for this project will be made by the 
+            CMO project Management team. Please contact skicmopm@mskcc.org if you 
+            have any questions.
           </span>
         )}
         {checkedValue === 'unevenLibrary' && (
@@ -487,8 +500,20 @@ export default function CommentEditor(props) {
                 />
                 <br/>
                 <br/>
+                {(showCMOCheckbox()) && (<FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckbox('cmoDecisionsNote')}
+                    />
+                  }
+                  label={
+                    'Please note, the QC decisions for this project will be made by the CMO project Management team. Please contact skicmopm@mskcc.org if you have any questions.'
+                  }
+                />)}
                 {(values['Library Report'] || values['Pool Report']) && (
                   <React.Fragment>
+                    <br/>
+                    <br/>
                     <FormControlLabel
                       control={
                         <Checkbox onChange={handleCheckbox('unevenLibrary')} />
